@@ -1,43 +1,48 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
-
-function order(ordering) {
-  return 1;
-}
 
 class MainContainer extends Component {
   constructor(props) {
     super(props); // What does this do?
     this.state = {
-      currentOrder: ''
+      currentOrder: '',
     };
     // Need to remember which function we passed in
     this.switchOrder = this.switchOrder.bind(this);
   }
 
-  switchOrder(order) {
-    this.setState({
-      currentOrder: order,
-    })
-  }
-
-  // const ALPHABETICAL = 1;
-  // const TWITTER = 2;
-
   getKanjiInCurrentOrder() {
-    switch(this.state.currentOrder) {
-      case 'Alphebetical':
-        //
-      case 'Twitter':
-        //sdoajsdoajsdojasd
+    const ALPHABET = 'Alphabetical';
+    const TWITTER = 'Twitter';
+
+    // This is redundant for now but replace returned expression with
+    // sorting function when that's done
+    switch (this.state.currentOrder) {
+      case ALPHABET:
+        return this.props.kanjiList;
+      case TWITTER:
+        return this.props.kanjiList;
       default:
-        break;
+        return this.props.kanjiList;
     }
   }
-  // <options switchOrder={this.switchOrder}
+
+  switchOrder(order) {
+    this.setState({ currentOrder: order });
+  }
+
   render() {
-    return <KanjiContainer kanjiList={ this.props.kanjiList } />
+    return (
+      <div className="week-container">
+        <KanjiContainer kanjiList={this.getKanjiInCurrentOrder()} />
+      </div>
+    );
   }
 }
+
+MainContainer.propTypes = {
+  kanjiList: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default MainContainer;

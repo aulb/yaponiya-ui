@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function Kanji(props) {
   const style = {
@@ -6,5 +7,10 @@ function Kanji(props) {
   };
   return <span style={style}>{props.character}</span>;
 }
+
+Kanji.propTypes = {
+  color: PropTypes.any.isRequired,
+  character: PropTypes.string.isRequired,
+};
 
 export default Kanji;
