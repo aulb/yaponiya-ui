@@ -9,7 +9,7 @@ function Kanji(props) {
 }
 
 Kanji.propTypes = {
-  color: PropTypes.any.isRequired,
+  color: PropTypes.string.isRequired,
   character: PropTypes.string.isRequired,
 };
 

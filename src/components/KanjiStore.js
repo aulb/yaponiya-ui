@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
+import kanjiFactory from '../helpers/kanjifactory';
 
-const KANJI_LIST = [
-  { character: '誰', color: 'red' },
-  { character: '予', color: 'blue' },
-  { character: '鯨', color: 'green' },
-  { character: '骨', color: 'white' },
-  { character: '約', color: 'pink' },
-];
+const KANJI_LIST = kanjiFactory(100);
 
 class KanjiStore extends Component {
   constructor(props) {
