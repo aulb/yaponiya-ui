@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
 
-class MainContainer extends Component {
+const KANJI_LIST = [
+  { character: '誰', color: 'red' },
+  { character: '予', color: 'blue' },
+  { character: '鯨', color: 'green' },
+  { character: '骨', color: 'white' },
+  { character: '約', color: 'pink' },
+];
+
+class KanjiStore extends Component {
   constructor(props) {
-    super(props); // What does this do?
+    super(props); // What does this do? <-- lets you call this.props in constructor
     this.state = {
       currentOrder: '',
+      kanjiList: KANJI_LIST,
     };
+
     // Need to remember which function we passed in
     this.switchOrder = this.switchOrder.bind(this);
   }
@@ -20,16 +30,16 @@ class MainContainer extends Component {
     // sorting function when that's done
     switch (this.state.currentOrder) {
       case ALPHABET:
-        return this.props.kanjiList;
+        return this.state.kanjiList;
       case TWITTER:
-        return this.props.kanjiList;
+        return this.state.kanjiList;
       default:
-        return this.props.kanjiList;
+        return this.state.kanjiList;
     }
   }
 
-  switchOrder(order) {
-    this.setState({ currentOrder: order });
+  switchOrder(nextOrder) {
+    this.setState({ currentOrder: nextOrder });
   }
 
   render() {
@@ -41,8 +51,4 @@ class MainContainer extends Component {
   }
 }
 
-MainContainer.propTypes = {
-  kanjiList: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
-export default MainContainer;
+export default KanjiStore;
