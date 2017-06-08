@@ -21,8 +21,8 @@ class MainContainer extends Component {
     })
   }
 
-  const ALPHABETICAL = 1;
-  const TWITTER = 2;
+  // const ALPHABETICAL = 1;
+  // const TWITTER = 2;
 
   getKanjiInCurrentOrder() {
     switch(this.state.currentOrder) {
