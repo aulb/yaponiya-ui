@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 function Kanji(props) {
   const style = {
-    fontColor: props.color,
-  }
+    backgroundColor: props.color,
+  };
   return <span style={style}>{props.character}</span>;
 }
 
