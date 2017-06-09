@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
-import kanjiFactory from '../helpers/kanjifactory';
+import kanjiFactory from '../helpers/utils';
 
-const KANJI_LIST = kanjiFactory(100);
+const KANJI_LIST = kanjiFactory(300);
 
 class KanjiStore extends Component {
   constructor(props) {
@@ -18,13 +18,16 @@ class KanjiStore extends Component {
   }
 
   getKanjiInCurrentOrder() {
-    const ALPHABET = 'Alphabetical';
+    const ALPHABETICAL = 'Alphabetical';
+    const GENKI = 'Genki';
+    const GRADESCHOOL = 'Gradeschool';
     const TWITTER = 'Twitter';
+    const RANDOM = 'Random';
 
     // This is redundant for now but replace returned expression with
     // sorting function when that's done
     switch (this.state.currentOrder) {
-      case ALPHABET:
+      case ALPHABETICAL:
         return this.state.kanjiList;
       case TWITTER:
         return this.state.kanjiList;
