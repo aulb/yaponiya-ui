@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.css';
+import './styles/KanjiLayout.css';
 import KanjiStore from './components/KanjiStore';
 
 
