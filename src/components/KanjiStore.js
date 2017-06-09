@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
+import '../styles/KanjiLayout.css';
 import { kanjiFactory } from '../helpers/utils';
 
 const KANJI_LIST = kanjiFactory(300);

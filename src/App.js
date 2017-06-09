@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './styles/KanjiLayout.css';
 import KanjiStore from './components/KanjiStore';
 
 
