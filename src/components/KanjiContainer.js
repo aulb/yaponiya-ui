@@ -8,6 +8,7 @@ function KanjiContainer(props) {
     <Kanji
       character={kanjiObject.character}
       color={kanjiObject.color}
+      key={kanjiObject.character}
     />
   ));
 
