@@ -3,8 +3,8 @@ import JOYO_KANJI from './constants';
 
 // Shuffle in place, but create a copy
 function shuffleJoyoKanji() {
-  // Duplicate our original list
-  const kanjiList = JOYO_KANJI.slice();
+  // Duplicate our original list, spread is .slice()
+  const kanjiList = [...JOYO_KANJI];
   // Swapping the good old way is fast and legible
   let tempCharacter = null;
   let j = 0;
@@ -36,13 +36,11 @@ function getRandomColor() {
 
 // Figure out some way to generate gradient
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
   return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min))) + Math.ceil(min);
 }
 
 // helper to generate test kanji until we connect to db
-function kanjiFactory(numOfKanji) {
+export function kanjiFactory(numOfKanji) {
   // https://github.com/jamesknelson/node-joyo-kanji/blob/master/index.js
   // Get random JOYO_KANJI
   let kanjiList = shuffleJoyoKanji().slice(0, numOfKanji);
@@ -53,5 +51,3 @@ function kanjiFactory(numOfKanji) {
 
   return kanjiList;
 }
-
-export default kanjiFactory;
