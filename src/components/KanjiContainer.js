@@ -4,13 +4,24 @@ import Kanji from './Kanji';
 
 
 function KanjiContainer(props) {
-  const kanjiJSXList = props.kanjiList.map(kanjiObject => (
-    <Kanji
-      character={kanjiObject.character}
-      color={kanjiObject.color}
-      key={kanjiObject.character}
-    />
-  ));
+  const kanjiLength = props.kanjiList.length;
+  const kanjiJSXList = props.kanjiList.map((kanjiObject, index) => {
+    // using the index, calculate S and L
+    const calculateLightness = (min, max) => (
+      ((index / kanjiLength) * (max - min)) + min
+    );
+    const hue = 360;
+    const saturation = `50%`;
+    const lightness = calculateLightness(50, 75);
+    const hsl = `hsl(${hue}, ${saturation}, ${lightness}%`;
+    return (
+      <Kanji
+        character={kanjiObject.character}
+        color={hsl}
+        key={kanjiObject.character}
+      />
+    );
+  });
 
   return (
     <div className="kanjiContainer">

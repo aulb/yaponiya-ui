@@ -1,4 +1,4 @@
-import JOYO_KANJI from './constants';
+import { JOYO_KANJI } from './constants';
 
 
 // Shuffle in place, but create a copy
@@ -25,13 +25,17 @@ function getRandomJoyoKanji() {
 
 
 // https://stackoverflow.com/questions/1484506/random-color-generator-in-javascript
-function getRandomColor() {
-  let letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+// function getRandomColor() {
+//   let letters = '0123456789ABCDEF';
+//   let color = '#';
+//   for (let i = 0; i < 6; i++) {
+//       color += letters[Math.floor(Math.random() * 16)];
+//   }
+//   return color;
+// }
+
+function getRandomHue() {
+  return getRandomInt(0, 360);
 }
 
 // Figure out some way to generate gradient
@@ -46,7 +50,7 @@ export function kanjiFactory(numOfKanji) {
   let kanjiList = shuffleJoyoKanji().slice(0, numOfKanji);
   kanjiList = kanjiList.map((character) => ({
     character: character,
-    color: getRandomColor(),
+    color: getRandomHue(),
   }));
 
   return kanjiList;
