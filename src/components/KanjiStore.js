@@ -26,7 +26,6 @@ class KanjiStore extends Component {
   }
 
   switchOrder(event) {
-    console.log(event);
     const nextOrder = event.target.value;
     this.setState({ currentOrder: nextOrder });
   }
