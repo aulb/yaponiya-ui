@@ -34,7 +34,7 @@ function getRandomJoyoKanji() {
 //   return color;
 // }
 
-function getRandomHue() {
+export function getRandomHue() {
   return getRandomInt(0, 360);
 }
 

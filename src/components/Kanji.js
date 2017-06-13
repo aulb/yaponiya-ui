@@ -8,6 +8,7 @@ function Kanji(props) {
   const style = {
     backgroundColor: props.color,
     fontSize: '1.8em',
+    fontFamily: 'Noto Sans',
     display: 'inline-block',
     margin: 1,
     borderRadius: '3px',
@@ -16,7 +17,8 @@ function Kanji(props) {
 }
 
 Kanji.propTypes = {
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  counter: PropTypes.number,
   character: PropTypes.string.isRequired,
 };
 
