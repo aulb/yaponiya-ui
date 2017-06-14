@@ -7,7 +7,7 @@ import '../styles/KanjiLayout.css';
 import { kanjiFactory } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
 
-const KANJI_LIST = kanjiFactory(300);
+const KANJI_LIST = kanjiFactory(2136);
 
 class KanjiStore extends Component {
   constructor(props) {
