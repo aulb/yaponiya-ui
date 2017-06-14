@@ -7,10 +7,10 @@ function Kanji(props) {
 
   const style = {
     backgroundColor: props.color,
-    fontSize: '1.8em',
-    display: 'inline-block',
-    margin: 1,
-    borderRadius: '3px',
+    fontSize       : '1.8em',
+    display        : 'inline-block',
+    margin         : 1,
+    borderRadius   : '3px',
   };
   return <span style={style}>{props.character}</span>;
 }
