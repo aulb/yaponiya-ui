@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Header(props) {
+function Header() {
   return (
     <div className="header-bar">
       <h1>やぽにや</h1>

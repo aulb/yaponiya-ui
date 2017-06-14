@@ -5,6 +5,7 @@ import Options from './Options';
 import Header from './Header';
 import '../styles/KanjiLayout.css';
 import { kanjiFactory } from '../helpers/utils';
+import { OPTIONS } from '../helpers/constants';
 
 const KANJI_LIST = kanjiFactory(2136);
 
@@ -20,26 +21,12 @@ class KanjiStore extends Component {
     this.switchOrder = this.switchOrder.bind(this);
   }
 
-  getKanjiInCurrentOrder() {
-    const ALPHABETICAL = 'Alphabetical';
-    const GENKI = 'Genki';
-    const GRADESCHOOL = 'Gradeschool';
-    const TWITTER = 'Twitter';
-    const RANDOM = 'Random';
-
-    // This is redundant for now but replace returned expression with
-    // sorting function when that's done
-    switch (this.state.currentOrder) {
-      case ALPHABETICAL:
-        return this.state.kanjiList;
-      case TWITTER:
-        return this.state.kanjiList;
-      default:
-        return this.state.kanjiList;
-    }
+  get kanjiList() {
+    return this.state.kanjiList;
   }
 
-  switchOrder(nextOrder) {
+  switchOrder(event) {
+    const nextOrder = event.target.value;
     this.setState({ currentOrder: nextOrder });
   }
 
@@ -48,9 +35,13 @@ class KanjiStore extends Component {
       <div className="week-container">
         <div className="top-area">
           <Header />
-          <Options />
+          <Options
+            currentOrder={this.state.currentOrder}
+            switchOrder={this.switchOrder}
+            possibleOptions={OPTIONS}
+          />
         </div>
-        <KanjiContainer kanjiList={this.getKanjiInCurrentOrder()} />
+        <KanjiContainer kanjiList={this.kanjiList} />
       </div>
     );
   }
