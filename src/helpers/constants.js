@@ -5,8 +5,12 @@ export const JOYO_KANJI = [
 
 export const OPTIONS = {
   ALPHABETICAL: 'Alphabetical',
-  GENKI: 'Genki',
-  GRADESCHOOL: 'Gradeschool',
-  TWITTER: 'Twitter',
   RANDOM: 'Random',
 };
+
+/* Temporary
+FREQUENCY: 'Frequency',
+GENKI: 'Genki',
+GRADESCHOOL: 'Gradeschool',
+TWITTER: 'Twitter',
+*/

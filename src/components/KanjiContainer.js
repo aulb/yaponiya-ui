@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Kanji from './Kanji';
-import { getRandomHue } from '../helpers/utils';
 
 /*
  * Get color from a predefined list.
  */
 
 function KanjiContainer(props) {
-  const kanjiLength = props.kanjiList.length;
-  const kanjiJSXList = props.kanjiList.map((kanjiObject, index) => {
-    return (
+  let kanjiJSXList = [];
+  for (let character in props.kanjiList) {
+    let currentProp = props.kanjiList[character];
+    kanjiJSXList.push((
       <Kanji
-        character={kanjiObject.character}
-        color={kanjiObject.color}
-        key={kanjiObject.character}
+        character={character}
+        color={currentProp.color}
+        key={character}
       />
-    );
-  });
+    ));
+  }
 
   return (
     <div className="kanjiContainer">
@@ -27,7 +27,7 @@ function KanjiContainer(props) {
 }
 
 KanjiContainer.propTypes = {
-  kanjiList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  kanjiList: PropTypes.object.isRequired,
 };
 
 export default KanjiContainer;

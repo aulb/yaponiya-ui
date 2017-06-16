@@ -1,5 +1,4 @@
 import { JOYO_KANJI } from './constants';
-import { color } from './colors';
 
 /*
  * Creates a copy of the Kanji array and shuffles the content
@@ -20,10 +19,6 @@ function shuffleJoyoKanji() {
   return kanjiList;
 }
 
-export function getRandomHue() {
-  return getRandomInt(0, 360);
-}
-
 /*
  * Generates a random integer between an interval.
  */
@@ -36,12 +31,25 @@ function getRandomInt(min, max) {
  */
 export function kanjiFactory(numOfKanji) {
   // https://github.com/jamesknelson/node-joyo-kanji/blob/master/index.js
-  let kanjiList = shuffleJoyoKanji().slice(0, numOfKanji);
-  kanjiList = kanjiList.map((character) => ({
-    color: '#FFFFFF',
-    counter: 0, // Initialization for counter
-    character: character,
-  }));
+  let kanjiList = JOYO_KANJI.slice(0, numOfKanji); // shuffleJoyoKanji().slice(0, numOfKanji);
+  let kanjiState = {};
+  for (let i = 0; i < kanjiList.length; i++) {
+    let currentCharacter = kanjiList[i];
+    kanjiState[currentCharacter] = {
+      counter: 0,
+      color: '#FFFFFF'
+    }
+  }
 
-  return kanjiList;
+  return kanjiState;
+}
+
+export function getMaxCounter(obj) {
+  const largestKey = (max, current) => (
+    obj[max] > obj[current]
+      ? max
+      : current
+  );
+  const maxKey = Object.keys(obj).reduce(largestKey);
+  return obj[maxKey];
 }
