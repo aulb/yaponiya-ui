@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 // color actually is int, for hue
 
 function Kanji(props) {
-
   const style = {
     backgroundColor: props.color,
-    fontSize: '1.8em',
+    fontSize: '0.7em',
     fontFamily: 'Noto Sans',
     display: 'inline-block',
     margin: 1,
