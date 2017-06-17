@@ -8,6 +8,10 @@ export const OPTIONS = {
   RANDOM: 'Random',
 };
 
+export const ORDERS = {
+  ALPHABETICAL: [...Array(2136).keys()]
+}
+
 /* Temporary
 FREQUENCY: 'Frequency',
 GENKI: 'Genki',
