@@ -5,14 +5,14 @@ import Options from './Options';
 import Header from './Header';
 import '../styles/KanjiLayout.css';
 import { kanjiFactory, getMaxCounter } from '../helpers/utils';
-import { OPTIONS, ORDERS } from '../helpers/constants';
+import { OPTIONS } from '../helpers/constants';
 import { color } from '../helpers/colors';
 import { mockData } from '../helpers/mock';
 
 /* Determine the character's color and initial counter
  * in the kanjiFactory.
  */
-const numOfKanji = 200;
+const numOfKanji = 100;
 const KANJI_LIST = kanjiFactory(numOfKanji);
 
 class KanjiStore extends Component {
@@ -73,15 +73,21 @@ class KanjiStore extends Component {
     const kanjiUpdate = kanjiFactory(numOfKanji, nextOrder);
 
     // TODO Copy counter values to the new kanji states
-    // This should be from mockData
-    // Object.keys(this.props.kanjiList).map((character) => {
-    //   // Update only if the character exist in the new state
-    //   if (kanjiUpdate.hasOwnProperty(character)) {
-    //       kanjiUpdate[character].counter = this.props.kanjiList
-    //   }
-    // });
+    // This should be from mockData for now
+    // Need to carry over the color and counter
+    const biggestCounter = getMaxCounter(mockData);
+    Object.keys(mockData).map((character) => {
+      // Update only if the character exist in the new state
+      if (kanjiUpdate.hasOwnProperty(character)) {
+          let counter = mockData[character];
+          let colorIndex = Math.floor(counter / biggestCounter * color.length);
 
-    console.log(kanjiUpdate);
+          kanjiUpdate[character].counter = counter;
+          kanjiUpdate[character].color = color[colorIndex];
+      }
+      return null;
+    });
+
     this.setState({
       currentOrder: nextOrder,
       kanjiList: kanjiUpdate,

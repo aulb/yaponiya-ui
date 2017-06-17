@@ -4,16 +4,7 @@ import Kanji from './Kanji';
 
 /*
  * Get color from a predefined list.
- test() {
-   const a = Object.keys(this.state.kanjiList).map((kanji) => {
-     return Object.assign({},this.state.kanjiList[kanji], { kanji })
-   });
-   console.log(a);
- }
  */
-
-
-
 function KanjiContainer(props) {
   let kanjiJSXList = Array(props.numOfKanji);
 
@@ -26,6 +17,7 @@ function KanjiContainer(props) {
         key={character}
       />
     );
+    return null;
   });
 
   return (

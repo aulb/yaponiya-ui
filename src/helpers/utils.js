@@ -1,10 +1,5 @@
 import { JOYO_KANJI, OPTIONS, ORDERS } from './constants';
 
-
-function shuffleJoyoKanji() {
-  return shuffleInPlace([...JOYO_KANJI]);
-}
-
 /*
  * Creates a copy of the array and shuffles its content in place.
  */
@@ -31,35 +26,32 @@ function getRandomInt(min, max) {
 }
 
 /*
- * Creates (initializes) a basic Kanji object.
+ * Initializes an empty KanjiList object
  */
 export function kanjiFactory(numOfKanji, order = 'Alphabetical') {
-  // https://github.com/jamesknelson/node-joyo-kanji/blob/master/index.js
-  let kanjiList = [...JOYO_KANJI]; // JOYO_KANJI.slice(0, numOfKanji); shuffleJoyoKanji().slice(0, numOfKanji);
-  // We want it to be an object for its fast lookup
-  // Helps with updating states
-  let kanjiState = {};
+  // Fast lookup for updating
+  let kanjiList = {};
 
-  // By default it grabs alphabetical
+  // Decides ordering
   let orderArr = ORDERS.ALPHABETICAL;
-
   switch (order) {
     case OPTIONS.RANDOM:
       orderArr = shuffleInPlace(orderArr);
+      break;
     default:
       break;
   }
 
   for (let i = 0; i < numOfKanji; i++) {
-    let currentCharacter = kanjiList[orderArr[i]];
-    kanjiState[currentCharacter] = {
+    let currentCharacter = JOYO_KANJI[orderArr[i]];
+    kanjiList[currentCharacter] = {
       counter : 0,
       color   : '#FFFFFF',
       position: i,
     }
   }
 
-  return kanjiState;
+  return kanjiList;
 }
 
 export function getMaxCounter(obj) {

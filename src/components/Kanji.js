@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// color actually is int, for hue
-
+/*
+ * Kanji "class" for each kanji.
+ */
 function Kanji(props) {
   const style = {
     backgroundColor: props.color,
