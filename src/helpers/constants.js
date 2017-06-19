@@ -5,15 +5,12 @@ export const JOYO_KANJI = [
 
 export const OPTIONS = {
   ALPHABETICAL: 'Alphabetical',
+  FREQUENCY: 'Frequency',
+  HEISIG: 'Heisig',
   RANDOM: 'Random',
 };
 
-export const ORDERS = {
-  ALPHABETICAL: [...Array(2136).keys()]
-}
-
 /* Temporary
-FREQUENCY: 'Frequency',
 GENKI: 'Genki',
 GRADESCHOOL: 'Gradeschool',
 TWITTER: 'Twitter',

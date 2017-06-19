@@ -1,4 +1,5 @@
-import { JOYO_KANJI, OPTIONS, ORDERS } from './constants';
+import { JOYO_KANJI, OPTIONS } from './constants';
+import { ORDERS } from './orders';
 
 /*
  * Creates a copy of the array and shuffles its content in place.
@@ -37,6 +38,12 @@ export function kanjiFactory(numOfKanji, order = 'Alphabetical') {
   switch (order) {
     case OPTIONS.RANDOM:
       orderArr = shuffleInPlace(orderArr);
+      break;
+    case OPTIONS.HEISIG:
+      orderArr = ORDERS.HEISIG;
+      break;
+    case OPTIONS.FREQUENCY:
+      orderArr = ORDERS.FREQUENCY;
       break;
     default:
       break;

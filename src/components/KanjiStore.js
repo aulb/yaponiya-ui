@@ -12,7 +12,7 @@ import { mockData } from '../helpers/mock';
 /* Determine the character's color and initial counter
  * in the kanjiFactory.
  */
-const numOfKanji = 100;
+const numOfKanji = 2136;
 const KANJI_LIST = kanjiFactory(numOfKanji);
 
 class KanjiStore extends Component {
