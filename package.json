@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "prop-types": "^15.5.10",
+    "rc-calendar": "^8.4.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },
