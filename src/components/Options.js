@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Calendar from 'rc-calendar';
+import Calendar from './Calendar';
 
 class Options extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCalendarActive: false,
+      isCalendarActive: true,
     };
     this.toggleCalendar = this.toggleCalendar.bind(this);
   }
