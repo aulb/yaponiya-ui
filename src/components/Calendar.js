@@ -16,7 +16,7 @@ const MONTHS = [
   'Dec',
 ];
 
-const style = {
+const styles = {
   container: {
     // maxWidth 426 gives us a nice 6 items per row w/ our flexbox setup, not the best sol'n but its good for now
     maxWidth: 426,
@@ -42,15 +42,23 @@ const jsxMonths = MONTHS.map(month => (
     justifyContent="center"
     alignItems="center"
     key={month}
-    style={style.month}
+    style={styles.month}
   >
     {month}
   </Flexbox>
 ));
 
+
+// TODO: split our flexbox containers into two separate components
+//        and use this current Calendar component to keep track our
+//        year state
+// TODO2: Have to add buttons to our CalendarHeader div,
+//        set flexdirection to 'row', justifycontent to 'spacebetween'
+//        And then have links surrounding the CURRENTYEAR,
+//        each click on the link will change year state
 const Calendar = () => (
-  <div style={style.container}>
-    <div style={style.header}>
+  <div style={styles.container}>
+    <div style={styles.header}>
       CURRENTYEAR
     </div>
     <Flexbox
