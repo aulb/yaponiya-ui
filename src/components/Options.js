@@ -1,35 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Calendar from 'rc-calendar';
 
-function Options(props) {
-  const options = Object.keys(props.possibleOptions).map((optionKey) => {
-    const optionString = props.possibleOptions[optionKey];
+class Options extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isCalendarActive: false,
+    };
+    this.toggleCalendar = this.toggleCalendar.bind(this);
+  }
+
+  toggleCalendar() {
+    const isCalendarActive = !this.state.isCalendarActive;
+    this.setState({
+      isCalendarActive,
+    });
+  }
+
+  get options() {
+    const optionKeys = Object.keys(this.props.possibleOptions);
+    const renderOptions = (optionKey) => {
+      const optionString = this.props.possibleOptions[optionKey];
+      return (
+        <option
+          value={optionString}
+          key={optionString}
+        >
+          {optionString}
+        </option>
+      );
+    };
+    return optionKeys.map(renderOptions);
+  }
+
+  render() {
+    // '' is falsey
+    const defaultValue = this.props.currentOrder
+      ? this.props.currentOrder
+      : 'Alphabetical';
+
     return (
-      <option
-        value={optionString}
-        key={optionString}
-      >
-        {optionString}
-      </option>
+      <div className="options-controls">
+        <div className="options-bar">
+          <select
+            name="options"
+            onChange={this.props.switchOrder}
+            value={defaultValue}
+          >
+            {this.options}
+          </select>
+          <button onClick={this.toggleCalendar}>
+            Calendar
+          </button>
+        </div>
+        {this.state.isCalendarActive &&
+          <Calendar />
+        }
+      </div>
+
     );
-  });
-
-  // '' is falsey
-  const defaultValue = props.currentOrder
-    ? props.currentOrder
-    : 'Alphabetical';
-
-  return (
-    <div className="options-bar">
-      <select
-        name="options"
-        onChange={props.switchOrder}
-        value={defaultValue}
-      >
-        {options}
-      </select>
-    </div>
-  );
+  }
 }
 
 Options.propTypes = {
