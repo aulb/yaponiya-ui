@@ -1,22 +1,22 @@
-import { JOYO_KANJI } from './constants';
+import { JOYO_KANJI, OPTIONS } from './constants';
+import { ORDERS } from './orders';
 
 /*
- * Creates a copy of the Kanji array and shuffles the content
- * in place.
+ * Creates a copy of the array and shuffles its content in place.
  */
-function shuffleJoyoKanji() {
+function shuffleInPlace(arr) {
   // Duplicate our original list, spread is .slice()
-  const kanjiList = [...JOYO_KANJI];
+  const arrCopy = [...arr];
   // Swapping the good old way is fast and legible
   let tempCharacter = null;
   let j = 0;
-  for (let i = 0; i < kanjiList.length; i++) {
-    j = getRandomInt(0, kanjiList.length);
-    tempCharacter = kanjiList[i];
-    kanjiList[i] = kanjiList[j];
-    kanjiList[j] = tempCharacter;
+  for (let i = 0; i < arr.length; i++) {
+    j = getRandomInt(0, arrCopy.length);
+    tempCharacter = arrCopy[i];
+    arrCopy[i] = arrCopy[j];
+    arrCopy[j] = tempCharacter;
   }
-  return kanjiList;
+  return arrCopy
 }
 
 /*
@@ -27,21 +27,38 @@ function getRandomInt(min, max) {
 }
 
 /*
- * Creates (initializes) a basic Kanji object.
+ * Initializes an empty KanjiList object
  */
-export function kanjiFactory(numOfKanji) {
-  // https://github.com/jamesknelson/node-joyo-kanji/blob/master/index.js
-  let kanjiList = JOYO_KANJI.slice(0, numOfKanji); // shuffleJoyoKanji().slice(0, numOfKanji);
-  let kanjiState = {};
-  for (let i = 0; i < kanjiList.length; i++) {
-    let currentCharacter = kanjiList[i];
-    kanjiState[currentCharacter] = {
-      counter: 0,
-      color: '#FFFFFF'
+export function kanjiFactory(numOfKanji, order = 'Alphabetical') {
+  // Fast lookup for updating
+  let kanjiList = {};
+
+  // Decides ordering
+  let orderArr = ORDERS.ALPHABETICAL;
+  switch (order) {
+    case OPTIONS.RANDOM:
+      orderArr = shuffleInPlace(orderArr);
+      break;
+    case OPTIONS.HEISIG:
+      orderArr = ORDERS.HEISIG;
+      break;
+    case OPTIONS.FREQUENCY:
+      orderArr = ORDERS.FREQUENCY;
+      break;
+    default:
+      break;
+  }
+
+  for (let i = 0; i < numOfKanji; i++) {
+    let currentCharacter = JOYO_KANJI[orderArr[i]];
+    kanjiList[currentCharacter] = {
+      counter : 0,
+      color   : '#FFFFFF',
+      position: i,
     }
   }
 
-  return kanjiState;
+  return kanjiList;
 }
 
 export function getMaxCounter(obj) {
