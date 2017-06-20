@@ -1,6 +1,6 @@
 import React from 'react';
 import Flexbox from 'flexbox-react';
-
+import './CalendarHeader';
 const MONTHS = [
   'Jan',
   'Feb',
@@ -22,9 +22,6 @@ const styles = {
     maxWidth: 426,
     marginLeft: 'auto',
     marginRight: 'auto',
-  },
-  header: {
-    textAlign: 'center',
   },
   month: {
     backgroundColor: 'red',
@@ -52,15 +49,10 @@ const jsxMonths = MONTHS.map(month => (
 // TODO: split our flexbox containers into two separate components
 //        and use this current Calendar component to keep track our
 //        year state
-// TODO2: Have to add buttons to our CalendarHeader div,
-//        set flexdirection to 'row', justifycontent to 'spacebetween'
-//        And then have links surrounding the CURRENTYEAR,
-//        each click on the link will change year state
+
 const Calendar = () => (
   <div style={styles.container}>
-    <div style={styles.header}>
-      CURRENTYEAR
-    </div>
+    <CalendarHeader />
     <Flexbox
       flexDirection="row"
       justifyContent="space-around"
