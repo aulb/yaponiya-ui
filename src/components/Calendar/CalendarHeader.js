@@ -11,13 +11,13 @@ const CalendarHeader = () => {
   return (
     <Flexbox
       flexDirection="row"
-      justifyContent="spaceBetween"
+      justifyContent="space-between"
     >
-      <ArrowLeft />
+      <div><ArrowLeft /></div>
       <div>CURRENTYEAR</div>
-      <ArrowRight />
+      <div><ArrowRight /></div>
     </Flexbox>
   );
-}
+};
 
 export default CalendarHeader;
