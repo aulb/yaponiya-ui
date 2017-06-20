@@ -1,5 +1,5 @@
 import React from 'react';
-import Flexbox from 'react-flexbox';
+import Flexbox from 'flexbox-react';
 
 const MONTHS = [
   'Jan',
