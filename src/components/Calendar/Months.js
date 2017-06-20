@@ -45,7 +45,7 @@ const Months = () => {
       flexDirection="row"
       justifyContent="space-around"
       flexWrap="wrap"
-      flex={1}
+      flex="1"
     >
       {jsxMonths}
     </Flexbox>

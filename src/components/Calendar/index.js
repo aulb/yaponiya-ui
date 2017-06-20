@@ -1,5 +1,4 @@
 import React from 'react';
-import Flexbox from 'flexbox-react';
 import CalendarHeader from './CalendarHeader';
 import Months from './Months';
 
@@ -14,11 +13,34 @@ const styles = {
   },
 };
 
-const Calendar = () => (
-  <div style={styles.container}>
-    <CalendarHeader />
-    <Months />
-  </div>
-);
+class Calendar extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      currentYear: 2017,
+    };
+    this.changeYear = this.changeYear.bind(this);
+  }
+
+  get currentYear() {
+    return this.state.currentYear;
+  }
+
+  changeYear(nextYear) {
+    this.setState({ currentYear: nextYear });
+  }
+
+  render() {
+    return (
+      <div style={styles.container}>
+        <CalendarHeader
+          year={this.currentYear}
+          changeYear={this.changeYear}
+        />
+        <Months />
+      </div>
+    );
+  }
+}
 
 export default Calendar;
