@@ -14,6 +14,13 @@ import { mockData } from '../helpers/mock';
  */
 const numOfKanji = 2136;
 const KANJI_LIST = kanjiFactory(numOfKanji);
+const styles = {
+  weekContainer: {
+    maxWidth: 700,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+}
 
 class KanjiStore extends Component {
   constructor(props) {
@@ -106,7 +113,7 @@ class KanjiStore extends Component {
   render() {
     const renderKanjiContainer = this.renderKanjiContainer();
     return (
-      <div className="week-container">
+      <div style={styles.weekContainer}>
         <div className="top-area">
           <Header />
           <Options
