@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
 import Options from './Options';
-import Header from './Header';
-import '../styles/KanjiLayout.css';
 import { kanjiFactory, getMaxCounter } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
 import { color } from '../helpers/colors';
@@ -20,7 +18,7 @@ const styles = {
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-}
+};
 
 class KanjiStore extends Component {
   constructor(props) {

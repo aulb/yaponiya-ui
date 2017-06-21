@@ -17,8 +17,8 @@ function KanjiCharacter(props) {
 }
 
 KanjiCharacter.propTypes = {
-  color: PropTypes.string,
-  counter: PropTypes.number,
+  color: PropTypes.string.isRequired,
+  // counter: PropTypes.number,
   character: PropTypes.string.isRequired,
 };
 
