@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Yaponiya from './Yaponiya';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Yaponiya />, document.getElementById('root'));
 registerServiceWorker();

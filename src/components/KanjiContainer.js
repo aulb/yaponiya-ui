@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Kanji from './Kanji';
+import KanjiCharacter from './KanjiCharacter';
 
 /*
  * Get color from a predefined list.
@@ -11,7 +11,7 @@ function KanjiContainer(props) {
   Object.keys(props.kanjiList).map((character) => {
     let currentKanjiProp = props.kanjiList[character];
     kanjiJSXList[currentKanjiProp.position] = (
-      <Kanji
+      <KanjiCharacter
         character={character}
         color={currentKanjiProp.color}
         key={character}

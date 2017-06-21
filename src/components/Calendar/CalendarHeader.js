@@ -1,23 +1,16 @@
-// TODO2: Have to add buttons to our CalendarHeader div,
-//        set flexdirection to 'row', justifycontent to 'spacebetween'
-//        And then have links surrounding the CURRENTYEAR,
-//        each click on the link will change year state
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import Flexbox from 'flexbox-react';
 import { ArrowRight, ArrowLeft } from 'react-feather';
 
 const CalendarHeader = ({ year, changeYear }) => {
-  const canGoLeft  = year > 2014;
-  const canGoRight = year < 2017;
+  const canGoLeft  = (year > 2014);
+  const canGoRight = (year < 2017);
   const styles = {
     hidden: { visibility: 'hidden' },
   };
 
   const onClick = (increment) => changeYear(year + increment);
-
-
   // TODO: change div to something more appropriate for clicking
   return (
     <Flexbox

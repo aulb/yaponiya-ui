@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
 import Options from './Options';
-import Header from './Header';
-import '../styles/KanjiLayout.css';
 import { kanjiFactory, getMaxCounter } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
 import { color } from '../helpers/colors';
@@ -14,6 +12,13 @@ import { mockData } from '../helpers/mock';
  */
 const numOfKanji = 2136;
 const KANJI_LIST = kanjiFactory(numOfKanji);
+const styles = {
+  weekContainer: {
+    maxWidth: 700,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+};
 
 class KanjiStore extends Component {
   constructor(props) {
@@ -97,7 +102,7 @@ class KanjiStore extends Component {
   renderKanjiContainer() {
     return (
       <KanjiContainer
-        kanjiList = {this.kanjiList}
+        kanjiList={this.kanjiList}
         numOfKanji={numOfKanji}
       />
     );
@@ -106,15 +111,12 @@ class KanjiStore extends Component {
   render() {
     const renderKanjiContainer = this.renderKanjiContainer();
     return (
-      <div className="week-container">
-        <div className="top-area">
-          <Header />
-          <Options
-            currentOrder={this.state.currentOrder}
-            switchOrder={this.switchOrder}
-            possibleOptions={OPTIONS}
-          />
-        </div>
+      <div style={styles.weekContainer}>
+        <Options
+          currentOrder={this.state.currentOrder}
+          switchOrder={this.switchOrder}
+          possibleOptions={OPTIONS}
+        />
         { renderKanjiContainer }
       </div>
     );

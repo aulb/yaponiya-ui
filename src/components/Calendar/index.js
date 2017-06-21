@@ -22,10 +22,6 @@ class Calendar extends React.Component {
     this.changeYear = this.changeYear.bind(this);
   }
 
-  get currentYear() {
-    return this.state.currentYear;
-  }
-
   changeYear(nextYear) {
     this.setState({ currentYear: nextYear });
   }
@@ -34,7 +30,7 @@ class Calendar extends React.Component {
     return (
       <div style={styles.container}>
         <CalendarHeader
-          year={this.currentYear}
+          year={this.state.currentYear}
           changeYear={this.changeYear}
         />
         <Months />
