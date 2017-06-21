@@ -1,10 +1,14 @@
 import React from 'react';
 
+const style = {
+  textAlign: 'center',
+};
+
 function Header() {
   return (
-    <div className="header-bar">
+    <header style={style}>
       <h1>やぽにや</h1>
-    </div>
+    </header>
   );
 }
 
