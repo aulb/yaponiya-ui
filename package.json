@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "flexbox-react": "^4.4.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-feather": "^1.0.4"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"
