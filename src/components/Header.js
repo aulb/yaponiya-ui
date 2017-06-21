@@ -2,8 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const style = {
-  textAlign: 'center',
+const styles = {
+  container: {
+    maxWidth: 700,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  header: {
+    textAlign: 'center',
+  },
+  nav: {
+    textAlign: 'right',
+  },
+  link: {
+    position: 'relative',
+    top: -40,
+  },
 };
 
 const links = {
@@ -17,13 +31,13 @@ function Header({ location }) {
     : links.back;
 
   return (
-    <div>
-      <header style={style}>
+    <div style={styles.container}>
+      <header style={styles.header}>
         <h1>やぽにや</h1>
-        <nav>
-          <Link to={linkBack.path}>{linkBack.name}</Link>
-        </nav>
       </header>
+      <nav style={styles.nav}>
+        <Link style={styles.link} to={linkBack.path}>{linkBack.name}</Link>
+      </nav>
     </div>
   );
 }
