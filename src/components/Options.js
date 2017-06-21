@@ -6,7 +6,7 @@ class Options extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCalendarActive: true,
+      isCalendarActive: false,
     };
     this.toggleCalendar = this.toggleCalendar.bind(this);
   }
