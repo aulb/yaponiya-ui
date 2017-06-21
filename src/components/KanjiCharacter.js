@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 /*
  * Kanji "class" for each kanji.
  */
-function Kanji(props) {
+function KanjiCharacter(props) {
   const style = {
     backgroundColor: props.color,
     fontSize: '1.0em',
@@ -16,10 +16,10 @@ function Kanji(props) {
   return <span style={style}>{props.character}</span>;
 }
 
-Kanji.propTypes = {
+KanjiCharacter.propTypes = {
   color: PropTypes.string,
   counter: PropTypes.number,
   character: PropTypes.string.isRequired,
 };
 
-export default Kanji;
+export default KanjiCharacter;
