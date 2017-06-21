@@ -104,7 +104,7 @@ class KanjiStore extends Component {
   renderKanjiContainer() {
     return (
       <KanjiContainer
-        kanjiList = {this.kanjiList}
+        kanjiList={this.kanjiList}
         numOfKanji={numOfKanji}
       />
     );
@@ -114,14 +114,11 @@ class KanjiStore extends Component {
     const renderKanjiContainer = this.renderKanjiContainer();
     return (
       <div style={styles.weekContainer}>
-        <div className="top-area">
-          <Header />
-          <Options
-            currentOrder={this.state.currentOrder}
-            switchOrder={this.switchOrder}
-            possibleOptions={OPTIONS}
-          />
-        </div>
+        <Options
+          currentOrder={this.state.currentOrder}
+          switchOrder={this.switchOrder}
+          possibleOptions={OPTIONS}
+        />
         { renderKanjiContainer }
       </div>
     );
