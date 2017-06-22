@@ -1,21 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Calendar from './Calendar';
 
 class Options extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCalendarActive: false,
+      searchQuery: '',
     };
-    this.toggleCalendar = this.toggleCalendar.bind(this);
-  }
-
-  toggleCalendar() {
-    const isCalendarActive = !this.state.isCalendarActive;
-    this.setState({
-      isCalendarActive,
-    });
   }
 
   get options() {
@@ -40,25 +31,21 @@ class Options extends React.Component {
       ? this.props.currentOrder
       : 'Alphabetical';
 
+    // Flex our outerbox
     return (
-      <div className="options-controls">
-        <div className="options-bar">
-          <select
-            name="options"
-            onChange={this.props.switchOrder}
-            value={defaultValue}
-          >
-            {this.options}
-          </select>
-          <button onClick={this.toggleCalendar}>
-            Calendar
-          </button>
-        </div>
-        {this.state.isCalendarActive &&
-          <Calendar />
-        }
+      <div>
+        <select
+          name="options"
+          onChange={this.props.switchOrder}
+          value={defaultValue}
+        >
+          {this.options}
+        </select>
+        <input
+          type="search"
+          defaultValue={this.state.searchQuery}
+        />
       </div>
-
     );
   }
 }

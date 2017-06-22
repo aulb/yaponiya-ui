@@ -16,7 +16,7 @@ const styles = {
   },
   link: {
     position: 'relative',
-    top: -40,
+    top: -45,
   },
 };
 
@@ -36,14 +36,18 @@ function Header({ location }) {
         <h1>やぽにや</h1>
       </header>
       <nav style={styles.nav}>
-        <Link style={styles.link} to={linkBack.path}>{linkBack.name}</Link>
+        <Link style={styles.link} to={linkBack.path}>
+          {linkBack.name}
+        </Link>
       </nav>
     </div>
   );
 }
 
 Header.propTypes = {
-  location: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Header;

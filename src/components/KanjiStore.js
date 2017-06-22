@@ -75,27 +75,24 @@ class KanjiStore extends Component {
 
     // Create new set of kanjiList with their order changed
     // This changes the position state of each kanji
-    const kanjiUpdate = kanjiFactory(numOfKanji, nextOrder);
+    const updatedKanji = kanjiFactory(numOfKanji, nextOrder);
 
-    // TODO Copy counter values to the new kanji states
-    // This should be from mockData for now
+    const newKanjiList = this.kanjiList;
+
     // Need to carry over the color and counter
-    const biggestCounter = getMaxCounter(mockData);
-    Object.keys(mockData).map((character) => {
-      // Update only if the character exist in the new state
-      if (kanjiUpdate.hasOwnProperty(character)) {
-          let counter = mockData[character];
-          let colorIndex = Math.floor(counter / biggestCounter * color.length);
-
-          kanjiUpdate[character].counter = counter;
-          kanjiUpdate[character].color = color[colorIndex];
-      }
-      return null;
-    });
+    Object.keys(this.kanjiList)
+      .filter(char => updatedKanji[char])
+      .forEach((char) => {
+        newKanjiList[char] = Object.assign(
+          {},
+          newKanjiList[char],
+          updatedKanji[char].position,
+        );
+      });
 
     this.setState({
       currentOrder: nextOrder,
-      kanjiList: kanjiUpdate,
+      kanjiList: newKanjiList,
     });
   }
 
