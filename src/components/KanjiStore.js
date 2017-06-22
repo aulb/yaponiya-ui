@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
 import Options from './Options';
 import { kanjiFactory, getMaxCounter } from '../helpers/utils';
@@ -136,5 +136,14 @@ class KanjiStore extends Component {
     );
   }
 }
+
+KanjiStore.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      year: PropTypes.number.isRequired,
+      month: PropTypes.number.isRequired,
+    }),
+  }),
+};
 
 export default KanjiStore;
