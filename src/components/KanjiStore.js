@@ -35,7 +35,7 @@ class KanjiStore extends Component {
           '大',...
         }
       */
-      kanjiList: KANJI_LIST,
+      kanjiMap: KANJI_LIST,
     };
 
     // Need to remember which function we passed in
@@ -48,7 +48,7 @@ class KanjiStore extends Component {
   }
 
   updateKanji() {
-    const kanjiUpdate = {...this.state.kanjiList};
+    const kanjiUpdate = {...this.state.kanjiMap};
     const biggestCounter = getMaxCounter(mockData);
     // TODO redo with Object.keys(mockData).map()
     for (let character in mockData) {
@@ -62,44 +62,44 @@ class KanjiStore extends Component {
       }
     }
 
-    this.setState({ kanjiList: kanjiUpdate });
+    this.setState({ kanjiMap: kanjiUpdate });
   }
 
-  get kanjiList() {
-    return this.state.kanjiList;
+  get kanjiMap() {
+    return this.state.kanjiMap;
   }
 
   switchOrder(event) {
     // Get new order from the event
     const nextOrder = event.target.value;
 
-    // Create new set of kanjiList with their order changed
+    // Create new set of kanjiMap with their order changed
     // This changes the position state of each kanji
     const updatedKanji = kanjiFactory(numOfKanji, nextOrder);
 
-    const newKanjiList = this.kanjiList;
+    const newKanjiList = this.kanjiMap;
 
     // Need to carry over the color and counter
-    Object.keys(this.kanjiList)
+    Object.keys(this.kanjiMap)
       .filter(char => updatedKanji[char])
       .forEach((char) => {
         newKanjiList[char] = Object.assign(
           {},
           newKanjiList[char],
-          updatedKanji[char].position,
+          { position: updatedKanji[char].position },
         );
       });
 
     this.setState({
       currentOrder: nextOrder,
-      kanjiList: newKanjiList,
+      kanjiMap: newKanjiList,
     });
   }
 
   renderKanjiContainer() {
     return (
       <KanjiContainer
-        kanjiList={this.kanjiList}
+        kanjiList={this.kanjiMap}
         numOfKanji={numOfKanji}
       />
     );
