@@ -36,6 +36,9 @@ class KanjiStore extends Component {
         }
       */
       kanjiMap: KANJI_LIST,
+      currentYear: 2017,
+      currentMonth: 6,
+      // mode: 'NHKEasy'
     };
 
     // Need to remember which function we passed in
@@ -43,8 +46,16 @@ class KanjiStore extends Component {
     this.updateKanji = this.updateKanji.bind(this);
   }
 
+
   componentDidMount() {
     this.updateKanji();
+  }
+
+  componentWillMount() {
+    this.setState({
+      currentYear: this.props.match.params.year,
+      currentMonth: this.props.match.params.month,
+    });
   }
 
   updateKanji() {
@@ -107,8 +118,14 @@ class KanjiStore extends Component {
 
   render() {
     const renderKanjiContainer = this.renderKanjiContainer();
+    const dateString = this.props.match
+      ? `Year: ${this.state.currentYear} Month: ${this.state.currentMonth}`
+      : 'Default';
     return (
       <div style={styles.weekContainer}>
+        <h2>
+          { dateString }
+        </h2>
         <Options
           currentOrder={this.state.currentOrder}
           switchOrder={this.switchOrder}

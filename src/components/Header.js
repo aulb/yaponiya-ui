@@ -26,9 +26,9 @@ const links = {
 };
 
 function Header({ location }) {
-  const linkBack = location.pathname === '/'
-    ? links.calendar
-    : links.back;
+  const linkBack = location.pathname === '/calendar'
+    ? links.back
+    : links.calendar;
 
   return (
     <div style={styles.container}>

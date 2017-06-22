@@ -33,7 +33,7 @@ class Calendar extends React.Component {
           year={this.state.currentYear}
           changeYear={this.changeYear}
         />
-        <Months />
+        <Months year={this.state.currentYear} />
       </div>
     );
   }
