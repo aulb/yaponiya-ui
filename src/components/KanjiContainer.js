@@ -5,30 +5,30 @@ import KanjiCharacter from './KanjiCharacter';
 /*
  * Get color from a predefined list.
  */
-function KanjiContainer(props) {
-  let kanjiJSXList = Array(props.numOfKanji);
+function KanjiContainer({ kanjiMap, numOfKanji }) {
+  let kanjiJSXList = Array(numOfKanji);
 
-  Object.keys(props.kanjiList).map((character) => {
-    let currentKanjiProp = props.kanjiList[character];
+  Object.keys(kanjiMap).map((character) => {
+    let currentKanjiProp = kanjiMap[character];
     kanjiJSXList[currentKanjiProp.position] = (
       <KanjiCharacter
         character={character}
         color={currentKanjiProp.color}
         key={character}
       />
-    );
     return null;
+    );
   });
 
   return (
-    <div className="kanjiContainer">
+    <div>
       { kanjiJSXList }
     </div>
   );
-}
+};
 
 KanjiContainer.propTypes = {
-  kanjiList: PropTypes.object.isRequired,
+  kanjiMap: PropTypes.objectOf(PropTypes.object).isRequired,
   numOfKanji: PropTypes.number,
 };
 

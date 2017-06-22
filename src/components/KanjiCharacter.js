@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 /*
  * Kanji "class" for each kanji.
  */
-function KanjiCharacter(props) {
+function KanjiCharacter({ color, character }) {
   const style = {
-    backgroundColor: props.color,
+    backgroundColor: color,
     fontSize: '1.0em',
     fontFamily: 'Noto Sans',
     display: 'inline-block',
     margin: 1,
     borderRadius: '3px',
   };
-  return <span style={style}>{props.character}</span>;
+  return <span style={style}>{character}</span>;
 }
 
 KanjiCharacter.propTypes = {

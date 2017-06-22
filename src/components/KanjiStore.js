@@ -36,8 +36,8 @@ class KanjiStore extends Component {
         }
       */
       kanjiMap: KANJI_LIST,
-      currentYear: 2017,
-      currentMonth: 6,
+      year: 2017,
+      month: 6,
       // mode: 'NHKEasy'
     };
 
@@ -53,8 +53,8 @@ class KanjiStore extends Component {
 
   componentWillMount() {
     this.setState({
-      currentYear: this.props.match.params.year,
-      currentMonth: this.props.match.params.month,
+      year: this.props.match.params.year,
+      month: this.props.match.params.month,
     });
   }
 
@@ -107,20 +107,10 @@ class KanjiStore extends Component {
     });
   }
 
-  renderKanjiContainer() {
-    return (
-      <KanjiContainer
-        kanjiList={this.kanjiMap}
-        numOfKanji={numOfKanji}
-      />
-    );
-  }
-
   render() {
-    const renderKanjiContainer = this.renderKanjiContainer();
-    const dateString = this.props.match
-      ? `Year: ${this.state.currentYear} Month: ${this.state.currentMonth}`
-      : 'Default';
+    const match = this.props.match ? this.props.match : { year: 2017, month: 6 };
+    const { year, month } = match;
+    const dateString = `Year: ${year} Month: ${month}`;
     return (
       <div style={styles.weekContainer}>
         <h2>
@@ -131,7 +121,10 @@ class KanjiStore extends Component {
           switchOrder={this.switchOrder}
           possibleOptions={OPTIONS}
         />
-        { renderKanjiContainer }
+        <KanjiContainer
+          kanjiList={this.kanjiMap}
+          numOfKanji={numOfKanji}
+        />
       </div>
     );
   }
@@ -143,7 +136,7 @@ KanjiStore.propTypes = {
       year: PropTypes.number.isRequired,
       month: PropTypes.number.isRequired,
     }),
-  }),
+  }).isRequired,
 };
 
 export default KanjiStore;
