@@ -4,8 +4,9 @@ import {
   Route,
   withRouter,
 } from 'react-router-dom';
-import Calendar from './components/Calendar';
 import KanjiStore from './components/KanjiStore';
+import KanjiPage from './components/KanjiPage';
+import Calendar from './components/Calendar';
 import Header from './components/Header';
 
 // Endow Header with routing info
@@ -17,8 +18,9 @@ const Yaponiya = () => (
       <div>
         <HeaderRouter />
         <Route exact path="/" component={KanjiStore} />
-        <Route path="/calendar" component={Calendar} />
+        <Route exact path="/kanji/:character" component={KanjiPage} />
         <Route path="/:year/:month" component={KanjiStore} />
+        <Route path="/calendar" component={Calendar} />
       </div>
     </Router>
   </div>
