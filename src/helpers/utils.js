@@ -16,7 +16,7 @@ function shuffleInPlace(arr) {
     arrCopy[i] = arrCopy[j];
     arrCopy[j] = tempCharacter;
   }
-  return arrCopy
+  return arrCopy;
 }
 
 /*
@@ -29,29 +29,20 @@ function getRandomInt(min, max) {
 /*
  * Initializes an empty KanjiList object
  */
-export function kanjiFactory(numOfKanji, order = 'Alphabetical') {
-  let kanjiList = [];
+export function kanjiFactory(numOfKanji) {
+  const kanjiList = [];
 
   // Decides ordering
-  let orderArr = ORDERS.ALPHABETICAL;
-  switch (order) {
-    case OPTIONS.HEISIG:
-      orderArr = ORDERS.HEISIG;
-      break;
-    case OPTIONS.FREQUENCY:
-      orderArr = ORDERS.FREQUENCY;
-      break;
-    default:
-      break;
-  }
+  const orderArr = ORDERS.ALPHABETICAL;
 
   for (let i = 0; i < numOfKanji; i++) {
-    let currentCharacter = JOYO_KANJI[orderArr[i]];
-    kanjiList[currentCharacter] = {
-      counter : 0,
-      color   : '#FFFFFF',
-      position: i,
-    }
+    const currentChar = JOYO_KANJI[orderArr[i]];
+    kanjiList.push({
+      id: currentChar,
+      alphabetical: ORDERS.ALPHABETICAL[i],
+      heisig: ORDERS.HEISIG[i],
+      frequency: ORDERS.FREQUENCY[i],
+    });
   }
 
   return kanjiList;

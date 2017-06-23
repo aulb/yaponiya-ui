@@ -11,7 +11,6 @@ import { mockData } from '../helpers/mock';
  * in the kanjiFactory.
  */
 const numOfKanji = 2136;
-const KANJI_LIST = kanjiFactory(numOfKanji);
 const styles = {
   weekContainer: {
     maxWidth: 700,
@@ -20,25 +19,29 @@ const styles = {
   },
 };
 
+const latest = {
+  year: 2017,
+  month: 3,
+};
+
 class KanjiStore extends Component {
   constructor(props) {
-    super(props); // What does this do? <-- lets you call this.props in constructor
+    super(props);
     this.state = {
       currentOrder: OPTIONS.ALPHABETICAL,
       /* Example kanji state object
-        {
-          '日': {
-            color    : '#FFF',
-            counter  : 0,
-            position : 0,
+        [
+          {
+            id: currentChar,
+            alphabetical: ORDERS.ALPHABETICAL[i],
+            heisig: ORDERS.HEISIG[i],
+            frequency: ORDERS.FREQUENCY[i],
           },
-          '大',...
-        }
+        ]
       */
-      kanjiMap: KANJI_LIST,
-      year: 2017,
-      month: 6,
-      // mode: 'NHKEasy'
+      kanjiList: kanjiFactory(numOfKanji),
+      year: this.props.match.params.year || latest.year,
+      month: this.props.match.params.month || latest.month,
     };
 
     // Need to remember which function we passed in
@@ -46,71 +49,42 @@ class KanjiStore extends Component {
     this.updateKanji = this.updateKanji.bind(this);
   }
 
-
-  componentDidMount() {
-    this.updateKanji();
-  }
-
-  componentWillMount() {
-    this.setState({
-      year: this.props.match.params.year,
-      month: this.props.match.params.month,
-    });
-  }
-
   updateKanji() {
-    const kanjiUpdate = {...this.state.kanjiMap};
-    const biggestCounter = getMaxCounter(mockData);
-    // TODO redo with Object.keys(mockData).map()
-    for (let character in mockData) {
-      // Check if exist, just incase
-      if (kanjiUpdate.hasOwnProperty(character)) {
-        let counter = mockData[character];
-        let colorIndex = Math.floor(counter / biggestCounter * color.length);
+    // const kanjiUpdate = { ...this.state.kanjiList };
+    // const biggestCounter = getMaxCounter(mockData);
+    // // TODO redo with Object.keys(mockData).map()
+    // for (let character in mockData) {
+    //   // Check if exist, just incase
+    //   if (kanjiUpdate.hasOwnProperty(character)) {
+    //     let counter = mockData[character];
+    //     let colorIndex = Math.floor(counter / biggestCounter * color.length);
 
-        kanjiUpdate[character].counter = counter;
-        kanjiUpdate[character].color = color[colorIndex];
-      }
-    }
+    //     kanjiUpdate[character].counter = counter;
+    //     kanjiUpdate[character].color = color[colorIndex];
+    //   }
+    // }
 
-    this.setState({ kanjiMap: kanjiUpdate });
+    // this.setState({ kanjiList: kanjiUpdate });
   }
 
-  get kanjiMap() {
-    return this.state.kanjiMap;
+  get kanjiList() {
+    // Sort the kanjiList in order
+    const order = this.state.currentOrder.toLowerCase();
+    return this.state.kanjiList.sort((a, b) => a[order] - b[order]);
   }
 
   switchOrder(event) {
-    // Get new order from the event
+    // // Get new order from the event
     const nextOrder = event.target.value;
-
-    // Create new set of kanjiMap with their order changed
-    // This changes the position state of each kanji
-    const updatedKanji = kanjiFactory(numOfKanji, nextOrder);
-
-    const newKanjiList = this.kanjiMap;
-
-    // Need to carry over the color and counter
-    Object.keys(this.kanjiMap)
-      .filter(char => updatedKanji[char])
-      .forEach((char) => {
-        newKanjiList[char] = Object.assign(
-          {},
-          newKanjiList[char],
-          { position: updatedKanji[char].position },
-        );
-      });
-
     this.setState({
       currentOrder: nextOrder,
-      kanjiMap: newKanjiList,
     });
   }
 
   render() {
-    const match = this.props.match ? this.props.match : { year: 2017, month: 6 };
-    const { year, month } = match;
-    const dateString = `Year: ${year} Month: ${month}`;
+    const dateString = `
+      Year: ${this.state.year} Month: ${this.state.month}
+    `;
     return (
       <div style={styles.weekContainer}>
         <h2>
@@ -122,7 +96,7 @@ class KanjiStore extends Component {
           possibleOptions={OPTIONS}
         />
         <KanjiContainer
-          kanjiList={this.kanjiMap}
+          kanjiList={this.kanjiList}
           numOfKanji={numOfKanji}
         />
       </div>
