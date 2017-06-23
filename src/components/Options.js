@@ -7,6 +7,13 @@ class Options extends React.Component {
     this.state = {
       searchQuery: '',
     };
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(event) {
+    this.setState({
+      searchQuery: event.target.value,
+    });
   }
 
   get options() {
@@ -43,7 +50,9 @@ class Options extends React.Component {
         </select>
         <input
           type="search"
+          placeholder="Try searching for Kanji"
           defaultValue={this.state.searchQuery}
+          onChange={this.onChange}
         />
       </div>
     );
