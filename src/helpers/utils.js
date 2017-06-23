@@ -30,15 +30,11 @@ function getRandomInt(min, max) {
  * Initializes an empty KanjiList object
  */
 export function kanjiFactory(numOfKanji, order = 'Alphabetical') {
-  // Fast lookup for updating
-  let kanjiList = {};
+  let kanjiList = [];
 
   // Decides ordering
   let orderArr = ORDERS.ALPHABETICAL;
   switch (order) {
-    case OPTIONS.RANDOM:
-      orderArr = shuffleInPlace(orderArr);
-      break;
     case OPTIONS.HEISIG:
       orderArr = ORDERS.HEISIG;
       break;

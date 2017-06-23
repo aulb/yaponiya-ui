@@ -7,7 +7,6 @@ export const OPTIONS = {
   ALPHABETICAL: 'Alphabetical',
   FREQUENCY: 'Frequency',
   HEISIG: 'Heisig',
-  RANDOM: 'Random',
 };
 
 /* Temporary
