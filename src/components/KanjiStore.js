@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
 import Options from './Options';
 import { kanjiFactory, getMaxCounter } from '../helpers/utils';
@@ -11,7 +11,6 @@ import { mockData } from '../helpers/mock';
  * in the kanjiFactory.
  */
 const numOfKanji = 2136;
-const KANJI_LIST = kanjiFactory(numOfKanji);
 const styles = {
   weekContainer: {
     maxWidth: 700,
@@ -20,22 +19,29 @@ const styles = {
   },
 };
 
+const latest = {
+  year: 2017,
+  month: 3,
+};
+
 class KanjiStore extends Component {
   constructor(props) {
-    super(props); // What does this do? <-- lets you call this.props in constructor
+    super(props);
     this.state = {
       currentOrder: OPTIONS.ALPHABETICAL,
       /* Example kanji state object
-        {
-          '日': {
-            color    : '#FFF',
-            counter  : 0,
-            position : 0,
+        [
+          {
+            id: currentChar,
+            alphabetical: ORDERS.ALPHABETICAL[i],
+            heisig: ORDERS.HEISIG[i],
+            frequency: ORDERS.FREQUENCY[i],
           },
-          '大',...
-        }
+        ]
       */
-      kanjiList: KANJI_LIST,
+      kanjiList: kanjiFactory(numOfKanji),
+      year: this.props.match.params.year || latest.year,
+      month: this.props.match.params.month || latest.month,
     };
 
     // Need to remember which function we passed in
@@ -43,84 +49,68 @@ class KanjiStore extends Component {
     this.updateKanji = this.updateKanji.bind(this);
   }
 
-  componentDidMount() {
-    this.updateKanji();
-  }
-
   updateKanji() {
-    const kanjiUpdate = {...this.state.kanjiList};
-    const biggestCounter = getMaxCounter(mockData);
-    // TODO redo with Object.keys(mockData).map()
-    for (let character in mockData) {
-      // Check if exist, just incase
-      if (kanjiUpdate.hasOwnProperty(character)) {
-        let counter = mockData[character];
-        let colorIndex = Math.floor(counter / biggestCounter * color.length);
+    // const kanjiUpdate = { ...this.state.kanjiList };
+    // const biggestCounter = getMaxCounter(mockData);
+    // // TODO redo with Object.keys(mockData).map()
+    // for (let character in mockData) {
+    //   // Check if exist, just incase
+    //   if (kanjiUpdate.hasOwnProperty(character)) {
+    //     let counter = mockData[character];
+    //     let colorIndex = Math.floor(counter / biggestCounter * color.length);
 
-        kanjiUpdate[character].counter = counter;
-        kanjiUpdate[character].color = color[colorIndex];
-      }
-    }
+    //     kanjiUpdate[character].counter = counter;
+    //     kanjiUpdate[character].color = color[colorIndex];
+    //   }
+    // }
 
-    this.setState({ kanjiList: kanjiUpdate });
+    // this.setState({ kanjiList: kanjiUpdate });
   }
 
   get kanjiList() {
-    return this.state.kanjiList;
+    // Sort the kanjiList in order
+    const order = this.state.currentOrder.toLowerCase();
+    return this.state.kanjiList.sort((a, b) => a[order] - b[order]);
   }
 
   switchOrder(event) {
-    // Get new order from the event
+    // // Get new order from the event
     const nextOrder = event.target.value;
-
-    // Create new set of kanjiList with their order changed
-    // This changes the position state of each kanji
-    const kanjiUpdate = kanjiFactory(numOfKanji, nextOrder);
-
-    // TODO Copy counter values to the new kanji states
-    // This should be from mockData for now
-    // Need to carry over the color and counter
-    const biggestCounter = getMaxCounter(mockData);
-    Object.keys(mockData).map((character) => {
-      // Update only if the character exist in the new state
-      if (kanjiUpdate.hasOwnProperty(character)) {
-          let counter = mockData[character];
-          let colorIndex = Math.floor(counter / biggestCounter * color.length);
-
-          kanjiUpdate[character].counter = counter;
-          kanjiUpdate[character].color = color[colorIndex];
-      }
-      return null;
-    });
-
     this.setState({
       currentOrder: nextOrder,
-      kanjiList: kanjiUpdate,
     });
-  }
-
-  renderKanjiContainer() {
-    return (
-      <KanjiContainer
-        kanjiList={this.kanjiList}
-        numOfKanji={numOfKanji}
-      />
-    );
   }
 
   render() {
-    const renderKanjiContainer = this.renderKanjiContainer();
+    const dateString = `
+      Year: ${this.state.year} Month: ${this.state.month}
+    `;
     return (
       <div style={styles.weekContainer}>
+        <h2>
+          { dateString }
+        </h2>
         <Options
           currentOrder={this.state.currentOrder}
           switchOrder={this.switchOrder}
           possibleOptions={OPTIONS}
         />
-        { renderKanjiContainer }
+        <KanjiContainer
+          kanjiList={this.kanjiList}
+          numOfKanji={numOfKanji}
+        />
       </div>
     );
   }
 }
+
+KanjiStore.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      year: PropTypes.number.isRequired,
+      month: PropTypes.number.isRequired,
+    }),
+  }).isRequired,
+};
 
 export default KanjiStore;

@@ -2,8 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const style = {
-  textAlign: 'center',
+const styles = {
+  container: {
+    maxWidth: 700,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  header: {
+    textAlign: 'center',
+  },
+  nav: {
+    textAlign: 'right',
+  },
+  link: {
+    position: 'relative',
+    top: -45,
+  },
 };
 
 const links = {
@@ -12,24 +26,28 @@ const links = {
 };
 
 function Header({ location }) {
-  const linkBack = location.pathname === '/'
-    ? links.calendar
-    : links.back;
+  const linkBack = location.pathname === '/calendar'
+    ? links.back
+    : links.calendar;
 
   return (
-    <div>
-      <header style={style}>
+    <div style={styles.container}>
+      <header style={styles.header}>
         <h1>やぽにや</h1>
-        <nav>
-          <Link to={linkBack.path}>{linkBack.name}</Link>
-        </nav>
       </header>
+      <nav style={styles.nav}>
+        <Link style={styles.link} to={linkBack.path}>
+          {linkBack.name}
+        </Link>
+      </nav>
     </div>
   );
 }
 
 Header.propTypes = {
-  location: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Header;

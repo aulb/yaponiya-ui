@@ -18,6 +18,7 @@ const Yaponiya = () => (
         <HeaderRouter />
         <Route exact path="/" component={KanjiStore} />
         <Route path="/calendar" component={Calendar} />
+        <Route path="/:year/:month" component={KanjiStore} />
       </div>
     </Router>
   </div>

@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Flexbox from 'flexbox-react';
+import PropTypes from 'prop-types';
 
 const MONTHS = [
   'Jan',
@@ -27,19 +29,19 @@ const styles = {
   },
 };
 
-const jsxMonths = MONTHS.map(month => (
-  <Flexbox
-    flexDirection="column"
-    justifyContent="center"
-    alignItems="center"
-    key={month}
-    style={styles.month}
-  >
-    {month}
-  </Flexbox>
-));
 
-const Months = () => {
+const Months = ({ year }) => {
+  const jsxMonths = MONTHS.map(month => (
+    <Flexbox
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      key={month}
+      style={styles.month}
+    >
+      <Link to={`/${year}/${MONTHS.indexOf(month) + 1}`}>{month}</Link>
+    </Flexbox>
+  ));
   return (
     <Flexbox
       flexDirection="row"
@@ -51,5 +53,9 @@ const Months = () => {
     </Flexbox>
   );
 };
+
+Months.propTypes = {
+  year: PropTypes.number.isRequired,
+}
 
 export default Months;
