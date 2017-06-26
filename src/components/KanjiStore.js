@@ -4,12 +4,7 @@ import KanjiContainer from './KanjiContainer';
 import Options from './Options';
 import { kanjiFactory, getMaxCounter } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
-import { color } from '../helpers/colors';
-import { mockData } from '../helpers/mock';
 
-/* Determine the character's color and initial counter
- * in the kanjiFactory.
- */
 const numOfKanji = 2136;
 const styles = {
   weekContainer: {
@@ -44,27 +39,7 @@ class KanjiStore extends Component {
       month: this.props.match.params.month || latest.month,
     };
 
-    // Need to remember which function we passed in
     this.switchOrder = this.switchOrder.bind(this);
-    this.updateKanji = this.updateKanji.bind(this);
-  }
-
-  updateKanji() {
-    // const kanjiUpdate = { ...this.state.kanjiList };
-    // const biggestCounter = getMaxCounter(mockData);
-    // // TODO redo with Object.keys(mockData).map()
-    // for (let character in mockData) {
-    //   // Check if exist, just incase
-    //   if (kanjiUpdate.hasOwnProperty(character)) {
-    //     let counter = mockData[character];
-    //     let colorIndex = Math.floor(counter / biggestCounter * color.length);
-
-    //     kanjiUpdate[character].counter = counter;
-    //     kanjiUpdate[character].color = color[colorIndex];
-    //   }
-    // }
-
-    // this.setState({ kanjiList: kanjiUpdate });
   }
 
   get kanjiList() {

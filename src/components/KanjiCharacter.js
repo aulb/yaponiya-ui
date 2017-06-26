@@ -1,24 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 /*
  * Kanji "class" for each kanji.
  */
-function KanjiCharacter({ color, character }) {
-  const style = {
-    backgroundColor: color,
-    fontSize: '1.0em',
-    fontFamily: 'Noto Sans',
-    display: 'inline-block',
-    margin: 1,
-    borderRadius: '3px',
+function KanjiCharacter({ color, character, link }) {
+  const styles = {
+    character: {
+      fontSize: '1.0em',
+      fontFamily: 'Noto Sans',
+    },
+    container: {
+      color,
+      display: 'inline-block',
+      margin: 1,
+      borderRadius: '3px',
+    },
   };
-  return <span style={style}>{character}</span>;
+  return (
+    <div style={styles.container}>
+      <Link to={link}>
+        <span style={styles.character}>{character}</span>
+      </Link>
+    </div>
+  );
 }
 
 KanjiCharacter.propTypes = {
   color: PropTypes.string.isRequired,
-  // counter: PropTypes.number,
+  link: PropTypes.string.isRequired,
   character: PropTypes.string.isRequired,
 };
 
