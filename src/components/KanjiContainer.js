@@ -2,17 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import KanjiCharacter from './KanjiCharacter';
 
-/*
- * Get color from a predefined list.
- */
+
 function KanjiContainer({ kanjiList }) {
-  const kanjiCharacters = kanjiList.map(kanji => (
-    <KanjiCharacter
-      character={kanji.id}
-      color={kanji.color}
-      key={kanji.id}
-    />
-  ));
+  const largestCount = kanjiList.reduce((max, current) => (
+    max.count > current.count
+      ? max
+      : current
+  ), { count: 0 }).count;
+
+  const kanjiCharacters = kanjiList.map((kanji) => {
+    const pct = (kanji.count / largestCount) * 100;
+    const link = `/kanji/${kanji.id}`;
+    const color = `hsl(270, ${pct}%, 100%)`;
+    return (
+      <KanjiCharacter
+        character={kanji.id}
+        color={color}
+        link={link}
+        key={kanji.id}
+      />
+    );
+  });
 
   return (
     <div>
@@ -22,7 +32,7 @@ function KanjiContainer({ kanjiList }) {
 }
 
 KanjiContainer.propTypes = {
-  kanjiList: PropTypes.objectOf(PropTypes.object).isRequired,
+  kanjiList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default KanjiContainer;

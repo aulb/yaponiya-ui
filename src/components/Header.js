@@ -20,28 +20,51 @@ const styles = {
   },
 };
 
-const links = {
-  back: { name: 'Back', path: '/' },
-  calendar: { name: 'Calendar', path: '/calendar' },
-};
 
-function Header({ location }) {
-  const linkBack = location.pathname === '/calendar'
-    ? links.back
-    : links.calendar;
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      prevPath: '/',
+    };
+  }
 
-  return (
-    <div style={styles.container}>
-      <header style={styles.header}>
-        <h1>やぽにや</h1>
-      </header>
-      <nav style={styles.nav}>
-        <Link style={styles.link} to={linkBack.path}>
-          {linkBack.name}
-        </Link>
-      </nav>
-    </div>
-  );
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location !== this.props.location) {
+      this.setState({ prevPath: this.props.location });
+    }
+  }
+
+  get links() {
+    return {
+      back: { name: 'Back', path: this.state.prevPath },
+      calendar: { name: 'Calendar', path: '/calendar' },
+    };
+  }
+
+  render() {
+    const { location } = this.props;
+
+    const onDataPage = location.pathname.includes('data')
+      || location.pathname === '/';
+
+    const linkBack = onDataPage
+      ? this.links.calendar
+      : this.links.back;
+
+    return (
+      <div style={styles.container}>
+        <header style={styles.header}>
+          <h1>やぽにや</h1>
+        </header>
+        <nav style={styles.nav}>
+          <Link style={styles.link} to={linkBack.path}>
+            {linkBack.name}
+          </Link>
+        </nav>
+      </div>
+    );
+  }
 }
 
 Header.propTypes = {

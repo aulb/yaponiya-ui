@@ -1,5 +1,6 @@
 import { JOYO_KANJI, OPTIONS } from './constants';
 import { ORDERS } from './orders';
+import { mockData } from './mock';
 
 /*
  * Creates a copy of the array and shuffles its content in place.
@@ -42,18 +43,18 @@ export function kanjiFactory(numOfKanji) {
       alphabetical: ORDERS.ALPHABETICAL[i],
       heisig: ORDERS.HEISIG[i],
       frequency: ORDERS.FREQUENCY[i],
+      count: mockData[currentChar],
     });
   }
 
   return kanjiList;
 }
 
-export function getMaxCounter(obj) {
-  const largestKey = (max, current) => (
-    obj[max] > obj[current]
+export function getMaxCounter(array) {
+  const largest = (max, current) => (
+    max.count > current.count
       ? max
       : current
   );
-  const maxKey = Object.keys(obj).reduce(largestKey);
-  return obj[maxKey];
+  return array.reduce(largest, { count: 0 });
 }

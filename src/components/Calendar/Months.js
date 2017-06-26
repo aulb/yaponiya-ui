@@ -39,7 +39,7 @@ const Months = ({ year }) => {
       key={month}
       style={styles.month}
     >
-      <Link to={`/${year}/${MONTHS.indexOf(month) + 1}`}>{month}</Link>
+      <Link to={`/data/${year}/${MONTHS.indexOf(month) + 1}`}>{month}</Link>
     </Flexbox>
   ));
   return (
