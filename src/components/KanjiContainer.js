@@ -1,26 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import KanjiCharacter from './KanjiCharacter';
+import { palette } from '../helpers/palette';
 
+const SEQ_PALETTE = palette('cb-Blues', 9, 4);
 
 function KanjiContainer({ kanjiList }) {
-  const largestCount = kanjiList.reduce((max, current) => (
-    max.count > current.count
-      ? max
-      : current
-  ), { count: 0 }).count;
+  // Grab the largest kanji count to make a ratio against
+  const counts = kanjiList.map(kanji => kanji.count).filter(count => count);
+  const largestCount = Math.max(...counts);
 
   const kanjiCharacters = kanjiList.map((kanji) => {
-    const pct = (kanji.count / largestCount) * 100;
+    // Avoid nulls
+    const count = kanji.count || 0;
+    // Map percentage count to palette
+    const paletteIndex = Math.floor((count / largestCount) * SEQ_PALETTE.length);
     const link = `/kanji/${kanji.id}`;
-    const color = `hsl(270, ${pct}%, 100%)`;
+    const backgroundColor = `#${SEQ_PALETTE[paletteIndex]}`;
+    const fontColor = (paletteIndex / SEQ_PALETTE.length) > 0.7
+      ? '#fff'
+      : '#000';
     return (
       <KanjiCharacter
-        character={kanji.id}
-        color={color}
+        paletteIndex={paletteIndex}
+        count={count}
+        fontColor={fontColor}
+        backgroundColor={backgroundColor}
         link={link}
         key={kanji.id}
-      />
+      >
+        {kanji.id}
+      </KanjiCharacter>
     );
   });
 

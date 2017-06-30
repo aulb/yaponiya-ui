@@ -5,14 +5,15 @@ import { Link } from 'react-router-dom';
 /*
  * Kanji "class" for each kanji.
  */
-function KanjiCharacter({ color, character, link }) {
+function KanjiCharacter({ backgroundColor, fontColor, children, link }) {
   const styles = {
     character: {
       fontSize: '1.0em',
       fontFamily: 'Noto Sans',
+      color: fontColor,
     },
     container: {
-      color,
+      backgroundColor,
       display: 'inline-block',
       margin: 1,
       borderRadius: '3px',
@@ -20,17 +21,16 @@ function KanjiCharacter({ color, character, link }) {
   };
   return (
     <div style={styles.container}>
-      <Link to={link}>
-        <span style={styles.character}>{character}</span>
-      </Link>
+        <span style={styles.character}>{children}</span>
     </div>
   );
 }
 
 KanjiCharacter.propTypes = {
-  color: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
+  fontColor: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
-  character: PropTypes.string.isRequired,
+  children: PropTypes.string.isRequired,
 };
 
 export default KanjiCharacter;

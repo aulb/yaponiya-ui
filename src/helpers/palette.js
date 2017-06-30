@@ -80,7 +80,7 @@
 
 'use strict';
 
-var palette = (function() {
+export var palette = (function() {
 
   var proto = Array.prototype;
   var slice = function(arr, opt_begin, opt_end) {
