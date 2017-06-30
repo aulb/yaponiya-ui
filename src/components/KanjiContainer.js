@@ -13,11 +13,16 @@ function KanjiContainer({ kanjiList }) {
   const kanjiCharacters = kanjiList.map((kanji) => {
     // Avoid nulls
     const count = kanji.count || 0;
+    const countRatio = count / largestCount;
     // Map percentage count to palette
-    const paletteIndex = Math.floor((count / largestCount) * SEQ_PALETTE.length);
+    // There's an issue with the top few kanji skewing the color palette,
+    // so most appear near white.
+    // TODO: Have the top few kanji that are frequency outliers fall under an
+    //       alternate color scheme
+    const paletteIndex = Math.floor(countRatio * SEQ_PALETTE.length);
     const link = `/kanji/${kanji.id}`;
     const backgroundColor = `#${SEQ_PALETTE[paletteIndex]}`;
-    const fontColor = (paletteIndex / SEQ_PALETTE.length) > 0.6
+    const fontColor = countRatio > 0.6
       ? '#fff'
       : '#000';
     return (
