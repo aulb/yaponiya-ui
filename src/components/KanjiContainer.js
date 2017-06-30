@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import KanjiCharacter from './KanjiCharacter';
 import { palette } from '../helpers/palette';
 
-const SEQ_PALETTE = palette('cb-Blues', 9, 4);
+const SEQ_PALETTE = palette('cb-Blues', 6);
 
 function KanjiContainer({ kanjiList }) {
   // Grab the largest kanji count to make a ratio against
@@ -17,7 +17,7 @@ function KanjiContainer({ kanjiList }) {
     const paletteIndex = Math.floor((count / largestCount) * SEQ_PALETTE.length);
     const link = `/kanji/${kanji.id}`;
     const backgroundColor = `#${SEQ_PALETTE[paletteIndex]}`;
-    const fontColor = (paletteIndex / SEQ_PALETTE.length) > 0.7
+    const fontColor = (paletteIndex / SEQ_PALETTE.length) > 0.6
       ? '#fff'
       : '#000';
     return (
