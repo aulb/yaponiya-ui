@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import KanjiContainer from './KanjiContainer';
 import Options from './Options';
-import { kanjiFactory, getMaxCounter } from '../helpers/utils';
+import { kanjiFactory } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
 
 const numOfKanji = 2136;
