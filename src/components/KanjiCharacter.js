@@ -8,20 +8,23 @@ import { Link } from 'react-router-dom';
 function KanjiCharacter({ backgroundColor, fontColor, children, link }) {
   const styles = {
     character: {
-      fontSize: '1.2em',
+      fontSize: '1.0em',
       fontFamily: 'Noto Sans',
       color: fontColor,
     },
     container: {
       backgroundColor,
       display: 'inline-block',
-      margin: 3,
+      padding: 10,
+      margin: 5,
       borderRadius: '3px',
     },
   };
+
+  // TODO: Change to a button so we can use our link
   return (
     <div style={styles.container}>
-        <span style={styles.character}>{children}</span>
+      <span style={styles.character}>{children}</span>
     </div>
   );
 }
