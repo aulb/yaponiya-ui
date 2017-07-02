@@ -8,14 +8,14 @@ import { Link } from 'react-router-dom';
 function KanjiCharacter({ backgroundColor, fontColor, children, link }) {
   const styles = {
     character: {
-      fontSize: '1.0em',
+      fontSize: '1.2em',
       fontFamily: 'Noto Sans',
       color: fontColor,
     },
     container: {
       backgroundColor,
       display: 'inline-block',
-      margin: 1,
+      margin: 3,
       borderRadius: '3px',
     },
   };
