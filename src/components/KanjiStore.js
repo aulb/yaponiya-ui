@@ -45,7 +45,11 @@ class KanjiStore extends Component {
   get kanjiList() {
     // Sort the kanjiList in order
     const order = this.state.currentOrder.toLowerCase();
-    return this.state.kanjiList.sort((a, b) => a[order] - b[order]);
+    return this.state.kanjiList.sort((a, b) => {
+        if (a[order] == null) return 1;
+        if (b[order] == null) return 0;
+        else return a[order] - b[order];
+      })
   }
 
   switchOrder(event) {
