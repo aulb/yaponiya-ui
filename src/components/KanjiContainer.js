@@ -20,7 +20,11 @@ function KanjiContainer({ kanjiList }) {
   // Grab the largest kanji count to make a ratio against
   const counts = kanjiList.map(kanji => kanji.count)
     .filter(count => count)
-    .sort((a, b) => -(a - b)); // largest num first
+    .sort((a, b) => {
+      if (a === null) return 0;
+      if (b === null) return 1;
+      else return -(a - b);
+    }); // largest num first
   const cutoffCountIndex = 50;
   const significantKanji = counts.slice(0, cutoffCountIndex);
   const otherKanji = counts.slice(cutoffCountIndex);
