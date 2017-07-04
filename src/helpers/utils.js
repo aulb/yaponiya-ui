@@ -2,6 +2,7 @@ import { JOYO_KANJI, OPTIONS } from './constants';
 import { ORDERS } from './orders';
 import { mockData } from './mock';
 
+
 /*
  * Creates a copy of the array and shuffles its content in place.
  */
@@ -43,7 +44,7 @@ export function kanjiFactory(numOfKanji) {
       alphabetical: ORDERS.ALPHABETICAL[i],
       heisig: ORDERS.HEISIG[i],
       frequency: ORDERS.FREQUENCY[i],
-      count: mockData[currentChar],
+      count: 0,
     });
   }
 
