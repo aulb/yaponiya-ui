@@ -64,18 +64,16 @@ class KanjiStore extends Component {
     const counts = fetch('http://reblws.me:5000/api/data/nhk')
     .then((response) => response.json())
     .then((response) => {
-        const copy = this.state.kanjiList;
-        copy.forEach((value, index) => {
-          value.count = response[value.id];
-        });
-
-        this.setState({
-          kanjiList: copy,
-        });
-
-      }).catch((error) => {
-        console.log(error);
+      const copy = this.state.kanjiList;
+      copy.forEach((value, index) => {
+        value.count = response[value.id];
       });
+      this.setState({
+        kanjiList: copy,
+      });
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   render() {
