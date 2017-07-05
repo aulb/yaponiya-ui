@@ -27,13 +27,13 @@ function KanjiContainer({ kanjiList }) {
   const largestCount = otherKanji[0];
   const kanjiCharacters = kanjiList.map((kanji) => {
     // Avoid nulls
-    const count = kanji.count || 0;
+    const count = kanji.get('count') || 0;
     const countRatio = count / largestCount > 1
       ? 1
       : count / largestCount;
     // Map percentage count to palette
     const paletteIndex = Math.floor(countRatio * (SEQ_PALETTE.length - 1));
-    const link = `/kanji/${kanji.id}`;
+    const link = `/kanji/${kanji.get('id')}`;
     // Check if kanji has a significant count, grab
     const bgColorHex = significantKanji.includes(count)
       ? '4D004B'
@@ -49,9 +49,9 @@ function KanjiContainer({ kanjiList }) {
         fontColor={fontColor}
         backgroundColor={backgroundColor}
         link={link}
-        key={kanji.id}
+        key={kanji.get('id')}
       >
-        {kanji.id}
+        {kanji.get('id')}
       </KanjiCharacter>
     );
   });

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import KanjiContainer from './KanjiContainer';
 import Options from './Options';
@@ -14,11 +12,6 @@ const styles = {
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-};
-
-const latest = {
-  year: 2017,
-  month: 3,
 };
 
 class KanjiStore extends Component {
@@ -36,23 +29,24 @@ class KanjiStore extends Component {
           },
         ]
       */
-      kanjiMap: Immutable.Map(),
-      kanjiList: kanjiFactory(numOfKanji),
-      year: this.props.match.params.year || latest.year,
-      month: this.props.match.params.month || latest.month,
+      kanjiMap: Immutable.Map(kanjiFactory(2136)),
+      // kanjiList: kanjiFactory(numOfKanji),
     };
-
     this.switchOrder = this.switchOrder.bind(this);
   }
 
-  // Turn map into a immutable List
-  get kanjiList() {
-    // Sort the kanjiList in order
-    const order = this.state.currentOrder.toLowerCase();
-    return this.state.kanjiList.sort((a, b) => {
-      if (typeof a[order] === 'undefined') return 1;
-      if (typeof b[order] === 'undefined') return 0;
-      return a[order] - b[order];
+  componentDidMount() {
+    let kanjiMap = this.state.kanjiMap;
+    fetch('http://reblws.me:5000/api/data/nhk')
+      .then(response => response.json())
+      .then((response) => {
+        Object.keys(response).forEach((key) => {
+          const newKanji = this.state.kanjiMap.get(key).set('count', response[key]);
+          kanjiMap = kanjiMap.set(key, newKanji);
+        });
+      });
+    this.setState({
+      kanjiMap,
     });
   }
 
@@ -64,20 +58,23 @@ class KanjiStore extends Component {
     });
   }
 
-  componentDidMount() {
-    fetch('http://reblws.me:5000/api/data/nhk')
-      .then(response => response.json())
-      .then((response) => {
-        const newKanjiList = this.state.kanjiList;
-        newKanjiList.forEach((kanji) => {
-          kanji.count =  response[kanji.id];
-        });
-        this.setState({
-          kanjiList: newKanjiList,
-        });
-      }).catch((error) => {
-        console.error(error);
-      });
+  get kanjiList() {
+    // Sort the kanjiList in order
+    const kanjiMap = this.state.kanjiMap;
+    const kanjiList = kanjiMap.keySeq()
+      .map(key => Immutable.Map({
+        id: [key],
+        count: kanjiMap.get(key).get('count'),
+        alphabetical: kanjiMap.get(key).get('alphabetical'),
+        heisig: kanjiMap.get(key).get('heisig'),
+        frequency: kanjiMap.get(key).get('frequency'),
+      })).toList();
+    const order = this.state.currentOrder.toLowerCase();
+    return kanjiList.sort((a, b) => {
+      if (!a[order] && typeof a[order] === 'object') return 1;
+      if (!b[order] && typeof b[order] === 'object') return 0;
+      return a[order] - b[order];
+    });
   }
 
   render() {
@@ -102,14 +99,5 @@ class KanjiStore extends Component {
     );
   }
 }
-
-KanjiStore.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      year: PropTypes.number.isRequired,
-      month: PropTypes.number.isRequired,
-    }),
-  }).isRequired,
-};
 
 export default KanjiStore;
