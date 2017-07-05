@@ -46,10 +46,10 @@ class KanjiStore extends Component {
     // Sort the kanjiList in order
     const order = this.state.currentOrder.toLowerCase();
     return this.state.kanjiList.sort((a, b) => {
-        if (typeof a[order] === 'undefined') return 1;
-        if (typeof b[order] === 'undefined') return 0;
-        return a[order] - b[order];
-      })
+      if (typeof a[order] === 'undefined') return 1;
+      if (typeof b[order] === 'undefined') return 0;
+      return a[order] - b[order];
+    });
   }
 
   switchOrder(event) {
@@ -62,18 +62,18 @@ class KanjiStore extends Component {
 
   componentDidMount() {
     const counts = fetch('http://reblws.me:5000/api/data/nhk')
-    .then((response) => response.json())
-    .then((response) => {
-      const copy = this.state.kanjiList;
-      copy.forEach((value, index) => {
-        value.count = response[value.id];
+      .then(response => response.json())
+      .then((response) => {
+        const newKanjiList = this.state.kanjiList;
+        newKanjiList.forEach((kanji) => {
+          kanji.count =  response[kanji.id];
+        });
+        this.setState({
+          kanjiList: newKanjiList,
+        });
+      }).catch((error) => {
+        console.error(error);
       });
-      this.setState({
-        kanjiList: copy,
-      });
-    }).catch((error) => {
-      console.log(error);
-    });
   }
 
   render() {
