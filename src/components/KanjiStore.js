@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import Immutable from 'immutable';
 import KanjiContainer from './KanjiContainer';
 import Options from './Options';
 import { kanjiFactory } from '../helpers/utils';
@@ -30,10 +32,11 @@ class KanjiStore extends Component {
             id: currentChar,
             alphabetical: ORDERS.ALPHABETICAL[i],
             heisig: ORDERS.HEISIG[i],
-            frequency: ORDERS.FREQUENCY[i],
+            frequency: ORDERS.njiFactory(numOfKanji),FREQUENCY[i],
           },
         ]
       */
+      kanjiMap: Immutable.Map(),
       kanjiList: kanjiFactory(numOfKanji),
       year: this.props.match.params.year || latest.year,
       month: this.props.match.params.month || latest.month,
@@ -42,6 +45,7 @@ class KanjiStore extends Component {
     this.switchOrder = this.switchOrder.bind(this);
   }
 
+  // Turn map into a immutable List
   get kanjiList() {
     // Sort the kanjiList in order
     const order = this.state.currentOrder.toLowerCase();
