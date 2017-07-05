@@ -65,7 +65,7 @@ class KanjiStore extends Component {
   }
 
   componentDidMount() {
-    const counts = fetch('http://reblws.me:5000/api/data/nhk')
+    fetch('http://reblws.me:5000/api/data/nhk')
       .then(response => response.json())
       .then((response) => {
         const newKanjiList = this.state.kanjiList;
