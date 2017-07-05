@@ -32,23 +32,22 @@ function getRandomInt(min, max) {
  * Initializes an empty KanjiList object
  */
 export function kanjiFactory(numOfKanji) {
-  const kanjiList = [];
+  const kanjiMap = {};
 
   // Decides ordering
   const orderArr = ORDERS.ALPHABETICAL;
 
   for (let i = 0; i < numOfKanji; i++) {
     const currentChar = JOYO_KANJI[orderArr[i]];
-    kanjiList.push({
-      id: currentChar,
+    kanjiMap[currentChar] = {
       alphabetical: ORDERS.ALPHABETICAL[i],
       heisig: ORDERS.HEISIG[i],
       frequency: ORDERS.FREQUENCY[i],
       count: 0,
-    });
+    };
   }
 
-  return kanjiList;
+  return kanjiMap;
 }
 
 export function getMaxCounter(array) {
