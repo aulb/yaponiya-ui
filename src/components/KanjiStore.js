@@ -36,10 +36,9 @@ class KanjiStore extends Component {
   }
 
   componentDidMount() {
-
     fetch('http://reblws.me:5000/api/data/nhk')
       .then(response => response.json())
-      .then(response => {
+      .then((response) => {
         let kanjiMap = this.state.kanjiMap;
 
         Object.keys(response).forEach((key) => {
@@ -50,14 +49,11 @@ class KanjiStore extends Component {
         });
 
         return kanjiMap;
-      }).then(kanjiMap => {
-        console.log(kanjiMap.toJS());
-
+      }).then((kanjiMap) => {
         this.setState({
           kanjiMap,
-        })
+        });
       });
-
   }
 
   switchOrder(event) {
