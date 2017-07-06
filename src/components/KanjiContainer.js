@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import KanjiCharacter from './KanjiCharacter';
 import { palette } from '../helpers/palette';
 
@@ -66,7 +67,7 @@ function KanjiContainer({ kanjiList }) {
 }
 
 KanjiContainer.propTypes = {
-  kanjiList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  kanjiList: ImmutablePropTypes.list.isRequired,
 };
 
 export default KanjiContainer;
