@@ -8,7 +8,6 @@ import {
 
 import KanjiStore from './components/KanjiStore';
 import KanjiPage from './components/KanjiPage';
-import Calendar from './components/Calendar';
 import Header from './components/Header';
 
 const HeaderRouter = withRouter(Header);
