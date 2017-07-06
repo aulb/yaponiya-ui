@@ -52,7 +52,7 @@ function KanjiContainer({ kanjiList }) {
         link={link}
         key={kanji.get('id')}
       >
-        {kanji.get('id')}
+        {String(kanji.get('id'))}
       </KanjiCharacter>
     );
   });
