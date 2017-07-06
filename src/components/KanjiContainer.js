@@ -20,8 +20,7 @@ const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
 
 function getSortedCounts(kanjiList) {
   return kanjiList.map(kanji => kanji.get('count'))
-    .sort((a, b) => -(a - b)); // largest num first
-    // .filter(count => count)
+    .sort((a, b) => -(a - b));
 }
 
 function calculateRatio(count, largestCount) {
@@ -72,7 +71,7 @@ function KanjiContainer({ kanjiList }) {
   const lessUsedKanji = counts.slice(CUTOFF_INDEX);
   // Only the largest count from the lessUsed otherwise
   // the color gradient won't be obvious
-  const largestCount = lessUsedKanji[0];
+  const largestCount = lessUsedKanji.get(0);
   const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
 
   return (
