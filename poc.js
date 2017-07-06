@@ -1,9 +1,10 @@
+const KEYS = require('./keys');
 var Twitter = require('twitter');
 var client = new Twitter({
-  consumer_key: 'cBAQ82QEt2luAwhyrL415hz0A',
-  consumer_secret: 'sud68OlSdSLoaceKKbsmPVUSaBacNCX1l6e9YuK9BuOjx3bef1',
-  access_token_key: '81681631-kvpRdgoSIOkJLLBSFG8dInFkkwuM5oBT2mwiZfRhN',
-  access_token_secret: 'YqcSS8tFQpLSvtmjPkFaEloAqO9c6SxcWkQn5bRZTPZVz'
+  consumer_key: KEYS.CONSUMER_KEY,
+  consumer_secret: KEYS.CONSUMER_SECRET,
+  access_token_key: KEYS.ACCESS_TOKEN_KEY,
+  access_token_secret: KEYS.ACCESS_TOKEN_SECRET,
 });
 
 var isKanji = function(character) {
