@@ -36,18 +36,28 @@ class KanjiStore extends Component {
   }
 
   componentDidMount() {
-    let kanjiMap = this.state.kanjiMap;
+
     fetch('http://reblws.me:5000/api/data/nhk')
       .then(response => response.json())
-      .then((response) => {
+      .then(response => {
+        let kanjiMap = this.state.kanjiMap;
+
         Object.keys(response).forEach((key) => {
-          const newKanji = this.state.kanjiMap.get(key).set('count', response[key]);
-          kanjiMap = kanjiMap.set(key, newKanji);
+          if (typeof this.state.kanjiMap.get(key) === 'object') {
+            const newKanji = this.state.kanjiMap.get(key).set('count', response[key]);
+            kanjiMap = kanjiMap.set(key, newKanji);
+          }
         });
+
+        return kanjiMap;
+      }).then(kanjiMap => {
+        console.log(kanjiMap.toJS());
+
+        this.setState({
+          kanjiMap,
+        })
       });
-    this.setState({
-      kanjiMap,
-    });
+
   }
 
   switchOrder(event) {
