@@ -1,21 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import KanjiCharacter from './KanjiCharacter';
 import { palette } from '../helpers/palette';
 
 const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
-const SEQ_PALETTE2 = [
-  'F7FCFD',
-  'E0ECF4',
-  'BFD3E6',
-  '9EBCDA',
-  '8C96C6',
-  '8C6BB1',
-  '88419D',
-  '810F7C',
-  '4D004B',
-];
+// const SEQ_PALETTE2 = [
+  // 'F7FCFD',
+  // 'E0ECF4',
+  // 'BFD3E6',
+  // '9EBCDA',
+  // '8C96C6',
+  // '8C6BB1',
+  // '88419D',
+  // '810F7C',
+  // '4D004B',
+// ];
 
 function KanjiContainer({ kanjiList }) {
   // Grab the largest kanji count to make a ratio against
