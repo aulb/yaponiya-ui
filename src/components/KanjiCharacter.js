@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 /*
  * Kanji "class" for each kanji.
  */
-function KanjiCharacter({ backgroundColor, fontColor, children, link }) {
+function KanjiCharacter({ backgroundColor, fontColor, children }) {
   const styles = {
     character: {
       fontSize: '1.0em',
