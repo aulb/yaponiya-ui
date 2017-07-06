@@ -32,7 +32,7 @@ function KanjiCharacter({ backgroundColor, fontColor, children }) {
 KanjiCharacter.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
   fontColor: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
+  // link: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
 };
 
