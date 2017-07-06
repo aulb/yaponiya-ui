@@ -77,9 +77,9 @@ class KanjiStore extends Component {
       })).toList();
     const order = this.state.currentOrder.toLowerCase();
     return kanjiList.sort((a, b) => {
-      if (!a[order] && typeof a[order] === 'object') return 1;
-      if (!b[order] && typeof b[order] === 'object') return 0;
-      return a[order] - b[order];
+      if (!a.get(order) && typeof a.get(order) === 'object') return 1;
+      if (!b.get(order) && typeof b.get(order) === 'object') return 0;
+      return a.get(order) - b.get(order);
     });
   }
 
