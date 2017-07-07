@@ -44,16 +44,27 @@ class KanjiStore extends Component {
   componentDidMount() {
     socket.on('tweet', data => this.handleTweet(data));
 
+    const reduceKanji = (kanjiMap, responseObject) => (
+      (acc, key) => {
+        const newCount = responseObject[key];
+        const newKanjiEntry = kanjiMap.get(key).set('count', newCount);
+        return kanjiMap.set(key, newKanjiEntry);
+      }
+    );
+
+    const updateKanjiMap = (response) => {
+      const filteredResponse = Object.keys(response).filter(
+        key => this.state.kanjiMap.get(key),
+      );
+      const reduceKeysToKanji = reduceKanji(this.state.kanjiMap, response);
+      this.setState({
+        kanjiMap: filteredResponse.reduce(reduceKeysToKanji, this.state.kanjiMap),
+      });
+    };
+
     fetch('http://reblws.me:5000/api/data/nhk')
       .then(response => response.json())
-      .then((response) => {
-        const kanjiMap = this.state.kanjiMap;
-        const reduceKeysToKanji = (acc, key) => {
-          const newKanjiEntry = kanjiMap.get(key).set('count', response[key]);
-          return kanjiMap.set(key, newKanjiEntry);
-        };
-        this.setState({ kanjiMap: Object.keys(response).reduce(reduceKeysToKanji) });
-      });
+      .then(updateKanjiMap);
   }
 
   handleTweet(tweet) {
@@ -85,8 +96,8 @@ class KanjiStore extends Component {
       if (!a.get(order) && typeof a.get(order) === 'object') return 1;
       if (!b.get(order) && typeof b.get(order) === 'object') return 0;
       return order === 'nhk' // TODO revamp
-      ? -(a.get(order) - b.get(order))
-      : (a.get(order) - b.get(order));
+        ? -(a.get(order) - b.get(order))
+        : (a.get(order) - b.get(order));
     });
   }
 
