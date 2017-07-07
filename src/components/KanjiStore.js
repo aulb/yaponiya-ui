@@ -16,14 +16,12 @@ const styles = {
     marginRight: 'auto',
   },
 };
-const uri = 'http://reblws.me:8080';
-const socketOptions = { transports: ['websocket'] };
 
 class KanjiStore extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      currentOrder: OPTIONS.ALPHABETICAL,
+      currentOrder: OPTIONS.FREQUENCY,
       /* Example kanji state object
         [
           {
@@ -95,7 +93,9 @@ class KanjiStore extends Component {
     return kanjiList.sort((a, b) => {
       if (!a.get(order) && typeof a.get(order) === 'object') return 1;
       if (!b.get(order) && typeof b.get(order) === 'object') return 0;
-      return a.get(order) - b.get(order);
+      return order === 'frequency' // TODO revamp
+      ? -(a.get(order) - b.get(order))
+      : (a.get(order) - b.get(order));
     });
   }
 
