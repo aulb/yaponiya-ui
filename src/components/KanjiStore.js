@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import Immutable from 'immutable';
 import KanjiContainer from './KanjiContainer';
 import Options from './Options';
+import io from 'socket.io-client';
 import { kanjiFactory } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
 
+
+const socket = io('http://reblws.me:8080');
 const numOfKanji = 2136;
 const styles = {
   weekContainer: {
@@ -13,10 +16,12 @@ const styles = {
     marginRight: 'auto',
   },
 };
+const uri = 'http://reblws.me:8080';
+const socketOptions = { transports: ['websocket'] };
 
 class KanjiStore extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       currentOrder: OPTIONS.ALPHABETICAL,
       /* Example kanji state object
@@ -31,11 +36,16 @@ class KanjiStore extends Component {
       */
       kanjiMap: Immutable.Map(kanjiFactory(2136)),
       // kanjiList: kanjiFactory(numOfKanji),
+      tweetFlash: [],
     };
     this.switchOrder = this.switchOrder.bind(this);
+    this.handleTweet = this.handleTweet.bind(this);
   }
 
+
   componentDidMount() {
+    socket.on('tweet', data => this.handleTweet(data));
+
     fetch('http://reblws.me:5000/api/data/nhk')
       .then(response => response.json())
       .then((response) => {
@@ -54,6 +64,10 @@ class KanjiStore extends Component {
           kanjiMap,
         });
       });
+  }
+
+  handleTweet(tweet) {
+    this.setState({ tweetFlash: tweet });
   }
 
   switchOrder(event) {
@@ -88,19 +102,25 @@ class KanjiStore extends Component {
       Year: ${this.state.year} Month: ${this.state.month}
     `;
     return (
-      <div style={styles.weekContainer}>
-        <h2>
-          { dateString }
-        </h2>
-        <Options
-          currentOrder={this.state.currentOrder}
-          switchOrder={this.switchOrder}
-          possibleOptions={OPTIONS}
-        />
-        <KanjiContainer
-          kanjiList={this.kanjiList}
-          numOfKanji={numOfKanji}
-        />
+      <div>
+        <header>
+          <h1>{this.state.tweetFlash}</h1>
+        </header>
+        <div style={styles.weekContainer}>
+          <h2>
+            { dateString }
+          </h2>
+          <Options
+            currentOrder={this.state.currentOrder}
+            switchOrder={this.switchOrder}
+            possibleOptions={OPTIONS}
+          />
+          <KanjiContainer
+            kanjiList={this.kanjiList}
+            numOfKanji={numOfKanji}
+            tweetFlash={this.state.tweetFlash}
+          />
+        </div>
       </div>
     );
   }

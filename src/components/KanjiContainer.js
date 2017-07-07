@@ -1,8 +1,8 @@
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import PropTypes from 'prop-types';
 import KanjiCharacter from './KanjiCharacter';
 import { palette } from '../helpers/palette';
-
 // The top-N kanji that are statistically significant
 const CUTOFF_INDEX = 50;
 const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
@@ -34,7 +34,7 @@ function getPaletteIndex(countRatio) {
 }
 
 // Set up
-function kanjiMapClosure(largestCount, mostUsedKanji) {
+function kanjiMapClosure(largestCount, mostUsedKanji, tweetFlash) {
   return (kanji) => {
     // Avoid nulls
     const count = kanji.get('count') || 0;
@@ -46,7 +46,12 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
     const bgColorHex = mostUsedKanji.includes(count)
       ? '4D004B'
       : SEQ_PALETTE[paletteIndex];
-    const backgroundColor = `#${bgColorHex}`;
+
+    // const backgroundColor = 'yellow'
+    const backgroundColor = tweetFlash.includes(kanji.get('id'))
+      ? 'yellow'
+      : `#${bgColorHex}`;
+    // console.log(backgroundColor);
     const fontColor = countRatio > 0.7
       ? '#fff'
       : '#000';
@@ -64,7 +69,7 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
   };
 }
 
-function KanjiContainer({ kanjiList }) {
+function KanjiContainer({ kanjiList, tweetFlash }) {
   // Grab the largest kanji count to make a ratio against
   const counts = getSortedCounts(kanjiList);
   const mostUsedKanji = counts.slice(0, CUTOFF_INDEX);
@@ -72,7 +77,7 @@ function KanjiContainer({ kanjiList }) {
   // Only the largest count from the lessUsed otherwise
   // the color gradient won't be obvious
   const largestCount = lessUsedKanji.get(0);
-  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
+  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji, tweetFlash);
 
   return (
     <div>
@@ -82,6 +87,7 @@ function KanjiContainer({ kanjiList }) {
 }
 
 KanjiContainer.propTypes = {
+  tweetFlash: PropTypes.arrayOf(PropTypes.string).isRequired,
   kanjiList: ImmutablePropTypes.list.isRequired,
 };
 
