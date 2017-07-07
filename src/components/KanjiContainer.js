@@ -47,12 +47,11 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
       ? '4D004B'
       : SEQ_PALETTE[paletteIndex];
 
-    // const backgroundColor = 'yellow'
     const backgroundColor = kanji.get('isFlash')
       ? 'yellow'
       : `#${bgColorHex}`;
-    // console.log(backgroundColor);
-    const fontColor = countRatio > 0.7
+
+    const fontColor = countRatio > 0.7 && !kanji.get('isFlash')
       ? '#fff'
       : '#000';
     return (

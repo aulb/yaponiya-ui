@@ -6,7 +6,6 @@ import io from 'socket.io-client';
 import { kanjiFactory } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
 
-
 const socket = io('http://reblws.me:8080');
 const numOfKanji = 2136;
 const styles = {
@@ -28,12 +27,12 @@ class KanjiStore extends Component {
             id: currentChar,
             alphabetical: ORDERS.ALPHABETICAL[i],
             heisig: ORDERS.HEISIG[i],
-            frequency: ORDERS.njiFactory(numOfKanji),FREQUENCY[i],
+            frequency: ORDERS.KanjiFactory(numOfKanji),FREQUENCY[i],
             isFlash: false
           },
         ]
       */
-      kanjiMap: Immutable.Map(kanjiFactory(2136)),
+      kanjiMap: Immutable.Map(kanjiFactory(numOfKanji)),
       // kanjiList: kanjiFactory(numOfKanji),
       tweetFlash: [],
     };
@@ -86,32 +85,28 @@ class KanjiStore extends Component {
         count: kanjiMap.get(key).get('count'),
         alphabetical: kanjiMap.get(key).get('alphabetical'),
         heisig: kanjiMap.get(key).get('heisig'),
-        frequency: kanjiMap.get(key).get('count'),
+        nhk: kanjiMap.get(key).get('count'),
         isFlash: this.state.tweetFlash.includes(key),
       })).toList();
     const order = this.state.currentOrder.toLowerCase();
     return kanjiList.sort((a, b) => {
       if (!a.get(order) && typeof a.get(order) === 'object') return 1;
       if (!b.get(order) && typeof b.get(order) === 'object') return 0;
-      return order === 'frequency' // TODO revamp
+      return order === 'nhk' // TODO revamp
       ? -(a.get(order) - b.get(order))
       : (a.get(order) - b.get(order));
     });
   }
 
   render() {
-    const dateString = `
-      Year: ${this.state.year} Month: ${this.state.month}
-    `;
+    /* DEBUG
+    <header>
+      <h1>{this.state.tweetFlash}</h1>
+    </header>
+    */
     return (
       <div>
-        <header>
-          <h1>{this.state.tweetFlash}</h1>
-        </header>
         <div style={styles.weekContainer}>
-          <h2>
-            { dateString }
-          </h2>
           <Options
             currentOrder={this.state.currentOrder}
             switchOrder={this.switchOrder}

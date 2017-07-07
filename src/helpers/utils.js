@@ -16,7 +16,7 @@ export function kanjiFactory(numOfKanji) {
     kanjiMap = kanjiMap.set(currentChar, Map({
       alphabetical: ORDERS.ALPHABETICAL[i],
       heisig: ORDERS.HEISIG[i],
-      frequency: ORDERS.FREQUENCY[i],
+      //frequency: ORDERS.FREQUENCY[i],
       count: 0,
     }));
   }
