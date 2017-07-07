@@ -31,6 +31,7 @@ class KanjiStore extends Component {
             alphabetical: ORDERS.ALPHABETICAL[i],
             heisig: ORDERS.HEISIG[i],
             frequency: ORDERS.njiFactory(numOfKanji),FREQUENCY[i],
+            isFlash: false
           },
         ]
       */
@@ -87,7 +88,8 @@ class KanjiStore extends Component {
         count: kanjiMap.get(key).get('count'),
         alphabetical: kanjiMap.get(key).get('alphabetical'),
         heisig: kanjiMap.get(key).get('heisig'),
-        frequency: kanjiMap.get(key).get('frequency'),
+        frequency: kanjiMap.get(key).get('count'),
+        isFlash: this.state.tweetFlash.includes(key),
       })).toList();
     const order = this.state.currentOrder.toLowerCase();
     return kanjiList.sort((a, b) => {

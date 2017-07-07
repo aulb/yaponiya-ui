@@ -34,7 +34,7 @@ function getPaletteIndex(countRatio) {
 }
 
 // Set up
-function kanjiMapClosure(largestCount, mostUsedKanji, tweetFlash) {
+function kanjiMapClosure(largestCount, mostUsedKanji) {
   return (kanji) => {
     // Avoid nulls
     const count = kanji.get('count') || 0;
@@ -48,7 +48,7 @@ function kanjiMapClosure(largestCount, mostUsedKanji, tweetFlash) {
       : SEQ_PALETTE[paletteIndex];
 
     // const backgroundColor = 'yellow'
-    const backgroundColor = tweetFlash.includes(kanji.get('id'))
+    const backgroundColor = kanji.get('isFlash')
       ? 'yellow'
       : `#${bgColorHex}`;
     // console.log(backgroundColor);
@@ -77,7 +77,8 @@ function KanjiContainer({ kanjiList, tweetFlash }) {
   // Only the largest count from the lessUsed otherwise
   // the color gradient won't be obvious
   const largestCount = lessUsedKanji.get(0);
-  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji, tweetFlash);
+
+  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
 
   return (
     <div>
