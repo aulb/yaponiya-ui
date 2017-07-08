@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 import { kanjiFactory } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
 
-const socket = io('http://reblws.me:8080');
+// const socket = io('http://reblws.me:8080');
 const numOfKanji = 2136;
 const styles = {
   weekContainer: {
@@ -38,33 +38,51 @@ class KanjiStore extends Component {
     };
     this.switchOrder = this.switchOrder.bind(this);
     this.handleTweet = this.handleTweet.bind(this);
+    this.handleFetch = this.handleFetch.bind(this);
+  }
+
+  handleFetch(kanjiMap) {
+    this.setState({ kanjiMap });
   }
 
 
   componentDidMount() {
-    socket.on('tweet', data => this.handleTweet(data));
+    // socket.on('tweet', data => this.handleTweet(data));
 
-    const reduceKanji = (kanjiMap, responseObject) => (
+    const reduceKanji = responseObject => (
       (acc, key) => {
         const newCount = responseObject[key];
-        const newKanjiEntry = kanjiMap.get(key).set('count', newCount);
-        return kanjiMap.set(key, newKanjiEntry);
+        const newKanjiEntry = acc.get(key).set('count', newCount);
+        return acc.set(key, newKanjiEntry);
       }
     );
 
-    const updateKanjiMap = (response) => {
-      const filteredResponse = Object.keys(response).filter(
-        key => this.state.kanjiMap.get(key),
-      );
-      const reduceKeysToKanji = reduceKanji(this.state.kanjiMap, response);
-      this.setState({
-        kanjiMap: filteredResponse.reduce(reduceKeysToKanji, this.state.kanjiMap),
-      });
-    };
+    const fetchClosure = kanjiMap => (
+      (response) => {
+        const filteredResponse = Object.keys(response).filter(key => kanjiMap.get(key));
+        const reduceKeysToKanji = reduceKanji(response, kanjiMap);
+        return filteredResponse.reduce(reduceKeysToKanji, kanjiMap);
+      }
+
+    );
+    const updateKanjiMap = fetchClosure(this.state.kanjiMap);
 
     fetch('http://reblws.me:5000/api/data/nhk')
       .then(response => response.json())
-      .then(updateKanjiMap);
+      .then(updateKanjiMap)
+      .then(kanjiMap => {
+        // console.log(kanjiMap);
+        this.handleFetch(kanjiMap);
+      });
+
+      // .then((kanjiMap) => {
+        // console.log('fetch');
+        // this.setState({ kanjiMap });
+      // });
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log(nextState.kanjiMap);
   }
 
   handleTweet(tweet) {
