@@ -49,40 +49,30 @@ class KanjiStore extends Component {
   componentDidMount() {
     // socket.on('tweet', data => this.handleTweet(data));
 
-    const reduceKanji = responseObject => (
-      (acc, key) => {
-        const newCount = responseObject[key];
-        const newKanjiEntry = acc.get(key).set('count', newCount);
-        return acc.set(key, newKanjiEntry);
-      }
-    );
+    const reduceKanji = responseObject => ((acc, key) => {
+      const newCount = responseObject[key];
+      const newKanjiEntry = acc.get(key).set('count', newCount);
+      return acc.set(key, newKanjiEntry);
+    });
 
-    const fetchClosure = kanjiMap => (
-      (response) => {
-        const filteredResponse = Object.keys(response).filter(key => kanjiMap.get(key));
-        const reduceKeysToKanji = reduceKanji(response, kanjiMap);
-        return filteredResponse.reduce(reduceKeysToKanji, kanjiMap);
-      }
-
-    );
+    const fetchClosure = kanjiMap => ((response) => {
+      const filteredResponse = Object.keys(response).filter(key => (
+        kanjiMap.get(key)
+      ));
+      const reduceKeysToKanji = reduceKanji(response, kanjiMap);
+      return filteredResponse.reduce(reduceKeysToKanji, kanjiMap);
+    });
     const updateKanjiMap = fetchClosure(this.state.kanjiMap);
 
     fetch('http://reblws.me:5000/api/data/nhk')
       .then(response => response.json())
       .then(updateKanjiMap)
-      .then(kanjiMap => {
-        // console.log(kanjiMap);
-        this.handleFetch(kanjiMap);
-      });
+      .then(this.handleFetch);
 
       // .then((kanjiMap) => {
         // console.log('fetch');
         // this.setState({ kanjiMap });
       // });
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    console.log(nextState.kanjiMap);
   }
 
   handleTweet(tweet) {
