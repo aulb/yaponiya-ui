@@ -1,6 +1,5 @@
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import PropTypes from 'prop-types';
 import KanjiCharacter from './KanjiCharacter';
 import { palette } from '../helpers/palette';
 // The top-N kanji that are statistically significant
@@ -18,6 +17,14 @@ const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
   // '4D004B',
 // ];
 
+const styles = {
+  container: {
+    maxWidth: 900,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+};
+
 function getSortedCounts(kanjiList) {
   return kanjiList.map(kanji => kanji.get('count'))
     .sort((a, b) => -(a - b));
@@ -31,6 +38,10 @@ function calculateRatio(count, largestCount) {
 
 function getPaletteIndex(countRatio) {
   return Math.floor(countRatio * (SEQ_PALETTE.length - 1));
+}
+
+function isBGLight(paletteIndex, paletteLength) {
+  return paletteIndex < paletteLength - 3;
 }
 
 // Set up
@@ -51,9 +62,9 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
       ? 'yellow'
       : `#${bgColorHex}`;
 
-    const fontColor = countRatio > 0.7 && !kanji.get('isFlash')
-      ? '#fff'
-      : '#000';
+    const fontColor = isBGLight(paletteIndex, SEQ_PALETTE.length) || kanji.get('isFlash')
+      ? '#000'
+      : '#fff';
     return (
       <KanjiCharacter
         paletteIndex={paletteIndex}
@@ -68,7 +79,7 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
   };
 }
 
-function KanjiContainer({ kanjiList, tweetFlash }) {
+function KanjiContainer({ kanjiList }) {
   // Grab the largest kanji count to make a ratio against
   const counts = getSortedCounts(kanjiList);
   const mostUsedKanji = counts.slice(0, CUTOFF_INDEX);
@@ -79,14 +90,13 @@ function KanjiContainer({ kanjiList, tweetFlash }) {
   const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
 
   return (
-    <div>
+    <div style={styles.container}>
       { kanjiList.map(kanjiMapFn) }
     </div>
   );
 }
 
 KanjiContainer.propTypes = {
-  tweetFlash: PropTypes.arrayOf(PropTypes.string).isRequired,
   kanjiList: ImmutablePropTypes.list.isRequired,
 };
 

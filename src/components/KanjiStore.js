@@ -6,15 +6,8 @@ import io from 'socket.io-client';
 import { kanjiFactory } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
 
-// const socket = io('http://reblws.me:8080');
+const socket = io('http://reblws.me:8080');
 const numOfKanji = 2136;
-const styles = {
-  weekContainer: {
-    maxWidth: 700,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-};
 
 class KanjiStore extends Component {
   constructor(props, context) {
@@ -41,38 +34,35 @@ class KanjiStore extends Component {
     this.handleFetch = this.handleFetch.bind(this);
   }
 
-  handleFetch(kanjiMap) {
-    this.setState({ kanjiMap });
-  }
-
-
   componentDidMount() {
-    // socket.on('tweet', data => this.handleTweet(data));
+    socket.on('tweet', this.handleTweet);
 
-    const reduceKanji = responseObject => ((acc, key) => {
-      const newCount = responseObject[key];
-      const newKanjiEntry = acc.get(key).set('count', newCount);
-      return acc.set(key, newKanjiEntry);
-    });
+    const kanjiReducer = response => (
+      (acc, key) => {
+        const newCount = response[key];
+        const newKanjiEntry = acc.get(key).set('count', newCount);
+        return acc.set(key, newKanjiEntry);
+      }
+    );
 
-    const fetchClosure = kanjiMap => ((response) => {
-      const filteredResponse = Object.keys(response).filter(key => (
-        kanjiMap.get(key)
-      ));
-      const reduceKeysToKanji = reduceKanji(response, kanjiMap);
-      return filteredResponse.reduce(reduceKeysToKanji, kanjiMap);
-    });
-    const updateKanjiMap = fetchClosure(this.state.kanjiMap);
+    const fetchReducer = kanjiMap => (
+      (response) => {
+        const filteredKeys = Object.keys(response).filter(key => kanjiMap.get(key));
+        const reduceKeysToKanji = kanjiReducer(response, kanjiMap);
+        return filteredKeys.reduce(reduceKeysToKanji, kanjiMap);
+      }
+    );
+
+    const updateKanjiMap = fetchReducer(this.state.kanjiMap);
 
     fetch('http://reblws.me:5000/api/data/nhk')
       .then(response => response.json())
       .then(updateKanjiMap)
       .then(this.handleFetch);
+  }
 
-      // .then((kanjiMap) => {
-        // console.log('fetch');
-        // this.setState({ kanjiMap });
-      // });
+  handleFetch(kanjiMap) {
+    this.setState({ kanjiMap });
   }
 
   handleTweet(tweet) {
@@ -101,11 +91,15 @@ class KanjiStore extends Component {
       })).toList();
     const order = this.state.currentOrder.toLowerCase();
     return kanjiList.sort((a, b) => {
-      if (!a.get(order) && typeof a.get(order) === 'object') return 1;
-      if (!b.get(order) && typeof b.get(order) === 'object') return 0;
+      if (!a.get(order)) return 1;
+      if (!b.get(order)) return 0;
+
+      const descending = -(a.get(order) - b.get(order));
+      const ascending = a.get(order) - b.get(order);
+
       return order === 'nhk' // TODO revamp
-        ? -(a.get(order) - b.get(order))
-        : (a.get(order) - b.get(order));
+        ? descending
+        : ascending;
     });
   }
 
@@ -117,18 +111,15 @@ class KanjiStore extends Component {
     */
     return (
       <div>
-        <div style={styles.weekContainer}>
-          <Options
-            currentOrder={this.state.currentOrder}
-            switchOrder={this.switchOrder}
-            possibleOptions={OPTIONS}
-          />
-          <KanjiContainer
-            kanjiList={this.kanjiList}
-            numOfKanji={numOfKanji}
-            tweetFlash={this.state.tweetFlash}
-          />
-        </div>
+        <Options
+          currentOrder={this.state.currentOrder}
+          switchOrder={this.switchOrder}
+          possibleOptions={OPTIONS}
+        />
+        <KanjiContainer
+          kanjiList={this.kanjiList}
+          numOfKanji={numOfKanji}
+        />
       </div>
     );
   }
