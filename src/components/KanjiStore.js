@@ -18,15 +18,14 @@ class KanjiStore extends Component {
         [
           {
             id: currentChar,
-            alphabetical: ORDERS.ALPHABETICAL[i],
+            alphabetical: ORDERS.ALPHABETICAL[i], // TODO to be deleted
             heisig: ORDERS.HEISIG[i],
-            frequency: ORDERS.KanjiFactory(numOfKanji),FREQUENCY[i],
+            frequency: count, // TODO to be deleted
             isFlash: false
           },
         ]
       */
       kanjiMap: Immutable.Map(kanjiFactory(numOfKanji)),
-      // kanjiList: kanjiFactory(numOfKanji),
       tweetFlash: [],
     };
     this.switchOrder = this.switchOrder.bind(this);
