@@ -8,17 +8,14 @@ import { ORDERS } from './orders';
 export function kanjiFactory(numOfKanji) {
   let kanjiMap = Map({});
 
-  // Decides ordering
-  const orderArr = ORDERS.ALPHABETICAL;
-
-  for (let i = 0; i < numOfKanji; i++) {
-    const currentChar = JOYO_KANJI[orderArr[i]];
-    kanjiMap = kanjiMap.set(currentChar, Map({
-      alphabetical: ORDERS.ALPHABETICAL[i],
-      heisig: ORDERS.HEISIG[i],
-      //frequency: ORDERS.FREQUENCY[i],
+  // Make this pure
+  JOYO_KANJI.map((character, index) => {
+    kanjiMap = kanjiMap.set(character, Map({
+      alphabetical: index, // TODO Remove?
+      heisig: ORDERS.HEISIG[index],
       count: 0,
     }));
-  }
+  });
+
   return kanjiMap;
 }

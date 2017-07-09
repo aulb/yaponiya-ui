@@ -19,7 +19,6 @@ const Yaponiya = () => (
       <Switch>
         <Route exact path="/" component={KanjiStore} />
         <Route path="/kanji/:character" component={KanjiPage} />
-        <Route path="/:year/:month" component={KanjiStore} />
       </Switch>
     </div>
   </Router>

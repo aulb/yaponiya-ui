@@ -48,7 +48,7 @@ class KanjiStore extends Component {
     const fetchReducer = kanjiMap => (
       (response) => {
         const filteredKeys = Object.keys(response).filter(key => kanjiMap.get(key));
-        const reduceKeysToKanji = kanjiReducer(response, kanjiMap);
+        const reduceKeysToKanji = kanjiReducer(response);
         return filteredKeys.reduce(reduceKeysToKanji, kanjiMap);
       }
     );
