@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Map } from 'immutable';
 import { createStore } from 'redux';
 import Yaponiya from './Yaponiya';
 import registerServiceWorker from './registerServiceWorker';
@@ -13,7 +14,7 @@ let store = createStore(kanjis, kanjiMap);
 const mapStateToProps = state => {
   // Initial state
   return state.keySeq()
-    .map(key => Immutable.Map({
+    .map(key => Map({
       id: key,
       count: state.get(key).get('count'),
       alphabetical: state.get(key).get('alphabetical'),
