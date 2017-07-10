@@ -1,6 +1,4 @@
 import { createStore } from 'redux';
-import { kanjis } from '../reducers';
-import { kanjiFactory } from '../helpers/utils';
+import kanjiReducer from '../reducers';
 
-export const store = createStore(kanjis, kanjiFactory(2136));
-
+export default createStore(kanjiReducer);
