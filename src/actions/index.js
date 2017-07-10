@@ -4,14 +4,14 @@ import * as types from './actionTypes';
 function receiveCounts(json) {
   return {
     type: types.RECEIVE_COUNTS,
-    json,
+    response: json,
   };
 }
 
 function receiveError(json) {
   return {
     type: types.RECEIVE_ERROR,
-    data: json,
+    response: json,
   };
 }
 
