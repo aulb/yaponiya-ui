@@ -1,3 +1,3 @@
+export const RECEIVE_COUNTS = 'RECEIVE_COUNTS';
 export const RECEIVE_ERROR = 'RECEIVE_ERROR';
 export const REQUEST_DATA = 'REQUEST_DATA';
-export const RECEIVE_DATA = 'RECEIVE_DATA';
