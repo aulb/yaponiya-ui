@@ -13,10 +13,7 @@ export default function kanjiReducer(state = Map({
     case types.RECEIVE_ERROR:
       return state.set('error', true);
     case types.RECEIVE_COUNTS: {
-      const keysToKanji = (acc, kanji) => {
-        const newCount = action.response[kanji];
-        return acc.set(kanji, newCount);
-      };
+      const keysToKanji = (acc, kanji) => acc.set(kanji, action.response[kanji]);
       const newKanjis = Object.keys(action.response)
         .filter(key => state.get('kanjis').get(key))
         .reduce(keysToKanji, state.get('kanjis'));
@@ -24,7 +21,8 @@ export default function kanjiReducer(state = Map({
         .set('kanjis', newKanjis)
         .set('isLoading', false)
         .set('fetched', true);
-    } case types.REQUEST_DATA:
+    }
+    case types.REQUEST_DATA:
       return state.set('isLoading', true);
     default:
       return state;
