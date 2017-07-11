@@ -1,4 +1,5 @@
-import { KanjiCatalogItem } from './KanjiCatalogItem';
+import { Map } from 'immutable';
+import KanjiCatalogItem from './KanjiCatalogItem';
 import { JOYO_KANJI } from './constants';
 import { ORDERS } from './orders';
 
@@ -6,12 +7,11 @@ import { ORDERS } from './orders';
  * Initializes an empty KanjiList object
  */
 export default function kanjiFactory(numOfKanji) {
-  let kanjiMap = Map({});
+  let kanjiMap = Map();
   // Slice off the kanji we don't want by index
   const joyoKanji = JOYO_KANJI.slice(0, numOfKanji - 1);
 
-  // Make this pure
-  return joyoKanji.map((character, index) => {
+  joyoKanji.forEach((character, index) => {
     kanjiMap = kanjiMap.set(
       character,
       new KanjiCatalogItem({
@@ -22,4 +22,6 @@ export default function kanjiFactory(numOfKanji) {
       }),
     );
   });
+
+  return kanjiMap;
 }
