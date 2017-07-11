@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import Immutable from 'immutable';
-import KanjiContainer from './KanjiContainer';
-import Options from './Options';
 import io from 'socket.io-client';
+import KanjiCatalog from '../components/KanjiCatalog';
+import Options from '../components/Options';
 import { kanjiFactory } from '../helpers/utils';
 import { OPTIONS } from '../helpers/constants';
 
 const socket = io('http://reblws.me:8080');
-const numOfKanji = 2136;
 
-class KanjiStore extends Component {
+function mapStateToProps(state) {
+  return {
+
+  }
+}
+
+class KanjiCatalogContainer extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -36,13 +41,11 @@ class KanjiStore extends Component {
   componentDidMount() {
     socket.on('tweet', this.handleTweet);
 
-    const kanjiReducer = response => (
-      (acc, key) => {
-        const newCount = response[key];
-        const newKanjiEntry = acc.get(key).set('count', newCount);
-        return acc.set(key, newKanjiEntry);
-      }
-    );
+    const kanjiReducer = response => (acc, key) => {
+      const newCount = response[key];
+      const newKanjiEntry = acc.get(key).set('count', newCount);
+      return acc.set(key, newKanjiEntry);
+    };
 
     const fetchReducer = kanjiMap => (
       (response) => {
@@ -115,13 +118,12 @@ class KanjiStore extends Component {
           switchOrder={this.switchOrder}
           possibleOptions={OPTIONS}
         />
-        <KanjiContainer
+        <KanjiCatalog
           kanjiList={this.kanjiList}
-          numOfKanji={numOfKanji}
         />
       </div>
     );
   }
 }
 
-export default KanjiStore;
+export default KanjiCatalogContainer;

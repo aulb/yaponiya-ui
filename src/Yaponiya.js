@@ -5,8 +5,9 @@ import {
   Switch,
   withRouter,
 } from 'react-router-dom';
-import { store } from './store';
-import KanjiStore from './components/KanjiStore';
+import { Provider } from 'react-redux';
+import store from './store';
+import KanjiListingContainer from './containers/KanjiListingContainer';
 import KanjiPage from './components/KanjiPage';
 import Header from './components/Header';
 
@@ -20,7 +21,7 @@ const Yaponiya = () => (
       <div>
         <HeaderRouter />
         <Switch>
-          <Route exact path="/" component={KanjiStore} />
+          <Route exact path="/" component={KanjiListingContainer} />
           <Route path="/kanji/:character" component={KanjiPage} />
         </Switch>
       </div>

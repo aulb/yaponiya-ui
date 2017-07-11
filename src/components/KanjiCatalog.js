@@ -67,8 +67,6 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
       : '#fff';
     return (
       <KanjiCharacter
-        paletteIndex={paletteIndex}
-        count={count}
         fontColor={fontColor}
         backgroundColor={backgroundColor}
         key={kanji.get('id')}
@@ -79,7 +77,7 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
   };
 }
 
-function KanjiContainer({ kanjiList }) {
+function KanjiCatalog({ kanjiList }) {
   // Grab the largest kanji count to make a ratio against
   const counts = getSortedCounts(kanjiList);
   const mostUsedKanji = counts.slice(0, CUTOFF_INDEX);
@@ -96,8 +94,8 @@ function KanjiContainer({ kanjiList }) {
   );
 }
 
-KanjiContainer.propTypes = {
+KanjiCatalog.propTypes = {
   kanjiList: ImmutablePropTypes.list.isRequired,
 };
 
-export default KanjiContainer;
+export default KanjiCatalog;
