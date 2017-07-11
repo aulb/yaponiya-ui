@@ -5,17 +5,16 @@ import { ORDERS } from './orders';
 /*
  * Initializes an empty KanjiList object
  */
-export function kanjiFactory(numOfKanji) {
+export default function kanjiFactory(numOfKanji) {
   let kanjiMap = Map({});
+  const joyoKanji = JOYO_KANJI.slice(0, numOfKanji - 1);
 
   // Make this pure
-  JOYO_KANJI.map((character, index) => {
+  return joyoKanji.map((character, index) => {
     kanjiMap = kanjiMap.set(character, Map({
       alphabetical: index, // TODO Remove?
       heisig: ORDERS.HEISIG[index],
       count: 0,
     }));
   });
-
-  return kanjiMap;
 }
