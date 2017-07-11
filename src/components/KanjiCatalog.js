@@ -1,101 +1,109 @@
-import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import KanjiCharacter from './KanjiCharacter';
-import { palette } from '../helpers/palette';
-// The top-N kanji that are statistically significant
-const CUTOFF_INDEX = 50;
-const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
-// const SEQ_PALETTE2 = [
-  // 'F7FCFD',
-  // 'E0ECF4',
-  // 'BFD3E6',
-  // '9EBCDA',
-  // '8C96C6',
-  // '8C6BB1',
-  // '88419D',
-  // '810F7C',
-  // '4D004B',
-// ];
+import React, { Component } from 'react';
+import Immutable from 'immutable';
+import io from 'socket.io-client';
+import Options from '../components/Options';
+import { fetchData, updateSort } from '../actions';
 
-const styles = {
-  container: {
-    maxWidth: 900,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-};
+const socket = io('http://reblws.me:8080');
 
-function getSortedCounts(kanjiList) {
-  return kanjiList.map(kanji => kanji.get('count'))
-    .sort((a, b) => -(a - b));
-}
 
-function calculateRatio(count, largestCount) {
-  return count / largestCount > 1
-    ? 1
-    : count / largestCount;
-}
-
-function getPaletteIndex(countRatio) {
-  return Math.floor(countRatio * (SEQ_PALETTE.length - 1));
-}
-
-function isBGLight(paletteIndex, paletteLength) {
-  return paletteIndex < paletteLength - 3;
-}
-
-// Set up
-function kanjiMapClosure(largestCount, mostUsedKanji) {
-  return (kanji) => {
-    // Avoid nulls
-    const count = kanji.get('count') || 0;
-    const countRatio = calculateRatio(count, largestCount);
-    // Map percentage count to palette
-    const paletteIndex = getPaletteIndex(countRatio);
-    // const link = `/kanji/${kanji.get('id')}`;
-    // Check if kanji has a significant count, grab
-    const bgColorHex = mostUsedKanji.includes(count)
-      ? '4D004B'
-      : SEQ_PALETTE[paletteIndex];
-
-    const backgroundColor = kanji.get('isFlash')
-      ? 'yellow'
-      : `#${bgColorHex}`;
-
-    const fontColor = isBGLight(paletteIndex, SEQ_PALETTE.length) || kanji.get('isFlash')
-      ? '#000'
-      : '#fff';
-    return (
-      <KanjiCharacter
-        fontColor={fontColor}
-        backgroundColor={backgroundColor}
-        key={kanji.get('id')}
-      >
-        {String(kanji.get('id'))}
-      </KanjiCharacter>
-    );
+function mapStateToProps(state) {
+  return {
+    kanjiList: getKanjiList(state.kanjis),
+    currentSort: state.currentSort,
   };
 }
 
-function KanjiCatalog({ kanjiList }) {
-  // Grab the largest kanji count to make a ratio against
-  const counts = getSortedCounts(kanjiList);
-  const mostUsedKanji = counts.slice(0, CUTOFF_INDEX);
-  const lessUsedKanji = counts.slice(CUTOFF_INDEX);
-  // Only the largest count from the lessUsed otherwise
-  // the color gradient won't be obvious
-  const largestCount = lessUsedKanji.get(0);
-  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
-
-  return (
-    <div style={styles.container}>
-      { kanjiList.map(kanjiMapFn) }
-    </div>
-  );
+function mapDispatchToProps(dispatch) {
+  return {
+    updateSort:
+  }
 }
 
-KanjiCatalog.propTypes = {
-  kanjiList: ImmutablePropTypes.list.isRequired,
-};
+class KanjiCatalogContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tweetFlash: [],
+    };
+    this.switchOrder = this.switchOrder.bind(this);
+    this.handleTweet = this.handleTweet.bind(this);
+    this.handleFetch = this.handleFetch.bind(this);
+  }
 
-export default KanjiCatalog;
+  componentDidMount() {
+    socket.on('tweet', this.handleTweet);
+
+    const kanjiReducer = response => (acc, key) => {
+      const newCount = response[key];
+      const newKanjiEntry = acc.get(key).set('count', newCount);
+      return acc.set(key, newKanjiEntry);
+    };
+
+    const fetchReducer = kanjiMap => (
+      (response) => {
+        const filteredKeys = Object.keys(response).filter(key => kanjiMap.get(key));
+        const reduceKeysToKanji = kanjiReducer(response);
+        return filteredKeys.reduce(reduceKeysToKanji, kanjiMap);
+      }
+    );
+
+    const updateKanjiMap = fetchReducer(this.state.kanjiMap);
+
+    fetch('http://reblws.me:5000/api/data/nhk')
+      .then(response => response.json())
+      .then(updateKanjiMap)
+      .then(this.handleFetch);
+  }
+
+  handleFetch(kanjiMap) {
+    this.setState({ kanjiMap });
+  }
+
+  handleTweet(tweet) {
+    this.setState({ tweetFlash: tweet });
+  }
+
+  switchOrder(event) {
+    // // Get new order from the event
+    const nextOrder = event.target.value;
+    this.setState({
+      currentOrder: nextOrder,
+    });
+  }
+
+  get kanjiList() {
+    // Sort the kanjiList in order
+    const kanjiMap = this.state.kanjiMap;
+
+    const order = this.state.currentOrder.toLowerCase();
+    return kanjiList.sort((a, b) => {
+      const descending = -(a.get(order) - b.get(order));
+      const ascending = a.get(order) - b.get(order);
+
+      return order === 'nhk' // TODO revamp
+        ? descending
+        : ascending;
+    });
+  }
+
+  render() {
+    /* DEBUG
+    <header>
+      <h1>{this.state.tweetFlash}</h1>
+    </header>
+    */
+    return (
+      <div>
+        <Options
+          currentOrder={this.state.currentOrder}
+          switchOrder={this.switchOrder}
+          possibleOptions={OPTIONS}
+        />
+        <KanjiListing kanjiList={this.kanjiList} />
+      </div>
+    );
+  }
+}
+
+export default KanjiCatalogContainer;
