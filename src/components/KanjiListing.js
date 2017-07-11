@@ -1,7 +1,9 @@
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import KanjiCharacter from './KanjiCharacter';
+import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
 import { palette } from '../helpers/palette';
+
 // The top-N kanji that are statistically significant
 const CUTOFF_INDEX = 50;
 const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
@@ -52,7 +54,7 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
     const countRatio = calculateRatio(count, largestCount);
     // Map percentage count to palette
     const paletteIndex = getPaletteIndex(countRatio);
-    // const link = `/kanji/${kanji.get('id')}`;
+    const link = `/kanji/${kanji.id}`;
     // Check if kanji has a significant count, grab
     const bgColorHex = mostUsedKanji.includes(count)
       ? '4D004B'
@@ -69,9 +71,10 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
       <KanjiCharacter
         fontColor={fontColor}
         backgroundColor={backgroundColor}
-        key={kanji.get('id')}
+        link={link}
+        key={kanji.id}
       >
-        {String(kanji.get('id'))}
+        {kanji.id}
       </KanjiCharacter>
     );
   };
@@ -95,7 +98,7 @@ function KanjiListing({ kanjiList }) {
 }
 
 KanjiListing.propTypes = {
-  kanjiList: ImmutablePropTypes.list.isRequired,
+  kanjiList: ImmutablePropTypes.listOf(KanjiCatalogItem).isRequired,
 };
 
 export default KanjiListing;
