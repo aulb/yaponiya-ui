@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 // import { combineReducers } from 'redux';
 import * as types from '../actions/actionTypes';
-import { kanjiFactory } from '../helpers/kanjiFactory';
+import kanjiFactory from '../helpers/kanjiFactory';
 import { OPTIONS } from '../helpers/constants';
 
 export default function kanjiReducer(state = Map({
