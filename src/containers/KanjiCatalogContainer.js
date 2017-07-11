@@ -14,8 +14,7 @@ function sortBy(sort) {
 }
 
 function getKanjiList(kanjiMap, currentSort) {
-  return kanjiMap.keySeq()
-    .map(key => kanjiMap.get(key))
+  return kanjiMap.valueSeq()
     .toList()
     .sort(sortBy(currentSort));
 }
