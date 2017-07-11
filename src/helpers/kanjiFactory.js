@@ -1,4 +1,4 @@
-import { KanjiCatalogItem } from
+import { KanjiCatalogItem } from './KanjiCatalogItem';
 import { JOYO_KANJI } from './constants';
 import { ORDERS } from './orders';
 
