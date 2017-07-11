@@ -1,4 +1,5 @@
-import { connect, compose } from 'react-redux';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { fetchData, updateSort } from '../actions';
 import { OPTIONS } from '../helpers/constants';
 import KanjiCatalog from '../components/KanjiCatalog';
@@ -21,19 +22,19 @@ function getKanjiList(kanjiMap, currentSort) {
 
 function mapStateToProps(state) {
   return {
-    kanjiList: getKanjiList(state.kanjis, state.currentSort),
-    currentSort: state.currentSort,
-    fetched: state.fetched,
+    kanjiList: getKanjiList(state.get('kanjis'), state.get('currentSort')),
+    currentSort: state.get('currentSort'),
+    fetched: state.get('fetched'),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     updateSort: (newSort) => {
-      compose(dispatch, updateSort)(newSort);
+      dispatch(updateSort(newSort));
     },
     fetchData: (url) => {
-      compose(dispatch, fetchData)(url);
+      dispatch(fetchData(url));
     },
   };
 }
