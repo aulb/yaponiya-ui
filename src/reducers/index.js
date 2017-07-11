@@ -6,14 +6,17 @@ import { kanjiFactory } from '../helpers/utils';
 export default function kanjiReducer(state = Map({
   fetched: false,
   isLoading: false,
-  kanjis: kanjiFactory(2136),
   error: false,
+  kanjis: kanjiFactory(2136),
 }), action = null) {
   switch (action.type) {
     case types.RECEIVE_ERROR:
       return state.set('error', true);
     case types.RECEIVE_COUNTS: {
-      const keysToKanji = (acc, kanji) => acc.set(kanji, action.response[kanji]);
+      const keysToKanji = (acc, kanji) => {
+        const count = action.response[kanji];
+        return acc.set(kanji, acc.get(kanji).merge({ count }));
+      };
       const newKanjis = Object.keys(action.response)
         .filter(key => state.get('kanjis').get(key))
         .reduce(keysToKanji, state.get('kanjis'));
