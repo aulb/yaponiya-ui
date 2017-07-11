@@ -29,10 +29,19 @@ export function fetchData(url) {
       timeout: 20000,
       method: 'get',
       responseType: 'json',
-    }).then((response) => {
-      dispatch(receiveCounts(response.data));
-    }).catch((response) => {
-      dispatch(receiveError(response.data));
-    });
+    })
+      .then((response) => {
+        dispatch(receiveCounts(response.data));
+      })
+      .catch((response) => {
+        dispatch(receiveError(response.data));
+      });
+  };
+}
+
+export function updateSort(newSort) {
+  return {
+    type: types.UPDATE_SORT,
+    newSort,
   };
 }

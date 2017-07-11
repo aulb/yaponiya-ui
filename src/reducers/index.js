@@ -1,15 +1,21 @@
 import { Map } from 'immutable';
 // import { combineReducers } from 'redux';
 import * as types from '../actions/actionTypes';
-import { kanjiFactory } from '../helpers/utils';
+import { kanjiFactory } from '../helpers/kanjiFactory';
+import { OPTIONS } from '../helpers/constants';
 
 export default function kanjiReducer(state = Map({
   fetched: false,
   isLoading: false,
   error: false,
   kanjis: kanjiFactory(2136),
+  currentSort: OPTIONS.FREQUENCY,
 }), action = null) {
   switch (action.type) {
+    case types.UPDATE_SORT:
+      return state.set('currentSort', action.newSort);
+    case types.REQUEST_DATA:
+      return state.set('isLoading', true);
     case types.RECEIVE_ERROR:
       return state.set('error', true);
     case types.RECEIVE_COUNTS: {
@@ -25,8 +31,6 @@ export default function kanjiReducer(state = Map({
         .set('isLoading', false)
         .set('fetched', true);
     }
-    case types.REQUEST_DATA:
-      return state.set('isLoading', true);
     default:
       return state;
   }
