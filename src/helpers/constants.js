@@ -4,9 +4,9 @@ export const JOYO_KANJI = [
 ];
 
 export const OPTIONS = {
-  ALPHABETICAL: 'Alphabetical',
-  FREQUENCY: 'NHK',
-  HEISIG: 'Heisig',
+  ALPHABETICAL: 'alphabetical',
+  FREQUENCY: 'count',
+  HEISIG: 'heisig',
 };
 
 // export const
