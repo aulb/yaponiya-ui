@@ -30,10 +30,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     updateSort: (newSort) => {
-      dispatch(updateSort(newSort));
+      compose(dispatch, updateSort)(newSort);
     },
     fetchData: (url) => {
-      dispatch(fetchData(url));
+      compose(dispatch, fetchData)(url);
     },
   };
 }
