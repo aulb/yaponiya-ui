@@ -15,20 +15,20 @@ class KanjiCatalog extends Component {
   }
 
   componentDidMount() {
+    // Fetch nhk counts
     this.props.fetchData('http://reblws.me:5000/api/data/nhk');
     // Open sockets for live tweets
     const socket = io('http://reblws.me:8080');
     socket.on('tweet', this.handleTweet);
-    // Fetch NHK data
   }
 
   get kanjiList() {
-    return this.props.kanjiList.map((kanjiItem) => {
-      const id = kanjiItem.id;
-      return this.state.tweetFlash.includes(id)
-        ? kanjiItem.set('isFlash', true)
-        : kanjiItem;
-    });
+    return this.state.tweetFlash
+      .map(kanji => this.props.kanjiMap.get(kanji).set('isFlash', true))
+      .reduce((acc, item) => acc.set(item.id, item), this.props.kanjiMap)
+      .valueSeq()
+      .toList()
+      .sort(this.props.currentSort);
   }
 
   handleTweet(tweet) {
@@ -46,9 +46,10 @@ class KanjiCatalog extends Component {
 }
 
 KanjiCatalog.propTypes = {
-  kanjiList: ImmutablePropTypes.listOf(
+  kanjiMap: ImmutablePropTypes.mapOf(
     ImmutablePropTypes.record(KanjiCatalogItem),
   ).isRequired,
+  currentSort: PropTypes.func.isRequired,
   fetched: PropTypes.bool.isRequired,
   // updateSort: PropTypes.func.isRequired,
   fetchData: PropTypes.func.isRequired,
