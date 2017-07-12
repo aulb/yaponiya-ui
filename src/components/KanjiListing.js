@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import KanjiCharacter from './KanjiCharacter';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
@@ -47,30 +48,38 @@ function isBGLight(paletteIndex, paletteLength) {
 }
 
 // Set up
-function kanjiMapClosure(largestCount, mostUsedKanji) {
+function kanjiMapClosure(largestCount, mostUsedKanji, fetched) {
   return (kanji) => {
     // Avoid nulls
     const count = kanji.get('count') || 0;
-    const countRatio = calculateRatio(count, largestCount);
-    // Map percentage count to palette
-    const paletteIndex = getPaletteIndex(countRatio);
     const link = `/kanji/${kanji.id}`;
-    // Check if kanji has a significant count, grab
-    const bgColorHex = mostUsedKanji.includes(count)
-      ? '4D004B'
-      : SEQ_PALETTE[paletteIndex];
 
-    const backgroundColor = kanji.get('isFlash')
-      ? 'yellow'
-      : `#${bgColorHex}`;
 
-    const fontColor = isBGLight(paletteIndex, SEQ_PALETTE.length) || kanji.get('isFlash')
-      ? '#000'
-      : '#fff';
+    let backgroundColor;
+    let fontColor;
+    if (fetched) {
+      const countRatio = calculateRatio(count, largestCount);
+      const paletteIndex = getPaletteIndex(countRatio);
+      const bgColorHex = mostUsedKanji.includes(count)
+        ? '4D004B'
+        : SEQ_PALETTE[paletteIndex];
+
+      backgroundColor = kanji.get('isFlash')
+        ? 'yellow'
+        : `#${bgColorHex}`;
+
+      fontColor = isBGLight(paletteIndex, SEQ_PALETTE.length) || kanji.get('isFlash')
+        ? '#000'
+        : '#fff';
+    } else {
+      backgroundColor = 'black';
+      fontColor = 'black';
+    }
+
     return (
       <KanjiCharacter
-        fontColor={fontColor}
-        backgroundColor={backgroundColor}
+        fontColor={!fetched ? 'white' : fontColor}
+        backgroundColor={!fetched ? 'black' : backgroundColor}
         link={link}
         key={kanji.id}
       >
@@ -80,7 +89,7 @@ function kanjiMapClosure(largestCount, mostUsedKanji) {
   };
 }
 
-function KanjiListing({ kanjiList }) {
+function KanjiListing({ kanjiList, fetched }) {
   // Grab the largest kanji count to make a ratio against
   const counts = getSortedCounts(kanjiList);
   const mostUsedKanji = counts.slice(0, CUTOFF_INDEX);
@@ -88,7 +97,7 @@ function KanjiListing({ kanjiList }) {
   // Only the largest count from the lessUsed otherwise
   // the color gradient won't be obvious
   const largestCount = lessUsedKanji.get(0);
-  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
+  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji, fetched);
 
   return (
     <div style={styles.container}>
@@ -99,6 +108,7 @@ function KanjiListing({ kanjiList }) {
 
 KanjiListing.propTypes = {
   kanjiList: ImmutablePropTypes.listOf(KanjiCatalogItem).isRequired,
+  fetched: PropTypes.bool.isRequired,
 };
 
 export default KanjiListing;
