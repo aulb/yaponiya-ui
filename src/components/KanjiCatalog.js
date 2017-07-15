@@ -23,12 +23,16 @@ class KanjiCatalog extends Component {
   }
 
   get kanjiList() {
-    return this.state.tweetFlash
-      .map(kanji => this.props.kanjiMap.get(kanji).set('isFlash', true))
-      .reduce((acc, item) => acc.set(item.id, item), this.props.kanjiMap)
-      .valueSeq()
-      .toList()
-      .sort(this.props.currentSort);
+    return typeof this.state.tweetFlash === 'object'
+      ? this.state.tweetFlash
+        .filter(kanji => this.props.kanjiMap.get(kanji))
+        .reduce((acc, item) => acc.set(
+          item,
+          acc.get(item).set('isFlash', true),
+        ), this.props.kanjiMap)
+        .valueSeq().toList()
+        .sort(this.props.currentSort)
+      : this.props.kanjiMap.valueSeq().toList().sort(this.props.currentSort);
   }
 
   handleTweet(tweet) {
@@ -46,12 +50,9 @@ class KanjiCatalog extends Component {
 }
 
 KanjiCatalog.propTypes = {
-  kanjiMap: ImmutablePropTypes.mapOf(
-    ImmutablePropTypes.record(KanjiCatalogItem),
-  ).isRequired,
+  kanjiMap: ImmutablePropTypes.mapOf(KanjiCatalogItem).isRequired,
   currentSort: PropTypes.func.isRequired,
   fetched: PropTypes.bool.isRequired,
-  // updateSort: PropTypes.func.isRequired,
   fetchData: PropTypes.func.isRequired,
 };
 
