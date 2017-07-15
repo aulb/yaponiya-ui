@@ -1,41 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FLASH_COLOR } from '../helpers/constants';
 // import { Link } from 'react-router-dom';
 
-/*
- * Kanji "class" for each kanji.
- */
-function KanjiCharacter({ backgroundColor, fontColor, children }) {
-  const styles = {
-    character: {
-      fontSize: '1.0em',
-      fontFamily: 'Noto Sans',
-      color: fontColor,
-    },
-    button: {
-      backgroundColor,
-      display: 'inline-block',
-      padding: 10,
-      margin: 5,
-      borderRadius: '3px',
-      border: 0,
-      cursor: 'pointer',
-    },
-  };
+class KanjiCharacter extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return !this.props.fetched || nextProps.isFlash || this.props.backgroundColor === FLASH_COLOR;
+  }
 
-  // TODO: Change to a button so we can use our link
-  return (
-    <button style={styles.button}>
-      <span style={styles.character}>{children}</span>
-    </button>
-  );
+  render() {
+    const {
+      backgroundColor,
+      fontColor,
+      children,
+    } = this.props;
+
+    const styles = {
+      character: {
+        fontSize: '1.0em',
+        fontFamily: 'Noto Sans',
+        color: fontColor,
+      },
+      button: {
+        backgroundColor,
+        display: 'inline-block',
+        padding: 10,
+        margin: 5,
+        borderRadius: '3px',
+        border: 0,
+        cursor: 'pointer',
+      },
+    };
+
+    return (
+      <div style={styles.button}>
+        <span style={styles.character}>{children}</span>
+      </div>
+    );
+  }
 }
 
 KanjiCharacter.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
   fontColor: PropTypes.string.isRequired,
-  // link: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
+  fetched: PropTypes.bool.isRequired,
 };
 
 export default KanjiCharacter;
