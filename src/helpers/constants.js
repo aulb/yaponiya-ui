@@ -9,6 +9,8 @@ export const OPTIONS = {
   HEISIG: 'heisig',
 };
 
+export const FLASH_COLOR = 'yellow';
+
 // export const
 
 /* Temporary

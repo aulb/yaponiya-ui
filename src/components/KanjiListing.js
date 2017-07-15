@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import KanjiCharacter from './KanjiCharacter';
+import { FLASH_COLOR } from '../helpers/constants';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
 import { palette } from '../helpers/palette';
 
@@ -65,7 +66,7 @@ function kanjiMapClosure(largestCount, mostUsedKanji, fetched) {
         : SEQ_PALETTE[paletteIndex];
 
       backgroundColor = kanji.get('isFlash')
-        ? 'yellow'
+        ? FLASH_COLOR
         : `#${bgColorHex}`;
 
       fontColor = isBGLight(paletteIndex, SEQ_PALETTE.length) || kanji.get('isFlash')
@@ -76,12 +77,17 @@ function kanjiMapClosure(largestCount, mostUsedKanji, fetched) {
       fontColor = 'black';
     }
 
+
+    const isFlash = backgroundColor === FLASH_COLOR;
+
     return (
       <KanjiCharacter
         fontColor={!fetched ? 'white' : fontColor}
         backgroundColor={!fetched ? 'black' : backgroundColor}
         link={link}
         key={kanji.id}
+        isFlash={isFlash}
+        fetched={fetched}
       >
         {kanji.id}
       </KanjiCharacter>
