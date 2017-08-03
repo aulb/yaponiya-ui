@@ -1,22 +1,24 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchData, updateSort } from '../actions';
-import { OPTIONS } from '../helpers/constants';
 import KanjiCatalog from '../components/KanjiCatalog';
 
-function sortBy(sort) {
-  const descending = (a, b) => -(a.get(sort) - b.get(sort));
-  const ascending = (a, b) => a.get(sort) - b.get(sort);
+// TODO: Get proper order a.get(order) - b.get(order)
+function sortBy(sort, order) {
+  const ascending = (a, b) => a.get(order) - b.get(order);
+  const descending = (a, b) => -ascending(a, b);
 
-  return sort === OPTIONS.FREQUENCY
-    ? descending
-    : ascending;
+  const sorts = {
+    ascending, descending
+  }
+
+  return sorts[sort];// sorts[sort];
 }
 
 function mapStateToProps(state) {
   return {
     kanjiMap: state.get('kanjis'),
-    currentSort: sortBy(state.get('currentSort')),
+    currentSort: sortBy(state.get('currentSort'), state.get('currentOrder')),
     fetched: state.get('fetched'),
   };
 }

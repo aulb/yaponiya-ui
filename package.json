@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "flexbox-react": "^4.4.0",
+    "fs": "0.0.1-security",
     "immutable": "^3.8.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
@@ -16,7 +17,9 @@
     "react-socket-io": "^0.2.4",
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
-    "socket.io-client": "^2.0.3"
+    "socket.io-client": "^2.0.3",
+    "xml2js": "^0.4.17",
+    "yarn": "^0.27.5"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"

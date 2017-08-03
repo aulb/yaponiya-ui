@@ -15,11 +15,11 @@ class KanjiCatalog extends Component {
   }
 
   componentDidMount() {
-    // Fetch nhk counts
-    this.props.fetchData('http://reblws.me:5000/api/data/nhk');
+    // Fetch orders
+    this.props.fetchData('http://reblws.me:5000/api/order/grade');
     // Open sockets for live tweets
-    const socket = io('http://reblws.me:8080');
-    socket.on('tweet', this.handleTweet);
+    // const socket = io('http://reblws.me:8080');
+    // socket.on('tweet', this.handleTweet);
   }
 
   get kanjiList() {
@@ -41,10 +41,12 @@ class KanjiCatalog extends Component {
 
   render() {
     return (
-      <KanjiListing
-        kanjiList={this.kanjiList}
-        fetched={this.props.fetched}
-      />
+      <div>
+        <KanjiListing
+          kanjiList={this.kanjiList}
+          fetched={this.props.fetched}
+        />
+      </div>
     );
   }
 }

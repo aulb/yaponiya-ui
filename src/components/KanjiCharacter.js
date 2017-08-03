@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FLASH_COLOR } from '../helpers/constants';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class KanjiCharacter extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -29,13 +29,14 @@ class KanjiCharacter extends React.Component {
         borderRadius: '3px',
         border: 0,
         cursor: 'pointer',
+        textDecoration: 'none',
       },
     };
 
     return (
-      <div style={styles.button}>
+      <Link style={styles.button} to={ `/kanji/${children}` }>
         <span style={styles.character}>{children}</span>
-      </div>
+      </Link>
     );
   }
 }

@@ -1,7 +1,6 @@
 import { Map } from 'immutable';
 import KanjiCatalogItem from './KanjiCatalogItem';
 import { JOYO_KANJI } from './constants';
-import { ORDERS } from './orders';
 
 /*
  * Initializes an empty KanjiList object
@@ -9,16 +8,16 @@ import { ORDERS } from './orders';
 export default function kanjiFactory(numOfKanji) {
   let kanjiMap = Map();
   // Slice off the kanji we don't want by index
-  const joyoKanji = JOYO_KANJI.slice(0, numOfKanji - 1);
+  const joyoKanji = JOYO_KANJI.slice(0, numOfKanji);
 
   joyoKanji.forEach((character, index) => {
     kanjiMap = kanjiMap.set(
       character,
       new KanjiCatalogItem({
         id: character,
-        alphabetical: index, // TODO Remove?
-        heisig: ORDERS.HEISIG[index],
-        count: 0,
+        // Default ordering for no internet... well sucks when theres no wifi
+        alphabetical: index,
+        // The rest of the attributes are the defaults
       }),
     );
   });

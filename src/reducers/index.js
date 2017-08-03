@@ -1,15 +1,17 @@
 import { Map } from 'immutable';
-// import { combineReducers } from 'redux';
 import * as types from '../actions/actionTypes';
 import kanjiFactory from '../helpers/kanjiFactory';
-import { OPTIONS } from '../helpers/constants';
+import { ORDER, SORT } from '../helpers/constants';
 
 export default function kanjiReducer(state = Map({
+  // Here we set all the default value
   fetched: false,
   isLoading: false,
   error: false,
   kanjis: kanjiFactory(2136),
-  currentSort: OPTIONS.FREQUENCY,
+  // The app needs to take in ORDER BY <order> <ASC/DESC>
+  currentOrderBy: ORDER.HEISIG,
+  currentSort: SORT.ASCENDING,
 }), action = null) {
   switch (action.type) {
     case types.UPDATE_SORT:
@@ -19,9 +21,11 @@ export default function kanjiReducer(state = Map({
     case types.RECEIVE_ERROR:
       return state.set('error', true);
     case types.RECEIVE_COUNTS: {
-      const keysToKanji = (acc, kanji) => {
+      // TODO ordering still doesn't work
+      const keysToKanji = (acc, kanji, order='heisig') => {
         const count = action.response[kanji];
-        return acc.set(kanji, acc.get(kanji).merge({ count }));
+        // Push data to whatever our order by currently set as
+        return acc.set(kanji, acc.get(kanji).merge({ [order]: count }));
       };
       const newKanjis = Object.keys(action.response)
         .filter(key => state.get('kanjis').get(key))
