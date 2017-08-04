@@ -5,24 +5,28 @@ import {
   Switch,
   withRouter,
 } from 'react-router-dom';
-
-import KanjiStore from './components/KanjiStore';
+import { Provider } from 'react-redux';
+import store from './store';
+import KanjiCatalogContainer from './containers/KanjiCatalogContainer';
 import KanjiPage from './components/KanjiPage';
 import Header from './components/Header';
 
 const HeaderRouter = withRouter(Header);
 
+// Handle network requests here and then dispatch
+
 const Yaponiya = () => (
-  <Router>
-    <div>
-      <HeaderRouter />
-      <Switch>
-        <Route exact path="/" component={KanjiStore} />
-        <Route path="/kanji/:character" component={KanjiPage} />
-        <Route path="/:year/:month" component={KanjiStore} />
-      </Switch>
-    </div>
-  </Router>
+  <Provider store={store}>
+    <Router>
+      <div>
+        <HeaderRouter />
+        <Switch>
+          <Route exact path="/" component={KanjiCatalogContainer} />
+          <Route path="/kanji/:character" component={KanjiPage} />
+        </Switch>
+      </div>
+    </Router>
+  </Provider>
 );
 
 export default Yaponiya;
