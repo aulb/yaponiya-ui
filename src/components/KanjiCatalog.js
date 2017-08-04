@@ -15,8 +15,9 @@ class KanjiCatalog extends Component {
   }
 
   componentDidMount() {
+    const { currentOrder, fetchData } = this.props;
     // Fetch orders
-    this.props.fetchData('http://reblws.me:5000/api/order/grade');
+    fetchData(`http://reblws.me:5000/api/order/${currentOrder}`);
     // Open sockets for live tweets
     // const socket = io('http://reblws.me:8080');
     // socket.on('tweet', this.handleTweet);
@@ -45,6 +46,7 @@ class KanjiCatalog extends Component {
         <KanjiListing
           kanjiList={this.kanjiList}
           fetched={this.props.fetched}
+          currentOrder={this.props.currentOrder}
         />
       </div>
     );
@@ -54,6 +56,7 @@ class KanjiCatalog extends Component {
 KanjiCatalog.propTypes = {
   kanjiMap: ImmutablePropTypes.mapOf(KanjiCatalogItem).isRequired,
   currentSort: PropTypes.func.isRequired,
+  currentOrder: PropTypes.string.isRequired,
   fetched: PropTypes.bool.isRequired,
   fetchData: PropTypes.func.isRequired,
 };

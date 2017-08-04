@@ -10,7 +10,7 @@ export default function kanjiReducer(state = Map({
   error: false,
   kanjis: kanjiFactory(2136),
   // The app needs to take in ORDER BY <order> <ASC/DESC>
-  currentOrderBy: ORDER.HEISIG,
+  currentOrder: ORDER.GRADE,
   currentSort: SORT.ASCENDING,
 }), action = null) {
   switch (action.type) {
@@ -21,15 +21,15 @@ export default function kanjiReducer(state = Map({
     case types.RECEIVE_ERROR:
       return state.set('error', true);
     case types.RECEIVE_COUNTS: {
-      // TODO ordering still doesn't work
-      const keysToKanji = (acc, kanji, order='heisig') => {
-        const count = action.response[kanji];
-        // Push data to whatever our order by currently set as
-        return acc.set(kanji, acc.get(kanji).merge({ [order]: count }));
+      // Push data to whatever our order by currently set as
+      // Magic syntax, dynamic assignment to immutable
+      const keysToKanji = (order) => (acc, kanji) => {
+        const result = action.response[kanji];
+        return acc.set(kanji, acc.get(kanji).merge({ [order]: result }));
       };
       const newKanjis = Object.keys(action.response)
         .filter(key => state.get('kanjis').get(key))
-        .reduce(keysToKanji, state.get('kanjis'));
+        .reduce(keysToKanji(state.get('currentOrder')), state.get('kanjis'));
       return state
         .set('kanjis', newKanjis)
         .set('isLoading', false)

@@ -3,7 +3,6 @@ import { compose } from 'redux';
 import { fetchData, updateSort } from '../actions';
 import KanjiCatalog from '../components/KanjiCatalog';
 
-// TODO: Get proper order a.get(order) - b.get(order)
 function sortBy(sort, order) {
   const ascending = (a, b) => a.get(order) - b.get(order);
   const descending = (a, b) => -ascending(a, b);
@@ -12,13 +11,14 @@ function sortBy(sort, order) {
     ascending, descending
   }
 
-  return sorts[sort];// sorts[sort];
+  return sorts[sort];
 }
 
 function mapStateToProps(state) {
   return {
     kanjiMap: state.get('kanjis'),
     currentSort: sortBy(state.get('currentSort'), state.get('currentOrder')),
+    currentOrder: state.get('currentOrder'),
     fetched: state.get('fetched'),
   };
 }

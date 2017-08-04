@@ -1,6 +1,8 @@
 import axios from 'axios';
 import * as types from './actionTypes';
 
+const timeout = 20000;
+
 function receiveCounts(json) {
   return {
     type: types.RECEIVE_COUNTS,
@@ -26,7 +28,7 @@ export function fetchData(url) {
     dispatch(requestData());
     return axios({
       url,
-      timeout: 20000,
+      timeout: timeout,
       method: 'get',
       responseType: 'json',
     })
