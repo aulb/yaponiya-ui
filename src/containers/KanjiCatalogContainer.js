@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { fetchData, updateSort } from '../actions';
+import { fetchData, updateOrder } from '../actions';
 import KanjiCatalog from '../components/KanjiCatalog';
 
 function sortBy(sort, order) {
@@ -25,8 +25,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateSort: (newSort) => {
-      compose(dispatch, updateSort)(newSort);
+    updateOrder: (newOrder) => {
+      // TODO: updateOrder
+      compose(dispatch, updateOrder)(newOrder);
     },
     fetchData: (url) => {
       compose(dispatch, fetchData)(url);

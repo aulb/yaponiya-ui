@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
+import Options from '../components/Options';
 import KanjiListing from '../components/KanjiListing';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
 
@@ -12,6 +13,7 @@ class KanjiCatalog extends Component {
       tweetFlash: [],
     };
     this.handleTweet = this.handleTweet.bind(this);
+    this.switchOrder = this.switchOrder.bind(this);
   }
 
   componentDidMount() {
@@ -40,9 +42,22 @@ class KanjiCatalog extends Component {
     this.setState({ tweetFlash: tweet });
   }
 
+  switchOrder(event) {
+    const newOrder = event.target.value;
+    this.props.updateOrder(newOrder);
+
+    const { fetchData } = this.props;
+    // Fetch orders
+    fetchData(`http://reblws.me:5000/api/order/${newOrder}`);
+  }
+
   render() {
     return (
       <div>
+        <Options
+          switchOrder={this.switchOrder}
+          currentOrder={this.props.currentOrder}
+        />
         <KanjiListing
           kanjiList={this.kanjiList}
           fetched={this.props.fetched}
@@ -59,6 +74,7 @@ KanjiCatalog.propTypes = {
   currentOrder: PropTypes.string.isRequired,
   fetched: PropTypes.bool.isRequired,
   fetchData: PropTypes.func.isRequired,
+  updateOrder: PropTypes.func.isRequired,
 };
 
 export default KanjiCatalog;

@@ -10,7 +10,7 @@ const KanjiCatalogItem = new Record({
    * in any jlpt) or a kanji not frequently used (lowest rank, rank 1 being the highest)
    */
   /* Categorical based sorting */
-  jlpt: Number.MAX_SAFE_INTEGER,
+  jlpt: Number.MIN_SAFE_INTEGER,
   grade: Number.MAX_SAFE_INTEGER,
   stroke_count: Number.MAX_SAFE_INTEGER,
   /* Sequential based sorting */

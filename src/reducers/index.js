@@ -14,8 +14,9 @@ export default function kanjiReducer(state = Map({
   currentSort: SORT.ASCENDING,
 }), action = null) {
   switch (action.type) {
-    case types.UPDATE_SORT:
-      return state.set('currentSort', action.newSort);
+    case types.UPDATE_ORDER:
+      // TODO: Fetch
+      return state.set('currentOrder', action.newOrder);
     case types.REQUEST_DATA:
       return state.set('isLoading', true);
     case types.RECEIVE_ERROR:

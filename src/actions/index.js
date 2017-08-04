@@ -41,9 +41,10 @@ export function fetchData(url) {
   };
 }
 
-export function updateSort(newSort) {
+// TODO: updateOrder
+export function updateOrder(newOrder) {
   return {
-    type: types.UPDATE_SORT,
-    newSort,
+    type: types.UPDATE_ORDER,
+    newOrder,
   };
 }
