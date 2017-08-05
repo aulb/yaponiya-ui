@@ -16,15 +16,13 @@ export default function kanjiReducer(state = Map({
   fetchedOrders: Map(),
 }), action = null) {
   switch (action.type) {
-    case types.UPDATE_SORT:
-      return state.set('currentSort', action.newSort);
-    case types.UPDATE_ORDER:
-      return state.set('currentOrder', action.newOrder);
     case types.REQUEST_DATA:
       return state.set('isLoading', true);
     case types.RECEIVE_ERROR:
       return state.set('error', true);
-    case types.RECEIVE_COUNTS: {
+    case types.UPDATE_SORT:
+      return state.set('currentSort', action.newSort);
+    case types.UPDATE_ORDER: {
       // If already set, return immediately
       if (state.get('fetchedOrders').get(action.newOrder)) {
         return state.set('currentOrder', action.newOrder);
@@ -32,7 +30,7 @@ export default function kanjiReducer(state = Map({
 
       // Push data to whatever our order by currently set as
       // Magic syntax, dynamic assignment to immutable
-      const keysToKanji = (order) => (acc, kanji) => {
+      const keysToKanji = order => (acc, kanji) => {
         const result = action.response[kanji];
         return acc.set(kanji, acc.get(kanji).merge({ [order]: result }));
       };

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FLASH_COLOR } from '../helpers/constants';
 import { Link } from 'react-router-dom';
+import { FLASH_COLOR } from '../helpers/constants';
 
 class KanjiCharacter extends React.Component {
   shouldComponentUpdate(nextProps) {

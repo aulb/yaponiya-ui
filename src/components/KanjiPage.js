@@ -1,6 +1,7 @@
-import axios from 'axios';
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// import APIClient from '../helpers/APIClient';
 
 // class KanjiPage extends Component {
 function KanjiPage({ match }) {
@@ -12,14 +13,9 @@ function KanjiPage({ match }) {
   };
 
   const kanji = match.params.character;
-  const json = axios({
-    url: 'http://reblws.me:5000/api/kanji/' + decodeURIComponent(kanji),
-    timeout: 20000,
-    method: 'get',
-    responseType: 'json',
-  }).then((data) => {
-    return data;
-  });
+  // const json = APIClient
+  //   .get(`/kanji/'${decodeURIComponent(kanji)}`)
+  //   .then(data => data);
 
   return (
     <div style={styles.container}>
@@ -27,7 +23,6 @@ function KanjiPage({ match }) {
     </div>
   );
 }
-// }
 
 KanjiPage.propTypes = {
   match: PropTypes.shape({

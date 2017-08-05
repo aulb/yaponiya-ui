@@ -13,16 +13,15 @@ class KanjiCatalog extends Component {
       tweetFlash: [],
     };
     this.handleTweet = this.handleTweet.bind(this);
-    this.switchOrder = this.switchOrder.bind(this);
+    this.handleSwitchOrder = this.handleSwitchOrder.bind(this);
   }
 
-  // TODO: Revamp fetchData -> getData
   componentDidMount() {
-    const { currentOrder, fetchData } = this.props;
-    // Get currentOrder's data
-    fetchData(currentOrder);
+    // Initialize the very first ordering
+    const { currentOrder, switchOrder } = this.props;
+    switchOrder(currentOrder);
 
-    // Open sockets for live tweets
+    /* Open sockets for live tweets */
     // const socket = io('http://reblws.me:8080');
     // socket.on('tweet', this.handleTweet);
   }
@@ -44,19 +43,18 @@ class KanjiCatalog extends Component {
     this.setState({ tweetFlash: tweet });
   }
 
-  switchOrder(event) {
+  handleSwitchOrder(event) {
     const newOrder = event.target.value;
 
-    const { fetchData } = this.props;
-    // Fetch the new order first
-    fetchData(newOrder);
+    const { switchOrder } = this.props;
+    switchOrder(newOrder);
   }
 
   render() {
     return (
       <div>
         <Options
-          switchOrder={this.switchOrder}
+          switchOrder={this.handleSwitchOrder}
           currentOrder={this.props.currentOrder}
         />
         <KanjiListing
@@ -71,12 +69,10 @@ class KanjiCatalog extends Component {
 
 KanjiCatalog.propTypes = {
   kanjiMap: ImmutablePropTypes.mapOf(KanjiCatalogItem).isRequired,
-  updateOrder: PropTypes.func.isRequired,
-  // TODO: Rename to updateSort
+  switchOrder: PropTypes.func.isRequired,
   currentSort: PropTypes.func.isRequired,
   currentOrder: PropTypes.string.isRequired,
   fetched: PropTypes.bool.isRequired,
-  fetchData: PropTypes.func.isRequired,
 };
 
 export default KanjiCatalog;

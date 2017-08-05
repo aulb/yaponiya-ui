@@ -1,15 +1,20 @@
-import axios from 'axios';
 import * as types from './actionTypes';
+import APIClient from '../helpers/APIClient';
+import { getDataFromLocalStorage, saveDataToLocalStorage } from '../helpers/localStorage';
 
-const timeout = 20000;
-const apiRoot = 'http://reblws.me:5000/api/order/';
-let localStorage = window.localStorage;
-
-function receiveCounts(json, newOrder) {
+// TODO: Do updateSorting
+function updateSort(newSort) {
   return {
-    type: types.RECEIVE_COUNTS,
+    type: types.UPDATE_SORT,
+    newSort,
+  };
+}
+
+function updateOrder(json, newOrder) {
+  return {
+    type: types.UPDATE_ORDER,
     response: json,
-    newOrder: newOrder,
+    newOrder,
   };
 }
 
@@ -26,82 +31,34 @@ function requestData() {
   };
 }
 
-// TODO: Revamp
-function saveOrderToLocalStorage(order, result) {
-  const key = `${order}`;
-  saveToLocalStorage(key, result);
-}
-
-function saveToLocalStorage(key, result) {
-  localStorage.setItem(key, JSON.stringify(result));
-}
-
-function getDataFromLocalStorage(order) {
-  const key = `${order}`;
-  const stringData = localStorage[key];
-  const stringDataExist = stringData !== null && stringData !== undefined;
-  if (stringDataExist) return JSON.parse(localStorage[key]);
-  else return null;
-}
-
-
-// TODO: Revamp to getData
-export function fetchData(order) {
-  // if already fetched, done
-  const url = `${apiRoot}${order}`;
-
+/*
+ * Wrapper functions to update the ordering and sorting.
+ */
+export function switchOrder(newOrder) {
   // Check the data from localStorage first...
-  const cachedData = getDataFromLocalStorage(order);
-  const cachedDataExist = cachedData !== undefined && cachedData !== null;
+  const cachedData = getDataFromLocalStorage(newOrder);
 
-  // Need to save to localStorage
   return (dispatch) => {
     // Starting...
     dispatch(requestData());
 
-    if (cachedDataExist) {
-      dispatch(receiveCounts(cachedData, order));
-    } else {
-      return axios({
-        url,
-        timeout: timeout,
-        method: 'get',
-        responseType: 'json',
-      })
+    // Use cachedData to update the order to make less call to the API
+    if (cachedData) return dispatch(updateOrder(cachedData, newOrder));
+    return APIClient
+      .get(`/order/${newOrder}`)
       .then((response) => {
-        // Save to localStorage here
-        saveOrderToLocalStorage(order, response.data);
-        dispatch(receiveCounts(response.data, order));
+        // Cache API data to localStorage
+        saveDataToLocalStorage(newOrder, response.data);
+        dispatch(updateOrder(response.data, newOrder));
       })
       .catch((response) => {
         dispatch(receiveError(response.data));
       });
-    }
   };
 }
 
-// function uOrder(newOrder) {
-//   // fetchData(`http://reblws.me:5000/api/order/${newOrder}`);
-//   const url = `http://reblws.me:5000/api/order/${newOrder}`;
-  // fetchData(newOrder);
-//   // Fetch data
-//   //  - From local storage
-//   //  - Persist it longer
-//   //  - From the api if doesn't exist
-//   // Update the order
-// }
-
-export function updateOrder(newOrder) {
-  return {
-    type: types.UPDATE_ORDER,
-    newOrder,
-  };
-}
-
-// TODO: updateSort
-export function updateSort(newSort) {
-  return {
-    type: types.UPDATE_SORT,
-    newSort,
+export function switchSort(newSort) {
+  return (dispatch) => {
+    dispatch(updateSort(newSort));
   };
 }
