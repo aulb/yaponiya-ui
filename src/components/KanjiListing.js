@@ -106,8 +106,8 @@ function KanjiListing({ kanjiList, fetched, currentOrder }) {
 
 KanjiListing.propTypes = {
   kanjiList: ImmutablePropTypes.listOf(KanjiCatalogItem).isRequired,
-  fetched: PropTypes.bool.isRequired,
   currentOrder: PropTypes.string.isRequired,
+  fetched: PropTypes.bool.isRequired,
 };
 
 export default KanjiListing;

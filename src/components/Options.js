@@ -1,25 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ORDER } from '../helpers/constants';
 
 class Options extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchQuery: '',
+      order: '',
     };
     this.onChange = this.onChange.bind(this);
   }
 
   onChange(event) {
     this.setState({
-      searchQuery: event.target.value,
+      order: event.target.value,
     });
   }
 
   get options() {
-    const optionKeys = Object.keys(this.props.possibleOptions);
+    const optionKeys = Object.keys(ORDER);
     const renderOptions = (optionKey) => {
-      const optionString = this.props.possibleOptions[optionKey];
+      const optionString = ORDER[optionKey];
       return (
         <option
           value={optionString}
@@ -36,7 +37,7 @@ class Options extends React.Component {
     // '' is falsey
     const defaultValue = this.props.currentOrder
       ? this.props.currentOrder
-      : 'Alphabetical';
+      : ORDER.GRADE;
 
     // Flex our outerbox
     return (
@@ -48,19 +49,13 @@ class Options extends React.Component {
         >
           {this.options}
         </select>
-        <input
-          type="search"
-          placeholder="Try searching for Kanji"
-          defaultValue={this.state.searchQuery}
-          onChange={this.onChange}
-        />
       </div>
     );
   }
 }
 
 Options.propTypes = {
-  possibleOptions: PropTypes.objectOf(PropTypes.string).isRequired,
+  //possibleOptions: PropTypes.objectOf(PropTypes.string).isRequired,
   switchOrder: PropTypes.func.isRequired,
   currentOrder: PropTypes.string.isRequired,
 };

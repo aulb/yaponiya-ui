@@ -1,12 +1,20 @@
-import axios from 'axios';
 import * as types from './actionTypes';
+import APIClient from '../helpers/APIClient';
+import { getDataFromLocalStorage, saveDataToLocalStorage } from '../helpers/localStorage';
 
-const timeout = 20000;
-
-function receiveCounts(json) {
+// TODO: Do updateSorting
+function updateSort(newSort) {
   return {
-    type: types.RECEIVE_COUNTS,
+    type: types.UPDATE_SORT,
+    newSort,
+  };
+}
+
+function updateOrder(json, newOrder) {
+  return {
+    type: types.UPDATE_ORDER,
     response: json,
+    newOrder,
   };
 }
 
@@ -23,17 +31,25 @@ function requestData() {
   };
 }
 
-export function fetchData(url) {
+/*
+ * Wrapper functions to update the ordering and sorting.
+ */
+export function switchOrder(newOrder) {
+  // Check the data from localStorage first...
+  const cachedData = getDataFromLocalStorage(newOrder);
+
   return (dispatch) => {
+    // Starting...
     dispatch(requestData());
-    return axios({
-      url,
-      timeout: timeout,
-      method: 'get',
-      responseType: 'json',
-    })
+
+    // Use cachedData to update the order to make less call to the API
+    if (cachedData) return dispatch(updateOrder(cachedData, newOrder));
+    return APIClient
+      .get(`/order/${newOrder}`)
       .then((response) => {
-        dispatch(receiveCounts(response.data));
+        // Cache API data to localStorage
+        saveDataToLocalStorage(newOrder, response.data);
+        dispatch(updateOrder(response.data, newOrder));
       })
       .catch((response) => {
         dispatch(receiveError(response.data));
@@ -41,9 +57,8 @@ export function fetchData(url) {
   };
 }
 
-export function updateSort(newSort) {
-  return {
-    type: types.UPDATE_SORT,
-    newSort,
+export function switchSort(newSort) {
+  return (dispatch) => {
+    dispatch(updateSort(newSort));
   };
 }

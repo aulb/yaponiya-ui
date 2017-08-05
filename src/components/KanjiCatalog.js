@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
+import Options from '../components/Options';
 import KanjiListing from '../components/KanjiListing';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
 
@@ -12,13 +13,15 @@ class KanjiCatalog extends Component {
       tweetFlash: [],
     };
     this.handleTweet = this.handleTweet.bind(this);
+    this.handleSwitchOrder = this.handleSwitchOrder.bind(this);
   }
 
   componentDidMount() {
-    const { currentOrder, fetchData } = this.props;
-    // Fetch orders
-    fetchData(`http://reblws.me:5000/api/order/${currentOrder}`);
-    // Open sockets for live tweets
+    // Initialize the very first ordering
+    const { currentOrder, switchOrder } = this.props;
+    switchOrder(currentOrder);
+
+    /* Open sockets for live tweets */
     // const socket = io('http://reblws.me:8080');
     // socket.on('tweet', this.handleTweet);
   }
@@ -40,9 +43,20 @@ class KanjiCatalog extends Component {
     this.setState({ tweetFlash: tweet });
   }
 
+  handleSwitchOrder(event) {
+    const newOrder = event.target.value;
+
+    const { switchOrder } = this.props;
+    switchOrder(newOrder);
+  }
+
   render() {
     return (
       <div>
+        <Options
+          switchOrder={this.handleSwitchOrder}
+          currentOrder={this.props.currentOrder}
+        />
         <KanjiListing
           kanjiList={this.kanjiList}
           fetched={this.props.fetched}
@@ -55,10 +69,10 @@ class KanjiCatalog extends Component {
 
 KanjiCatalog.propTypes = {
   kanjiMap: ImmutablePropTypes.mapOf(KanjiCatalogItem).isRequired,
+  switchOrder: PropTypes.func.isRequired,
   currentSort: PropTypes.func.isRequired,
   currentOrder: PropTypes.string.isRequired,
   fetched: PropTypes.bool.isRequired,
-  fetchData: PropTypes.func.isRequired,
 };
 
 export default KanjiCatalog;

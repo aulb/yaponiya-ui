@@ -1,15 +1,13 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { fetchData, updateSort } from '../actions';
+import { switchOrder } from '../actions';
 import KanjiCatalog from '../components/KanjiCatalog';
 
 function sortBy(sort, order) {
   const ascending = (a, b) => a.get(order) - b.get(order);
   const descending = (a, b) => -ascending(a, b);
 
-  const sorts = {
-    ascending, descending
-  }
+  const sorts = { ascending, descending };
 
   return sorts[sort];
 }
@@ -25,11 +23,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateSort: (newSort) => {
-      compose(dispatch, updateSort)(newSort);
-    },
-    fetchData: (url) => {
-      compose(dispatch, fetchData)(url);
+    switchOrder: (newOrder) => {
+      compose(dispatch, switchOrder)(newOrder);
     },
   };
 }
