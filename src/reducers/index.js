@@ -12,10 +12,16 @@ export default function kanjiReducer(state = Map({
   // The app needs to take in ORDER BY <order> <ASC/DESC>
   currentOrder: ORDER.GRADE,
   currentSort: SORT.ASCENDING,
+  // Cut down on useless fetches by adding more states
+  fetchedOrders: {
+    [ORDER.GRADE]: true,
+  },
 }), action = null) {
   switch (action.type) {
+    case types.UPDATE_SORT:
+      return state.set('currentSort', action.newSort);
     case types.UPDATE_ORDER:
-      // TODO: Fetch
+      // TODO: Update fetch logic to not fetch when its already fetched
       return state.set('currentOrder', action.newOrder);
     case types.REQUEST_DATA:
       return state.set('isLoading', true);
@@ -24,6 +30,7 @@ export default function kanjiReducer(state = Map({
     case types.RECEIVE_COUNTS: {
       // Push data to whatever our order by currently set as
       // Magic syntax, dynamic assignment to immutable
+      console.log('HERE')
       const keysToKanji = (order) => (acc, kanji) => {
         const result = action.response[kanji];
         return acc.set(kanji, acc.get(kanji).merge({ [order]: result }));
@@ -31,6 +38,9 @@ export default function kanjiReducer(state = Map({
       const newKanjis = Object.keys(action.response)
         .filter(key => state.get('kanjis').get(key))
         .reduce(keysToKanji(state.get('currentOrder')), state.get('kanjis'));
+      // console.log(state.get('fetchedOrders').toJS());
+
+      console.log(state.get('currentOrder'));
       return state
         .set('kanjis', newKanjis)
         .set('isLoading', false)

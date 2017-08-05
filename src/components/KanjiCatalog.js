@@ -16,10 +16,12 @@ class KanjiCatalog extends Component {
     this.switchOrder = this.switchOrder.bind(this);
   }
 
+  // TODO: Revamp fetchData -> getData
   componentDidMount() {
     const { currentOrder, fetchData } = this.props;
-    // Fetch orders
-    fetchData(`http://reblws.me:5000/api/order/${currentOrder}`);
+    // Get currentOrder's data
+    fetchData(currentOrder);
+
     // Open sockets for live tweets
     // const socket = io('http://reblws.me:8080');
     // socket.on('tweet', this.handleTweet);
@@ -44,11 +46,14 @@ class KanjiCatalog extends Component {
 
   switchOrder(event) {
     const newOrder = event.target.value;
+
+    // Update order first
     this.props.updateOrder(newOrder);
 
     const { fetchData } = this.props;
-    // Fetch orders
-    fetchData(`http://reblws.me:5000/api/order/${newOrder}`);
+    // Fetch the new order first
+    fetchData(newOrder);
+
   }
 
   render() {
@@ -70,11 +75,12 @@ class KanjiCatalog extends Component {
 
 KanjiCatalog.propTypes = {
   kanjiMap: ImmutablePropTypes.mapOf(KanjiCatalogItem).isRequired,
+  updateOrder: PropTypes.func.isRequired,
+  // TODO: Rename to updateSort
   currentSort: PropTypes.func.isRequired,
   currentOrder: PropTypes.string.isRequired,
   fetched: PropTypes.bool.isRequired,
   fetchData: PropTypes.func.isRequired,
-  updateOrder: PropTypes.func.isRequired,
 };
 
 export default KanjiCatalog;
