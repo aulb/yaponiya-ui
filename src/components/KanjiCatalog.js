@@ -47,13 +47,9 @@ class KanjiCatalog extends Component {
   switchOrder(event) {
     const newOrder = event.target.value;
 
-    // Update order first
-    this.props.updateOrder(newOrder);
-
     const { fetchData } = this.props;
     // Fetch the new order first
     fetchData(newOrder);
-
   }
 
   render() {

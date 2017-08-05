@@ -13,38 +13,40 @@ export default function kanjiReducer(state = Map({
   currentOrder: ORDER.GRADE,
   currentSort: SORT.ASCENDING,
   // Cut down on useless fetches by adding more states
-  fetchedOrders: {
-    [ORDER.GRADE]: true,
-  },
+  fetchedOrders: Map(),
 }), action = null) {
   switch (action.type) {
     case types.UPDATE_SORT:
       return state.set('currentSort', action.newSort);
     case types.UPDATE_ORDER:
-      // TODO: Update fetch logic to not fetch when its already fetched
       return state.set('currentOrder', action.newOrder);
     case types.REQUEST_DATA:
       return state.set('isLoading', true);
     case types.RECEIVE_ERROR:
       return state.set('error', true);
     case types.RECEIVE_COUNTS: {
+      // If already set, return immediately
+      if (state.get('fetchedOrders').get(action.newOrder)) {
+        return state.set('currentOrder', action.newOrder);
+      }
+
       // Push data to whatever our order by currently set as
       // Magic syntax, dynamic assignment to immutable
-      console.log('HERE')
       const keysToKanji = (order) => (acc, kanji) => {
         const result = action.response[kanji];
         return acc.set(kanji, acc.get(kanji).merge({ [order]: result }));
       };
       const newKanjis = Object.keys(action.response)
         .filter(key => state.get('kanjis').get(key))
-        .reduce(keysToKanji(state.get('currentOrder')), state.get('kanjis'));
-      // console.log(state.get('fetchedOrders').toJS());
+        .reduce(keysToKanji(action.newOrder), state.get('kanjis'));
+      const fetchedOrders = state.get('fetchedOrders').merge({ [action.newOrder]: true });
 
-      console.log(state.get('currentOrder'));
       return state
         .set('kanjis', newKanjis)
+        .set('currentOrder', action.newOrder)
         .set('isLoading', false)
-        .set('fetched', true);
+        .set('fetched', true)
+        .set('fetchedOrders', fetchedOrders);
     }
     default:
       return state;

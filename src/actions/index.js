@@ -5,10 +5,11 @@ const timeout = 20000;
 const apiRoot = 'http://reblws.me:5000/api/order/';
 let localStorage = window.localStorage;
 
-function receiveCounts(json) {
+function receiveCounts(json, newOrder) {
   return {
     type: types.RECEIVE_COUNTS,
     response: json,
+    newOrder: newOrder,
   };
 }
 
@@ -46,6 +47,7 @@ function getDataFromLocalStorage(order) {
 
 // TODO: Revamp to getData
 export function fetchData(order) {
+  // if already fetched, done
   const url = `${apiRoot}${order}`;
 
   // Check the data from localStorage first...
@@ -54,22 +56,22 @@ export function fetchData(order) {
 
   // Need to save to localStorage
   return (dispatch) => {
-    // isLoading is true
+    // Starting...
     dispatch(requestData());
 
     if (cachedDataExist) {
-      dispatch(receiveCounts(cachedData));
+      dispatch(receiveCounts(cachedData, order));
     } else {
       return axios({
-      url,
-      timeout: timeout,
-      method: 'get',
-      responseType: 'json',
-    })
+        url,
+        timeout: timeout,
+        method: 'get',
+        responseType: 'json',
+      })
       .then((response) => {
         // Save to localStorage here
         saveOrderToLocalStorage(order, response.data);
-        dispatch(receiveCounts(response.data));
+        dispatch(receiveCounts(response.data, order));
       })
       .catch((response) => {
         dispatch(receiveError(response.data));
