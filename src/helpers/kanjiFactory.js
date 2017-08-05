@@ -2,9 +2,6 @@ import { Map } from 'immutable';
 import KanjiCatalogItem from './KanjiCatalogItem';
 import { JOYO_KANJI } from './constants';
 
-/*
- * Initializes an empty KanjiList object
- */
 export default function kanjiFactory(numOfKanji) {
   let kanjiMap = Map();
   // Slice off the kanji we don't want by index
