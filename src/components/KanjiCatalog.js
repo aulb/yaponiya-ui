@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 // import io from 'socket.io-client';
-import SortOptions from '../components/SortOptions';
-import OrderOptions from '../components/OrderOptions';
+import Options from '../components/Options';
 import KanjiListing from '../components/KanjiListing';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
 
@@ -60,13 +59,11 @@ class KanjiCatalog extends Component {
   render() {
     return (
       <div>
-        <OrderOptions
-          switchOrder={this.handleSwitchOrder}
-          currentOrder={this.props.currentOrder}
-        />
-        <SortOptions
+        <Options
           switchSort={this.handleSwitchSort}
+          switchOrder={this.handleSwitchOrder}
           currentSort={this.props.currentSort}
+          currentOrder={this.props.currentOrder}
         />
         <KanjiListing
           kanjiList={this.kanjiList}

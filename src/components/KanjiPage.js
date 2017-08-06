@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// TODO: Implement Kanji Page
+// Make it look like Kanji Recognizer
 // import APIClient from '../helpers/APIClient';
+// Save data to local storage
 
 // class KanjiPage extends Component {
 function KanjiPage({ match }) {

@@ -18,11 +18,11 @@ const styles = {
   },
 };
 
-// TODO: Want to sort by currentOrder
+// TODO: Revamp coloring
 function getSortedCounts(kanjiList, order) {
   return kanjiList
     .map(kanji => kanji.get(order))
-    .sort((a, b) => (a - b));
+    .sort((a, b) => -(a - b));
 }
 
 function calculateRatio(count, largestCount) {
@@ -42,9 +42,8 @@ function isBGLight(paletteIndex, paletteLength) {
 function kanjiMapClosure(largestCount, mostUsedKanji, fetched = true) {
   return (kanji) => {
     // Avoid nulls
-    const count = kanji.get('grade') || 0;
+    const count = kanji.get('alphabetical') || 0;
     const link = `/kanji/${kanji.id}`;
-
 
     let backgroundColor;
     let fontColor;
@@ -85,7 +84,6 @@ function kanjiMapClosure(largestCount, mostUsedKanji, fetched = true) {
   };
 }
 
-// TODO: Make dropdown currentOrder and currentSort
 function KanjiListing({ kanjiList, currentOrder }) {
   // Grab the largest kanji count to make a ratio against
   const counts = getSortedCounts(kanjiList, currentOrder);
