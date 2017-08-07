@@ -1,7 +1,12 @@
 import React from 'react';
 import { ORDER, SORT } from '../helpers/constants';
 
-function capitalizeOptionLabel(string) {
+export function isPropEmpty(prop) {
+  return (prop === undefined || prop === null
+    || prop === [] || prop === {});
+}
+
+export function capitalizeLabel(string, splitter = '_') {
   function capitalizeFirstLetter(letter, index) {
     return index === 0
       ? letter.toUpperCase()
@@ -12,7 +17,7 @@ function capitalizeOptionLabel(string) {
     return word.split('').map(capitalizeFirstLetter).join('');
   }
 
-  return string.split('_').map(capitalizeWord).join(' ');
+  return string.split(splitter).map(capitalizeWord).join(' ');
 }
 
 function makeOptions(options) {
@@ -24,7 +29,7 @@ function makeOptions(options) {
         value={optionString}
         key={optionString}
       >
-        {capitalizeOptionLabel(optionString)}
+        {capitalizeLabel(optionString)}
       </option>
     );
   };
