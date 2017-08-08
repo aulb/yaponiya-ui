@@ -16,7 +16,7 @@ export const ORDER = {
 
 export const SORT = {
   ASCENDING: 'ascending',
-  DESCENDING: 'desceding',
+  DESCENDING: 'descending',
 };
 
 export const FLASH_COLOR = 'yellow';

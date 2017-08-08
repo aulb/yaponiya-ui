@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { switchOrder } from '../actions';
+import { switchOrder, switchSort } from '../actions';
 import KanjiCatalog from '../components/KanjiCatalog';
 
 function sortBy(sort, order) {
@@ -15,7 +15,8 @@ function sortBy(sort, order) {
 function mapStateToProps(state) {
   return {
     kanjiMap: state.get('kanjis'),
-    currentSort: sortBy(state.get('currentSort'), state.get('currentOrder')),
+    sortFunction: sortBy(state.get('currentSort'), state.get('currentOrder')),
+    currentSort: state.get('currentSort'),
     currentOrder: state.get('currentOrder'),
     fetched: state.get('fetched'),
   };
@@ -25,6 +26,9 @@ function mapDispatchToProps(dispatch) {
   return {
     switchOrder: (newOrder) => {
       compose(dispatch, switchOrder)(newOrder);
+    },
+    switchSort: (newSort) => {
+      compose(dispatch, switchSort)(newSort);
     },
   };
 }

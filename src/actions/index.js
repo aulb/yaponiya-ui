@@ -2,7 +2,6 @@ import * as types from './actionTypes';
 import APIClient from '../helpers/APIClient';
 import { getDataFromLocalStorage, saveDataToLocalStorage } from '../helpers/localStorage';
 
-// TODO: Do updateSorting
 function updateSort(newSort) {
   return {
     type: types.UPDATE_SORT,

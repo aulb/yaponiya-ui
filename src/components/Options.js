@@ -1,62 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ORDER } from '../helpers/constants';
+import SortOptions from '../components/SortOptions';
+import OrderOptions from '../components/OrderOptions';
 
-class Options extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      order: '',
-    };
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onChange(event) {
-    this.setState({
-      order: event.target.value,
-    });
-  }
-
-  get options() {
-    const optionKeys = Object.keys(ORDER);
-    const renderOptions = (optionKey) => {
-      const optionString = ORDER[optionKey];
-      return (
-        <option
-          value={optionString}
-          key={optionString}
-        >
-          {optionString}
-        </option>
-      );
-    };
-    return optionKeys.map(renderOptions);
-  }
-
-  render() {
-    // '' is falsey
-    const defaultValue = this.props.currentOrder
-      ? this.props.currentOrder
-      : ORDER.GRADE;
-
-    // Flex our outerbox
-    return (
-      <div>
-        <select
-          name="options"
-          onChange={this.props.switchOrder}
-          value={defaultValue}
-        >
-          {this.options}
-        </select>
-      </div>
-    );
-  }
+function Options({ switchSort, switchOrder, currentSort, currentOrder }) {
+  return (<div>
+    <OrderOptions
+      switchOrder={switchOrder}
+      currentOrder={currentOrder}
+    />
+    <SortOptions
+      switchSort={switchSort}
+      currentSort={currentSort}
+    />
+  </div>);
 }
 
 Options.propTypes = {
-  //possibleOptions: PropTypes.objectOf(PropTypes.string).isRequired,
+  switchSort: PropTypes.func.isRequired,
   switchOrder: PropTypes.func.isRequired,
+  currentSort: PropTypes.string.isRequired,
   currentOrder: PropTypes.string.isRequired,
 };
 

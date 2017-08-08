@@ -18,7 +18,7 @@ const styles = {
   },
 };
 
-// TODO: Want to sort by currentOrder
+// TODO: Revamp coloring
 function getSortedCounts(kanjiList, order) {
   return kanjiList
     .map(kanji => kanji.get(order))
@@ -39,13 +39,11 @@ function isBGLight(paletteIndex, paletteLength) {
   return paletteIndex < paletteLength - 3;
 }
 
-// Set up
-function kanjiMapClosure(largestCount, mostUsedKanji, fetched) {
+function kanjiMapClosure(largestCount, mostUsedKanji, fetched = true) {
   return (kanji) => {
     // Avoid nulls
-    const count = kanji.get('grade') || 0;
+    const count = kanji.get('alphabetical') || 0;
     const link = `/kanji/${kanji.id}`;
-
 
     let backgroundColor;
     let fontColor;
@@ -86,8 +84,7 @@ function kanjiMapClosure(largestCount, mostUsedKanji, fetched) {
   };
 }
 
-// TODO: Make dropdown currentOrder and currentSort
-function KanjiListing({ kanjiList, fetched, currentOrder }) {
+function KanjiListing({ kanjiList, currentOrder }) {
   // Grab the largest kanji count to make a ratio against
   const counts = getSortedCounts(kanjiList, currentOrder);
   const mostUsedKanji = counts.slice(0, CUTOFF_INDEX);
@@ -95,7 +92,7 @@ function KanjiListing({ kanjiList, fetched, currentOrder }) {
   // Only the largest count from the lessUsed otherwise
   // the color gradient won't be obvious
   const largestCount = lessUsedKanji.get(0);
-  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji, fetched);
+  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
 
   return (
     <div style={styles.container}>
@@ -107,7 +104,6 @@ function KanjiListing({ kanjiList, fetched, currentOrder }) {
 KanjiListing.propTypes = {
   kanjiList: ImmutablePropTypes.listOf(KanjiCatalogItem).isRequired,
   currentOrder: PropTypes.string.isRequired,
-  fetched: PropTypes.bool.isRequired,
 };
 
 export default KanjiListing;
