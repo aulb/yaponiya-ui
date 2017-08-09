@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import KanjiReading from '../components/KanjiReading';
 import KanjiMeaning from '../components/KanjiMeaning';
 import KanjiInformation from '../components/KanjiInformation';
+import KanjiStroke from '../components/KanjiStroke';
 
 import { getDataFromLocalStorage, saveDataToLocalStorage } from '../helpers/localStorage';
 
@@ -75,7 +76,7 @@ class KanjiPage extends Component {
     const getStroke = APIClient
       .get(`/stroke/${decodedKanji}`)
       .then((result) => {
-        stroke = result;
+        stroke = result.data;
       });
 
     Promise.all([getData, getStroke])
@@ -104,6 +105,9 @@ class KanjiPage extends Component {
         />
         <KanjiReading
           reading={this.state.data.reading}
+        />
+        <KanjiStroke
+          stroke={this.state.stroke}
         />
       </div>
     );
