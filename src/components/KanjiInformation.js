@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import { isPropEmpty } from '../helpers/utils';
 
 function KanjiInformation({ jlpt, grade, stroke_count }) {
+  const blurbs = [
+    { name: 'jlpt', value: jlpt },
+    { name: 'grade', value: grade },
+    { name: 'stroke_count', value: stroke_count },
+  ];
+
   const makeBlurb = (level, label) => {
     if (isPropEmpty(level)) return '';
 
@@ -30,9 +36,13 @@ function KanjiInformation({ jlpt, grade, stroke_count }) {
     }
   };
 
+  const blurbElements = blurbs.map(({ value, name }) =>
+    <p>{ makeBlurb(value, name) }</p>,
+  );
+
   return (
     <div>
-      {`${makeBlurb(jlpt, 'jlpt')} ${makeBlurb(grade, 'grade')} ${makeBlurb(stroke_count, 'stroke_count')}`}
+      { blurbElements }
     </div>
   );
 }
