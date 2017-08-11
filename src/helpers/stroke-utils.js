@@ -25,7 +25,7 @@ export function findAllKanjiComponents(startingElement, findAll = false) {
     let flag = true;
     // If theres kvg:element, done
     if (xmlElement.$['kvg:element'] !== undefined) {
-      if (isMajor === true || findAll) {
+      if (isMajor || findAll) {
         components.push(xmlElement.$['kvg:element']);
         flag = false;
       }
