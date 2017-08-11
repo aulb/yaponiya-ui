@@ -1,7 +1,26 @@
 import React from 'react';
 import { ORDER, SORT } from '../helpers/constants';
 
+export function excludeFromArray(array, exclude) {
+  return array.filter(item => (item !== exclude));
+}
+
+export function removeDuplicates(array) {
+  const seen = {};
+  return array.filter((item) => {
+    if (seen[item]) {
+      return false;
+    }
+    seen[item] = true;
+    return true;
+  });
+}
+
 export function isPropEmpty(prop) {
+  if (typeof prop === 'string') {
+    return prop.replace(/^\s+|\s+$/g, '') === '';
+  }
+
   return (prop === undefined || prop === null
     || prop === [] || prop === {});
 }

@@ -22,7 +22,7 @@ function KanjiInformation({ jlpt, grade, stroke_count }) {
       case 'jlpt':
         return `This kanji is tested as part of the N${level.toString(10)} test.`;
       case 'grade':
-        return `Taught in ${humanGrade} grade.`;
+        return `Taught in ${humanGrade}${level > 6 ? '' : ' grade'}.`;
       case 'stroke_count':
         return `Requires ${level.toString(10)} stroke${level > 1 ? 's' : ''} to write.`;
       default:
