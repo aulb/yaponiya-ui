@@ -17,7 +17,7 @@ function KanjiMeaning({ meaning }) {
 
 KanjiMeaning.propTypes = {
   // https://github.com/yannickcr/eslint-plugin-react/issues/904
-  meaning: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  meaning: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default KanjiMeaning;
