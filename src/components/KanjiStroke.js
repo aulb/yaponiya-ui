@@ -1,57 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import xml2js from 'xml2js';
 
-import { isPropEmpty } from '../helpers/utils';
+import { isPropEmpty,
+  excludeFromArray,
+  removeDuplicates } from '../helpers/utils';
+import { convertXMLToObject,
+  findAllKanjiPaths,
+  makeKanjiStrokeOrder,
+  findAllKanjiComponents } from '../helpers/stroke-utils';
 
-const xmlParser = xml2js.parseString;
-const builder = new xml2js.Builder();
+function getOrderSVGs(strokeXML) {
+ // We are allowed to delete a const'd object
+  const strokeObject = convertXMLToObject(strokeXML);
+  const paths = findAllKanjiPaths(strokeObject.svg.g[0].g[0]);
 
-function findAllElements(stroke) {
-  const elements = [];
+  delete strokeObject.svg.g[0].g;
+  delete strokeObject.svg.g[1];
 
-  function findElement(stroke) {
-    // Base condition
-    if (stroke === '') return;
-
-    elements.push('');
-  }
-
-  findElement(stroke);
-
-  return elements;
+  return makeKanjiStrokeOrder(strokeObject, paths);
 }
 
-function componentBuilder(stroke) {
-  let stroke1 = '';
+function getKanjiComponents(kanji, strokeXML) {
+  const strokeObject = convertXMLToObject(strokeXML); // Deep copy-ing in a sense
 
-  xmlParser(stroke, (error, result) => {
-    if (!isPropEmpty(result)) {
-      console.log(result.svg.g[0].g);
-      result.svg.g = result.svg.g.splice(0, 1);
-      stroke1 = builder.buildObject(result);
-    }
-  });
-
-  return stroke1;
+  const kanjiComponents = findAllKanjiComponents(strokeObject.svg.g[0].g[0]);
+  // Proto this...
+  return removeDuplicates(excludeFromArray(kanjiComponents, kanji));
 }
 
+function KanjiStroke({ kanji, strokeXML }) {
+  if (isPropEmpty(strokeXML)) return (<div />);
 
-function KanjiStroke({ stroke }) {
-  if (isPropEmpty(stroke)) return (<div />);
-
-  const stroke1 = componentBuilder(stroke);
+  const strokeOrderSVGs = getOrderSVGs(strokeXML);
+  const strokeComponents = getKanjiComponents(kanji, strokeXML);
 
   return (
     <div>
-      <h1>Stroke Components</h1>
-      <div dangerouslySetInnerHTML={{ __html: stroke1 }} />
+      <h1>Major Kanji Components</h1>
+      {strokeComponents.join(', ')}
+      <h1>Stroke Order</h1>
+      <div dangerouslySetInnerHTML={{ __html: strokeOrderSVGs.join('') }} />
     </div>
   );
 }
 
 KanjiStroke.propTypes = {
-  stroke: PropTypes.string.isRequired,
+  kanji: PropTypes.string.isRequired,
+  strokeXML: PropTypes.string.isRequired,
 };
 
 export default KanjiStroke;

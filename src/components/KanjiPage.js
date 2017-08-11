@@ -34,7 +34,7 @@ class KanjiPage extends Component {
         grade: 0,
         stroke_count: 0,
       },
-      stroke: '',
+      strokeXML: '',
     };
   }
 
@@ -53,7 +53,7 @@ class KanjiPage extends Component {
     if (cachedData && cachedStroke) {
       this.setState({
         data: cachedData,
-        stroke: cachedStroke,
+        strokeXML: cachedStroke,
       });
       return true;
     }
@@ -65,7 +65,7 @@ class KanjiPage extends Component {
     const kanji = this.state.kanji;
     const decodedKanji = decodeURIComponent(kanji);
     let data = null;
-    let stroke = '';
+    let strokeXML = '';
 
     const getData = APIClient
       .get(`/kanji/${decodedKanji}`)
@@ -76,17 +76,17 @@ class KanjiPage extends Component {
     const getStroke = APIClient
       .get(`/stroke/${decodedKanji}`)
       .then((result) => {
-        stroke = result.data;
+        strokeXML = result.data;
       });
 
     Promise.all([getData, getStroke])
       .then(() => {
         saveDataToLocalStorage(kanji, data);
-        saveDataToLocalStorage(`stroke:${kanji}`, stroke);
+        saveDataToLocalStorage(`stroke:${kanji}`, strokeXML);
 
         this.setState({
           data,
-          stroke,
+          strokeXML,
         });
       });
   }
@@ -107,7 +107,8 @@ class KanjiPage extends Component {
           reading={this.state.data.reading}
         />
         <KanjiStroke
-          stroke={this.state.stroke}
+          kanji={this.state.kanji}
+          strokeXML={this.state.strokeXML}
         />
       </div>
     );
