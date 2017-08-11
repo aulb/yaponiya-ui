@@ -48,7 +48,7 @@ class Header extends React.Component {
     return (
       <div style={styles.container}>
         <header style={styles.header}>
-          <h1>やぽにや</h1>
+          <Link to="/"><h1>やぽにや</h1></Link>
         </header>
         <nav style={styles.nav}>
           {
