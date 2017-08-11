@@ -37,7 +37,7 @@ function KanjiInformation({ jlpt, grade, stroke_count }) {
   };
 
   const blurbElements = blurbs.map(({ value, name }) =>
-    <p>{ makeBlurb(value, name) }</p>,
+    <p key={name}>{ makeBlurb(value, name) }</p>,
   );
 
   return (
@@ -48,9 +48,15 @@ function KanjiInformation({ jlpt, grade, stroke_count }) {
 }
 
 KanjiInformation.propTypes = {
-  jlpt: PropTypes.number.isRequired,
-  grade: PropTypes.number.isRequired,
-  stroke_count: PropTypes.number.isRequired,
+  jlpt: PropTypes.number,
+  grade: PropTypes.number,
+  stroke_count: PropTypes.number,
+};
+
+KanjiInformation.defaultProps = {
+  jlpt: 0,
+  grade: 0,
+  stroke_count: 0,
 };
 
 export default KanjiInformation;
