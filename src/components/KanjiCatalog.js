@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
+import About from '../components/About';
 import Options from '../components/Options';
 import KanjiListing from '../components/KanjiListing';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
@@ -75,6 +76,7 @@ class KanjiCatalog extends Component {
           kanjiList={this.kanjiList}
           currentOrder={this.props.currentOrder}
         />
+        <About />
       </div>
     );
   }

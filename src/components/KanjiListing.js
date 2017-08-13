@@ -20,14 +20,6 @@ import { palette } from '../helpers/palette';
 const CUTOFF_INDEX = 50;
 const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
 
-const styles = {
-  container: {
-    maxWidth: 900,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-};
-
 // TODO: Revamp coloring
 function getSortedCounts(kanjiList, order) {
   return kanjiList
@@ -105,7 +97,7 @@ function KanjiListing({ kanjiList, currentOrder }) {
   const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
 
   return (
-    <div style={styles.container}>
+    <div>
       { kanjiList.map(kanjiMapFn) }
     </div>
   );
