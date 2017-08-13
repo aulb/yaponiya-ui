@@ -24,16 +24,19 @@ function KanjiInformation({ jlpt, grade, stroke_count }) {
 
     const humanGrade = level < 7 ? grades[level] : 'secondary school';
 
-    switch (label) {
-      case 'jlpt':
-        return `This kanji is tested as part of the N${level.toString(10)} test.`;
-      case 'grade':
-        return `Taught in ${humanGrade}${level > 6 ? '' : ' grade'}.`;
-      case 'stroke_count':
-        return `Requires ${level.toString(10)} stroke${level > 1 ? 's' : ''} to write.`;
-      default:
-        return '';
+    if (level > 0) {
+      switch (label) {
+        case 'jlpt':
+          return `This kanji is tested as part of the N${level.toString(10)} test.`;
+        case 'grade':
+          return `Taught in ${humanGrade}${level > 6 ? '' : ' grade'}.`;
+        case 'stroke_count':
+          return `Requires ${level.toString(10)} stroke${level > 1 ? 's' : ''} to write.`;
+        default:
+          break;
+      }
     }
+    return '';
   };
 
   const blurbElements = blurbs.map(({ value, name }) =>

@@ -6,18 +6,6 @@ import { FLASH_COLOR } from '../helpers/constants';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
 import { palette } from '../helpers/palette';
 
-const styles = {
-  container: {
-    maxWidth: 900,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-};
-// The top-N kanji that are statistically significant
-const CUTOFF_INDEX = 50;
-// Our color palette come from the color function in helpers/palette
-const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
-
 // TODO1: We look at the current order, and determine what type of variable it is
 //          - Categorical       or        -Sequential
 // TODO2: Need to detemrine which primary color we are using, depending on our
@@ -28,6 +16,18 @@ const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
 //                                        and a way to detemrine how many
 //                                        different sets of colors there are
 
+// The top-N kanji that are statistically significant
+const CUTOFF_INDEX = 50;
+const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
+
+const styles = {
+  container: {
+    maxWidth: 900,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+};
+
 // TODO: Revamp coloring
 function getSortedCounts(kanjiList, order) {
   return kanjiList
@@ -35,7 +35,19 @@ function getSortedCounts(kanjiList, order) {
     .sort((a, b) => -(a - b));
 }
 
+function calculateRatio(count, largestCount) {
+  return count / largestCount > 1
+    ? 1
+    : count / largestCount;
+}
 
+function getPaletteIndex(countRatio) {
+  return Math.floor(countRatio * (SEQ_PALETTE.length - 1));
+}
+
+function isBGLight(paletteIndex, paletteLength) {
+  return paletteIndex < paletteLength - 3;
+}
 
 function kanjiMapClosure(largestCount, mostUsedKanji, fetched = true) {
   return (kanji) => {

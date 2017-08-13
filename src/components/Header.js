@@ -37,12 +37,12 @@ class Header extends React.Component {
 
   get links() {
     return {
-      back: { name: 'Back', path: this.state.prevPath }
+      back: { name: 'Back', path: this.state.prevPath },
     };
   }
 
   render() {
-    // const { location } = this.props;
+    const { location } = this.props;
 
     const linkBack = this.links.back;
     return (
@@ -52,10 +52,11 @@ class Header extends React.Component {
         </header>
         <nav style={styles.nav}>
           {
-            this.state.prevPath !== '/' &&
-            <Link style={styles.link} to={linkBack.path}>
-              {linkBack.name}
-            </Link>
+            location.pathname !== '/' ?
+              <Link style={styles.link} to={linkBack.path}>
+                {linkBack.name}
+              </Link>
+            : null
           }
         </nav>
       </div>

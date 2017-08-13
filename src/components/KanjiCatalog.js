@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 import Options from '../components/Options';
 import KanjiListing from '../components/KanjiListing';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
+
+/* Instantiate sockets for live tweets */
+const socket = io('http://reblws.me:8080');
 
 class KanjiCatalog extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tweetFlash: [],
+      twitter: true,
     };
     this.handleTweet = this.handleTweet.bind(this);
     this.handleSwitchSort = this.handleSwitchSort.bind(this);
@@ -22,9 +26,11 @@ class KanjiCatalog extends Component {
     const { currentOrder, switchOrder } = this.props;
     switchOrder(currentOrder);
 
-    /* Open sockets for live tweets */
-    // const socket = io('http://reblws.me:8080');
-    // socket.on('tweet', this.handleTweet);
+    socket.on('tweet', this.handleTweet);
+  }
+
+  componentWillUnmount() {
+    socket.removeListener('tweet', this.handleTweet);
   }
 
   get kanjiList() {

@@ -34,7 +34,7 @@ class KanjiCharacter extends React.Component {
     };
 
     return (
-      <Link style={styles.button} to={ `/kanji/${children}` }>
+      <Link style={styles.button} to={`/kanji/${children}`}>
         <span style={styles.character}>{children}</span>
       </Link>
     );

@@ -7,7 +7,6 @@ import KanjiStroke from '../components/KanjiStroke';
 
 import { getDataFromLocalStorage, saveDataToLocalStorage } from '../helpers/localStorage';
 
-// TODO: Implement Kanji Page
 // Make it look like Kanji Recognizer
 import APIClient from '../helpers/APIClient';
 // Save data to local storage
