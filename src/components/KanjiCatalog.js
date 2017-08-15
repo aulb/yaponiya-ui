@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
-import io from 'socket.io-client';
 import About from '../components/About';
 import Options from '../components/Options';
+import TweetButton from '../components/TweetButton';
 import KanjiListing from '../components/KanjiListing';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
-
-/* Instantiate sockets for live tweets */
-const socket = io('http://reblws.me:8080');
+import socketClient from '../helpers/SocketClient';
 
 class KanjiCatalog extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tweetFlash: [],
-      twitter: true,
+      twitter: false,
     };
     this.handleTweet = this.handleTweet.bind(this);
     this.handleSwitchSort = this.handleSwitchSort.bind(this);
     this.handleSwitchOrder = this.handleSwitchOrder.bind(this);
+    this.toggleStream = this.toggleStream.bind(this);
   }
 
   componentDidMount() {
@@ -27,11 +26,15 @@ class KanjiCatalog extends Component {
     const { currentOrder, switchOrder } = this.props;
     switchOrder(currentOrder);
 
-    socket.on('tweet', this.handleTweet);
+    if (!socketClient.exists()) {
+      socketClient.initialize();
+    }
   }
 
   componentWillUnmount() {
-    socket.removeListener('tweet', this.handleTweet);
+    if (socketClient.exists()) {
+      socketClient.unlistenTweet(this.handleTweet);
+    }
   }
 
   get kanjiList() {
@@ -63,6 +66,16 @@ class KanjiCatalog extends Component {
     switchSort(newSort);
   }
 
+  toggleStream() {
+    this.setState({
+      twitter: !this.state.twitter,
+    });
+
+    // If streaming is activated, please help clean this up...
+    if (!this.state.twitter) socketClient.listenTweet(this.handleTweet);
+    else socketClient.unlistenTweet(this.handleTweet);
+  }
+
   render() {
     return (
       <div>
@@ -71,6 +84,10 @@ class KanjiCatalog extends Component {
           switchOrder={this.handleSwitchOrder}
           currentSort={this.props.currentSort}
           currentOrder={this.props.currentOrder}
+        />
+        <TweetButton
+          toggleStream={this.toggleStream}
+          isActive={this.state.twitter}
         />
         <KanjiListing
           kanjiList={this.kanjiList}
