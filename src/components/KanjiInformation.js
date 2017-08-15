@@ -40,13 +40,13 @@ function KanjiInformation({ jlpt, grade, stroke_count }) {
   };
 
   const blurbElements = blurbs.map(({ value, name }) =>
-    <p key={name}>{ makeBlurb(value, name) }</p>,
+    makeBlurb(value, name),
   );
 
   return (
-    <div>
-      { blurbElements }
-    </div>
+    <p>
+      { blurbElements.join(' ') }
+    </p>
   );
 }
 

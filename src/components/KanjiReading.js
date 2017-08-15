@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { isPropEmpty, capitalizeLabel } from '../helpers/utils';
 
 function KanjiReading({ reading }) {
-  if (isPropEmpty(reading)) return (<div />);
+  if (isPropEmpty(reading)) return null;
 
   const Reading = (label) => {
     const readings = reading[label];
-    if (isPropEmpty(readings)) return (<div />);
+    if (isPropEmpty(readings)) return null;
 
     return (
       <li>
@@ -19,6 +19,7 @@ function KanjiReading({ reading }) {
 
   return (<div>
     <h1>Readings</h1>
+    <hr />
     <ul>
       { Reading('onyomi') }
       { Reading('kunyomi') }

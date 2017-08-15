@@ -13,13 +13,8 @@ function About() {
           to cut down the amount of kanjis on the page. You can sort and reorder kanjis
           in various ways to see which are more common.</p>
 
-      <p>This website was inspired and made possible by the help of these sources.
-        <a href="https://kaisuu.herokuapp.com" target="_blank" rel="noopener noreferrer">Kaisuu</a>
-         for similar idea and source of inspiration.
-        <a href="http://kanjivg.tagaini.net/" target="_blank" rel="noopener noreferrer">KanjiVG</a>
-         for providing open sourced kanji data.
-        <a href="http://www.freepik.com" target="_blank" rel="noopener noreferrer">Freepik</a>
-         for icons.
+      <p>
+        This website was inspired and made possible by the help of these sources. <a href="https://kaisuu.herokuapp.com" target="_blank" rel="noopener noreferrer">Kaisuu</a> for similar idea and source of inspiration. <a href="http://kanjivg.tagaini.net/" target="_blank" rel="noopener noreferrer">KanjiVG</a> for providing open sourced kanji data. <a href="http://www.freepik.com" target="_blank" rel="noopener noreferrer">Freepik</a> for icons.
       </p>
     </div>
   );

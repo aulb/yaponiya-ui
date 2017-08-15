@@ -94,6 +94,7 @@ class KanjiPage extends Component {
     return (
       <div style={styles.container}>
         <h1>{this.state.kanji}</h1>
+        <hr />
         <KanjiInformation
           jlpt={this.state.data.jlpt}
           grade={this.state.data.grade}

@@ -5,11 +5,12 @@ import { isPropEmpty } from '../helpers/utils';
 
 function KanjiMeaning({ meaning }) {
   // Async band-aid solution
-  if (isPropEmpty(meaning)) return (<div />);
+  if (isPropEmpty(meaning)) return '';
 
   return (
     <div>
       <h1>Meaning</h1>
+      <hr />
       {meaning.join(', ')}
     </div>
   );

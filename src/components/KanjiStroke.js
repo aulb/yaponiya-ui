@@ -34,11 +34,23 @@ function KanjiStroke({ kanji, strokeXML }) {
   const strokeOrderSVGs = getOrderSVGs(strokeXML);
   const strokeComponents = getKanjiComponents(kanji, strokeXML);
 
+  const strokeComponentsDiv = (components) => {
+    if (components.length === 0) return null;
+
+    return (
+      <div>
+        <h1>Kanji Components</h1>
+        <hr />
+        {components.join(', ')}
+      </div>
+    );
+  };
+
   return (
     <div>
-      <h1>Major Kanji Components</h1>
-      {strokeComponents.join(', ')}
+      { strokeComponentsDiv(strokeComponents) }
       <h1>Stroke Order</h1>
+      <hr />
       <div dangerouslySetInnerHTML={{ __html: strokeOrderSVGs.join('') }} />
     </div>
   );

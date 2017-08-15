@@ -8,9 +8,6 @@ const styles = {
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  header: {
-    textAlign: 'center',
-  },
   nav: {
     textAlign: 'right',
   },
@@ -47,8 +44,8 @@ class Header extends React.Component {
     const linkBack = this.links.back;
     return (
       <div style={styles.container}>
-        <header style={styles.header}>
-          <Link to="/"><h1>やぽにや</h1></Link>
+        <header>
+          <h1 className="header__title"><Link to="/">やぽにや</Link></h1>
         </header>
         <nav style={styles.nav}>
           {
