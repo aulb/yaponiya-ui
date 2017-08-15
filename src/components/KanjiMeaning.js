@@ -5,11 +5,12 @@ import { isPropEmpty } from '../helpers/utils';
 
 function KanjiMeaning({ meaning }) {
   // Async band-aid solution
-  if (isPropEmpty(meaning)) return (<div />);
+  if (isPropEmpty(meaning)) return '';
 
   return (
     <div>
       <h1>Meaning</h1>
+      <hr />
       {meaning.join(', ')}
     </div>
   );
@@ -17,7 +18,7 @@ function KanjiMeaning({ meaning }) {
 
 KanjiMeaning.propTypes = {
   // https://github.com/yannickcr/eslint-plugin-react/issues/904
-  meaning: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  meaning: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default KanjiMeaning;

@@ -6,17 +6,19 @@ import { FLASH_COLOR } from '../helpers/constants';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
 import { palette } from '../helpers/palette';
 
+// TODO1: We look at the current order, and determine what type of variable it is
+//          - Categorical       or        -Sequential
+// TODO2: Need to detemrine which primary color we are using, depending on our
+//        the order.
+//            IF order === sequential: Then we just choose one primary hue,
+//                                      and then make a gradient using math
+//            ELSIF order === categorical: Then we need a set of colors,
+//                                        and a way to detemrine how many
+//                                        different sets of colors there are
+
 // The top-N kanji that are statistically significant
 const CUTOFF_INDEX = 50;
 const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
-
-const styles = {
-  container: {
-    maxWidth: 900,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-};
 
 // TODO: Revamp coloring
 function getSortedCounts(kanjiList, order) {
@@ -95,7 +97,7 @@ function KanjiListing({ kanjiList, currentOrder }) {
   const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
 
   return (
-    <div style={styles.container}>
+    <div>
       { kanjiList.map(kanjiMapFn) }
     </div>
   );

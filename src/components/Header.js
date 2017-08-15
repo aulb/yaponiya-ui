@@ -8,9 +8,6 @@ const styles = {
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  header: {
-    textAlign: 'center',
-  },
   nav: {
     textAlign: 'right',
   },
@@ -37,25 +34,26 @@ class Header extends React.Component {
 
   get links() {
     return {
-      back: { name: 'Back', path: this.state.prevPath }
+      back: { name: 'Back', path: this.state.prevPath },
     };
   }
 
   render() {
-    // const { location } = this.props;
+    const { location } = this.props;
 
     const linkBack = this.links.back;
     return (
       <div style={styles.container}>
-        <header style={styles.header}>
-          <h1>やぽにや</h1>
+        <header>
+          <h1 className="header__title"><Link to="/">やぽにや</Link></h1>
         </header>
         <nav style={styles.nav}>
           {
-            this.state.prevPath !== '/' &&
-            <Link style={styles.link} to={linkBack.path}>
-              {linkBack.name}
-            </Link>
+            location.pathname !== '/' ?
+              <Link style={styles.link} to={linkBack.path}>
+                {linkBack.name}
+              </Link>
+            : null
           }
         </nav>
       </div>

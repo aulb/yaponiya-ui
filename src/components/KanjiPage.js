@@ -7,7 +7,6 @@ import KanjiStroke from '../components/KanjiStroke';
 
 import { getDataFromLocalStorage, saveDataToLocalStorage } from '../helpers/localStorage';
 
-// TODO: Implement Kanji Page
 // Make it look like Kanji Recognizer
 import APIClient from '../helpers/APIClient';
 // Save data to local storage
@@ -95,6 +94,7 @@ class KanjiPage extends Component {
     return (
       <div style={styles.container}>
         <h1>{this.state.kanji}</h1>
+        <hr />
         <KanjiInformation
           jlpt={this.state.data.jlpt}
           grade={this.state.data.grade}
