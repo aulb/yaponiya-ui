@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-const streamEndpoint = 'http://reblws.me:8080';
+const streamEndpoint = 'http://yaponiya.reblws.me:8080';
 
 class SocketClient {
   constructor() {
