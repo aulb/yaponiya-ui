@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isPropEmpty,
+import { 
+  isPropEmpty,
   excludeFromArray,
-  removeDuplicates } from '../helpers/utils';
+  removeDuplicates 
+} from '../helpers/utils';
 import { convertXMLToObject,
   findAllKanjiPaths,
   makeKanjiStrokeOrder,

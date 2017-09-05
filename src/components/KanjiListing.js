@@ -5,6 +5,7 @@ import KanjiCharacter from './KanjiCharacter';
 import { FLASH_COLOR } from '../helpers/constants';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
 import { palette } from '../helpers/palette';
+import getOrderType from '../helpers/order-types';
 
 // TODO1: We look at the current order, and determine what type of variable it is
 //          - Categorical       or        -Sequential
@@ -16,8 +17,6 @@ import { palette } from '../helpers/palette';
 //                                        and a way to detemrine how many
 //                                        different sets of colors there are
 
-// The top-N kanji that are statistically significant
-const CUTOFF_INDEX = 50;
 const SEQ_PALETTE = palette('cb-Blues', 9).slice(1);
 
 // TODO: Revamp coloring
@@ -41,21 +40,26 @@ function isBGLight(paletteIndex, paletteLength) {
   return paletteIndex < paletteLength - 3;
 }
 
-function kanjiMapClosure(largestCount, mostUsedKanji, fetched = true) {
+function determineColor(
+  category,
+  currentOrder,
+  kanjiList,
+  largestCount,
+  fetched = true
+) {
   return (kanji) => {
     // Avoid nulls
-    const count = kanji.get('alphabetical') || 0;
+    const count = kanji.get(currentOrder) || 0;
     const link = `/kanji/${kanji.id}`;
 
+    // TODO: Decide strategy based on category
     let backgroundColor;
     let fontColor;
     if (fetched) {
       const countRatio = calculateRatio(count, largestCount);
       const paletteIndex = getPaletteIndex(countRatio);
-      const bgColorHex = mostUsedKanji.includes(count)
-        ? '4D004B'
-        : SEQ_PALETTE[paletteIndex];
-
+      console.log(countRatio);
+      const bgColorHex = SEQ_PALETTE[paletteIndex];
       backgroundColor = kanji.get('isFlash')
         ? FLASH_COLOR
         : `#${bgColorHex}`;
@@ -87,18 +91,17 @@ function kanjiMapClosure(largestCount, mostUsedKanji, fetched = true) {
 }
 
 function KanjiListing({ kanjiList, currentOrder }) {
+  // Have the currentOrder
+  // and we need to change our ordering strategy here
+  const category = getOrderType(currentOrder);
   // Grab the largest kanji count to make a ratio against
-  const counts = getSortedCounts(kanjiList, currentOrder);
-  const mostUsedKanji = counts.slice(0, CUTOFF_INDEX);
-  const lessUsedKanji = counts.slice(CUTOFF_INDEX);
-  // Only the largest count from the lessUsed otherwise
+  const largestCount = getSortedCounts(kanjiList, currentOrder).get(0);
   // the color gradient won't be obvious
-  const largestCount = lessUsedKanji.get(0);
-  const kanjiMapFn = kanjiMapClosure(largestCount, mostUsedKanji);
+  const colorKanji = determineColor(category, currentOrder, kanjiList, largestCount);
 
   return (
     <div>
-      { kanjiList.map(kanjiMapFn) }
+      { kanjiList.map(colorKanji) }
     </div>
   );
 }
