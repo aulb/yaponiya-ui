@@ -79,21 +79,27 @@ class KanjiCatalog extends Component {
   render() {
     return (
       <div>
-        <Options
-          switchSort={this.handleSwitchSort}
-          switchOrder={this.handleSwitchOrder}
-          currentSort={this.props.currentSort}
-          currentOrder={this.props.currentOrder}
-        />
-        <TweetButton
-          toggleStream={this.toggleStream}
-          isActive={this.state.twitter}
-        />
-        <KanjiListing
-          kanjiList={this.kanjiList}
-          currentOrder={this.props.currentOrder}
-        />
-        <About />
+        {
+          Options({
+            switchSort: this.handleSwitchSort,
+            switchOrder: this.handleSwitchOrder,
+            currentSort: this.props.currentSort,
+            currentOrder: this.props.currentOrder,
+          })
+        }
+        {
+          TweetButton({
+            isActive: this.state.twitter,
+            toggleStream: this.toggleStream,
+          })
+        }
+        {
+          KanjiListing({
+            kanjiList: this.kanjiList,
+            currentOrder: this.props.currentOrder,
+          })
+        }
+        { About() }
       </div>
     );
   }
