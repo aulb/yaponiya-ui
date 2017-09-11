@@ -10,7 +10,7 @@ function TweetButton({ toggleStream, isActive }) {
       tabIndex={0}
       onClick={toggleStream}
     >
-      <i className="fa fa-twitter-square fa-3x" aria-hidden="true" />
+      <i className="fa fa-twitter-square fa-2x" aria-hidden="true" />
     </div>
   );
 }
