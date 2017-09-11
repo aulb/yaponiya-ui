@@ -9,17 +9,8 @@ import {
   getUniqueOrderTypeAmount,
   isAmountValid,
   getPalette,
+  determineFontColor,
 } from '../helpers/constants';
-
-// TODO1: We look at the current order, and determine what type of variable it is
-//          - Categorical       or        -Sequential
-// TODO2: Need to detemrine which primary color we are using, depending on our
-//        the order.
-//            IF order === sequential: Then we just choose one primary hue,
-//                                      and then make a gradient using math
-//            ELSIF order === categorical: Then we need a set of colors,
-//                                        and a way to detemrine how many
-//                                        different sets of colors there are
 
 function calculateRatio(nominator, denominator) {
   return (nominator / denominator || denominator === 0) > 1
@@ -29,11 +20,6 @@ function calculateRatio(nominator, denominator) {
 
 function getPaletteIndex(countRatio, paletteLength) {
   return Math.floor(countRatio * (paletteLength - 1));
-}
-
-/* https://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color */
-function isBGLight(paletteIndex, paletteLength) {
-  return paletteIndex < paletteLength - 3;
 }
 
 function KanjiListing({ kanjiList, currentOrder }) {
@@ -51,12 +37,13 @@ function KanjiListing({ kanjiList, currentOrder }) {
         const countRatio = calculateRatio(amount, uniqueAmount);
         const paletteIndex = getPaletteIndex(countRatio, currentPalette.length);
         const bgColorHex = currentPalette[paletteIndex];
-        backgroundColor = kanji.get('isFlash') ?
-            FLASH_COLOR
-            : `#${bgColorHex}`;
-        fontColor = isBGLight(paletteIndex, currentPalette.length) || kanji.get('isFlash')
+        backgroundColor = kanji.get('isFlash')
+          ? FLASH_COLOR
+          : `#${bgColorHex}`;
+
+        fontColor = kanji.get('isFlash')
           ? '#000'
-          : '#fff';
+          : determineFontColor(backgroundColor);
       } else {
         backgroundColor = UNDEFINED_COLOR;
         fontColor = '#fff';
