@@ -22,7 +22,7 @@ class SortOptions extends React.Component {
 
     // Flex our outerbox
     return (
-      <div>
+      <div className="select" title="Sort By:">
         <select
           name="options"
           onChange={this.props.switchSort}
@@ -30,6 +30,7 @@ class SortOptions extends React.Component {
         >
           {makeSortOptions()}
         </select>
+        <div className="select__arrow" />
       </div>
     );
   }

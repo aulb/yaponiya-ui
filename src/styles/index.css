@@ -13,12 +13,6 @@
   text-rendering: geometricPrecision;
 }
 
-.header__title a {
-  text-align: center;
-  color: rgb(69, 69, 69);
-  text-decoration: none;
-}
-
 hr {
   border: 0;
   height: 0;
@@ -28,6 +22,11 @@ hr {
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 0.5;
+}
+
+.header__title a {
+  color: rgb(69, 69, 69);
+  text-decoration: none;
 }
 
 /*!
@@ -44,18 +43,12 @@ h1, h2, h3, h4, h5, h6 {
   font-style: normal;
 }
 .fa {
-  display: inline-block;
+  /*display: inline-block;*/
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-/* makes the font 33% larger relative to the icon container */
-.fa-lg {
-  font-size: 1.33333333em;
-  line-height: 0.75em;
-  vertical-align: -15%;
 }
 .fa-2x {
   font-size: 2em;
@@ -82,4 +75,71 @@ h1, h2, h3, h4, h5, h6 {
 .fa-twitter-square:before {
   content: "\f081";
   cursor: pointer;
+}
+
+/* SELECT BOXES CSS: temporary */
+/* https://kyusuf.com/post/completely-css-custom-checkbox-radio-buttons-and-select-boxes */
+.select {
+	position: relative;
+	display: inline-block;
+	width: 33%;
+	margin-bottom: 15px;
+  text-align: center;
+}
+
+.select select {
+	display: inline-block;
+	width: 100%;
+	padding: 10px 15px;
+	cursor: pointer;
+	color: #7b7b7b;
+	border: 0;
+	border-radius: 0;
+	outline: 0;
+	background: #e6e6e6;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+.select select::-ms-expand {
+	display: none;
+}
+
+.select select:hover,
+.select select:focus {
+	color: #000;
+	background: #ccc;
+}
+
+.select select:disabled {
+	pointer-events: none;
+	opacity: .5;
+}
+
+.select__arrow {
+	position: absolute;
+	top: 16px;
+	right: 15px;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+	border-width: 8px 5px 0 5px;
+	border-style: solid;
+	border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select__arrow,
+.select select:focus ~ .select__arrow {
+	border-top-color: #000;
+}
+
+.select select:disabled ~ .select__arrow {
+	border-top-color: #ccc;
+}
+
+.button-stack {
+	position: relative;
+	display: inline-block;
+	width: 33%;
+  text-align: center;
 }

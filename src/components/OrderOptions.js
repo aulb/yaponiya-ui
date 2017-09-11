@@ -22,7 +22,7 @@ class OrderOptions extends React.Component {
 
     // Flex our outerbox
     return (
-      <div>
+      <div className="select" title="Order By:">
         <select
           name="options"
           onChange={this.props.switchOrder}
@@ -30,6 +30,7 @@ class OrderOptions extends React.Component {
         >
           {makeOrderOptions()}
         </select>
+        <div className="select__arrow" />
       </div>
     );
   }
