@@ -6,11 +6,13 @@ const styles = {
   container: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    textAlign: 'center',
   },
   link: {
     position: 'relative',
     top: -45,
+  },
+  nav: {
+    textAlign: 'right',
   },
 };
 
@@ -48,7 +50,7 @@ class Header extends React.Component {
           {
             location.pathname !== '/' ?
               <Link style={styles.link} to={linkBack.path}>
-                {linkBack.name}
+                &#8617; back
               </Link>
             : null
           }
