@@ -4,12 +4,9 @@ import { Link } from 'react-router-dom';
 
 const styles = {
   container: {
-    maxWidth: 700,
     marginLeft: 'auto',
     marginRight: 'auto',
-  },
-  nav: {
-    textAlign: 'right',
+    textAlign: 'center',
   },
   link: {
     position: 'relative',

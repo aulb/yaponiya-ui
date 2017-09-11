@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { 
+import {
   isPropEmpty,
   excludeFromArray,
-  removeDuplicates 
+  removeDuplicates
 } from '../helpers/utils';
 import { convertXMLToObject,
   findAllKanjiPaths,

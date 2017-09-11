@@ -14,8 +14,10 @@ function About() {
           in various ways to see which are more common.</p>
 
       <p>
-        This website was inspired and made possible by the help of these sources. <a href="https://kaisuu.herokuapp.com" target="_blank" rel="noopener noreferrer">Kaisuu</a> for similar idea and source of inspiration. <a href="http://kanjivg.tagaini.net/" target="_blank" rel="noopener noreferrer">KanjiVG</a> for providing open sourced kanji data. <a href="http://www.freepik.com" target="_blank" rel="noopener noreferrer">Freepik</a> for icons.
+        This website was inspired and made possible by the help of these sources. <a href="https://kaisuu.herokuapp.com" target="_blank" rel="noopener noreferrer">Kaisuu</a> for idea and source of inspiration. <a href="http://kanjivg.tagaini.net/" target="_blank" rel="noopener noreferrer">KanjiVG</a> for providing open sourced kanji data.
       </p>
+
+      <p>Built by <a href="https://github.com/reblws" rel="noopener noreferrer" target="_blank">reblws</a> and <a href="https://github.com/aulb" rel="noopener noreferrer" target="_blank">aulb</a> 2017.</p>
     </div>
   );
 }

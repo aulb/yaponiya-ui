@@ -3,7 +3,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import About from '../components/About';
 import Options from '../components/Options';
-import TweetButton from '../components/TweetButton';
 import KanjiListing from '../components/KanjiListing';
 import KanjiCatalogItem from '../helpers/KanjiCatalogItem';
 import socketClient from '../helpers/SocketClient';
@@ -79,27 +78,27 @@ class KanjiCatalog extends Component {
   render() {
     return (
       <div>
-        {
-          Options({
-            switchSort: this.handleSwitchSort,
-            switchOrder: this.handleSwitchOrder,
-            currentSort: this.props.currentSort,
-            currentOrder: this.props.currentOrder,
-          })
-        }
-        {
-          TweetButton({
-            isActive: this.state.twitter,
-            toggleStream: this.toggleStream,
-          })
-        }
-        {
-          KanjiListing({
-            kanjiList: this.kanjiList,
-            currentOrder: this.props.currentOrder,
-          })
-        }
-        { About() }
+        <div>
+          {
+            Options({
+              switchSort: this.handleSwitchSort,
+              switchOrder: this.handleSwitchOrder,
+              currentSort: this.props.currentSort,
+              currentOrder: this.props.currentOrder,
+              isActive: this.state.twitter,
+              toggleStream: this.toggleStream,
+            })
+          }
+        </div>
+        <div>
+          {
+            KanjiListing({
+              kanjiList: this.kanjiList,
+              currentOrder: this.props.currentOrder,
+            })
+          }
+          { About() }
+        </div>
       </div>
     );
   }
